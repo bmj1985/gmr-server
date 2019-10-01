@@ -4,16 +4,15 @@ module.exports = {
     node: true
   },
   extends: [
-    'prettier',
-    'plugin:prettier/recommended',
     '@vue/standard',
-    'plugin:vue/recommended'
+    'plugin:vue/essential',
+    'plugin:prettier/recommended'
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'prettier/prettier': 'error',
-    semi: ['error', false],
+    semi: ['error'],
     quotes: ['error', 'single']
   },
   parserOptions: {

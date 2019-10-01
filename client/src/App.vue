@@ -11,11 +11,17 @@
     </main>
     <footer>
       <div class="social-icons">
-        <a href="https://www.facebook.com/groups/goldenmountainrunners" target="_blank">
-          <i class="fab fa-facebook-square fa-2x"></i>
+        <a
+          href="https://www.facebook.com/groups/goldenmountainrunners"
+          target="_blank"
+        >
+          <i class="fab fa-facebook-square fa-2x" />
         </a>
-        <a href="https://www.instagram.com/goldenmountainrunners" target="_blank">
-          <i class="fab fa-instagram fa-2x"></i>
+        <a
+          href="https://www.instagram.com/goldenmountainrunners"
+          target="_blank"
+        >
+          <i class="fab fa-instagram fa-2x" />
         </a>
       </div>
     </footer>

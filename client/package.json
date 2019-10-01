@@ -19,6 +19,7 @@
     "@vue/cli-plugin-e2e-cypress": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
@@ -30,6 +31,8 @@
     "node-sass": "^4.9.0",
     "prettier": "^1.18.2",
     "sass-loader": "^7.1.0",
+    "stylelint-config-prettier": "^6.0.0",
+    "stylelint-prettier": "^1.1.1",
     "vue-template-compiler": "^2.6.10"
   },
   "husky": {
@@ -47,6 +50,7 @@
     "tabWidth": 2,
     "semi": false,
     "printWidth": 80,
-    "singleQuote": true
+    "singleQuote": true,
+    "useTabs": false
   }
 }
