@@ -9,17 +9,14 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "2Keg2ixcC3GfOFOT1SXI2nCIJZc=",
-    "authStrategies": [
-      "jwt",
-      "local"
-    ],
+    "secret": "2UHp8kmBdZSqh0aNd3K4PvJUqMI=",
+    "authStrategies": ["jwt", "local"],
     "jwtOptions": {
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
-      "issuer": "feathers",
+      "audience": "https://www.goldenmountainrunners.com",
+      "issuer": "Golden Mountain Runners",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
@@ -37,11 +34,15 @@
       "google": {
         "key": "<google oauth key>",
         "secret": "<google oauth secret>",
-        "scope": [
-          "email",
-          "profile",
-          "openid"
-        ]
+        "scope": ["email", "profile", "openid"]
+      },
+      "facebook": {
+        "key": "<facebook oauth key>",
+        "secret": "<facebook oauth secret>"
+      },
+      "twitter": {
+        "key": "<twitter oauth key>",
+        "secret": "<twitter oauth secret>"
       }
     }
   },

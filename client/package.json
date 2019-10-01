@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "golden-mountain-runners-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,12 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^4.3.3",
+    "@feathersjs/feathers": "^4.3.3",
+    "@feathersjs/socketio-client": "^4.3.3",
     "core-js": "^2.6.5",
+    "feathers-vuex": "^1.7.2",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
