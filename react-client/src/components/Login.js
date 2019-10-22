@@ -1,6 +1,6 @@
 import React, { useEffect, useGlobal } from "reactn"
 import { useFeathers } from "figbird"
-import { Button } from "rebass"
+import { Button } from "semantic-ui-react"
 
 import API_URL from "../API_URL"
 
@@ -29,7 +29,7 @@ const Login = () => {
         height: "100%"
       }}
     >
-      <Button sx={{ color: "black" }} variant="primary">
+      <Button variant="primary">
         <a href={`${API_URL}/oauth/google/`}>Login with Google</a>
       </Button>
     </div>
