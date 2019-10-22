@@ -2,7 +2,7 @@ import React, { setGlobal, useGlobal } from "reactn"
 import { Provider as FigbirdProvider } from "figbird"
 
 import feathersClient from "./feathersClient"
-import Login from "./components/Login"
+import LoginWithGoogle from "./components/LoginWithGoogle"
 import Header from "./components/Header"
 
 setGlobal({
@@ -17,10 +17,9 @@ export default function App() {
       {user ? (
         <div>
           <p>{user.email}</p>
-          <img src={user.profilePicture} />
         </div>
       ) : (
-        <Login />
+        <LoginWithGoogle />
       )}
     </FigbirdProvider>
   )

@@ -1,23 +1,21 @@
-import React, { useEffect, useGlobal } from "reactn"
+import React, { useGlobal } from "reactn"
 import { useFeathers } from "figbird"
 import { Button } from "semantic-ui-react"
 
-import API_URL from "../API_URL"
-
-const Login = () => {
+const Logout = () => {
   const { 1: setUser } = useGlobal("user")
   const feathers = useFeathers()
 
-  useEffect(() => {
+  function signOut() {
     feathers
-      .reAuthenticate()
-      .then(user => {
-        setUser(user.user)
+      .logout()
+      .then(() => {
+        setUser(null)
       })
       .catch(error => {
-        console.log("oh no!", error)
+        console.log("could not log out", error)
       })
-  }, [feathers, setUser])
+  }
 
   return (
     <div
@@ -29,11 +27,11 @@ const Login = () => {
         height: "100%"
       }}
     >
-      <Button variant="primary">
-        <a href={`${API_URL}/oauth/google/`}>Login with Google</a>
+      <Button primary onClick={signOut}>
+        Logout
       </Button>
     </div>
   )
 }
 
-export default Login
+export default Logout
