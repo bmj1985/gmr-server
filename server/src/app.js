@@ -1,26 +1,28 @@
-import path from 'path';
-import favicon from 'serve-favicon';
-import compress from 'compression';
-import helmet from 'helmet';
-import cors from 'cors';
+const path = require('path');
+const favicon = require('serve-favicon');
+const compress = require('compression');
+const helmet = require('helmet');
+const cors = require('cors');
+const logger = require('./logger');
+const dotenv = require('dotenv');
 
-import feathers from '@feathersjs/feathers';
-import configuration from '@feathersjs/configuration';
-import express from '@feathersjs/express';
-import socketio from '@feathersjs/socketio';
+dotenv.config();
 
+const feathers = require('@feathersjs/feathers');
+const configuration = require('@feathersjs/configuration');
+const express = require('@feathersjs/express');
+const socketio = require('@feathersjs/socketio');
 
-import { Application } from './declarations';
-import logger from './logger';
-import middleware from './middleware';
-import services from './services';
-import appHooks from './app.hooks';
-import channels from './channels';
-import authentication from './authentication';
-import mongoose from './mongoose';
-// Don't remove this comment. It's needed to format import lines nicely.
+const middleware = require('./middleware');
+const services = require('./services');
+const appHooks = require('./app.hooks');
+const channels = require('./channels');
 
-const app: Application = express(feathers());
+const authentication = require('./authentication');
+
+const mongoose = require('./mongoose');
+
+const app = express(feathers());
 
 // Load app configuration
 app.configure(configuration());
@@ -50,8 +52,8 @@ app.configure(channels);
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
-app.use(express.errorHandler({ logger } as any));
+app.use(express.errorHandler({ logger }));
 
 app.hooks(appHooks);
 
-export default app;
+module.exports = app;

@@ -9,14 +9,14 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "2UHp8kmBdZSqh0aNd3K4PvJUqMI=",
+    "secret": "CVI6wbMXj3FQrGKngoglo7hPdkU=",
     "authStrategies": ["jwt", "local"],
     "jwtOptions": {
       "header": {
         "typ": "access"
       },
       "audience": "https://www.goldenmountainrunners.com",
-      "issuer": "Golden Mountain Runners",
+      "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
@@ -25,15 +25,15 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "/",
+      "redirect": "http://localhost:3000/",
       "auth0": {
         "key": "<auth0 oauth key>",
         "secret": "<auth0 oauth secret>",
         "subdomain": "<auth0 subdomain>"
       },
       "google": {
-        "key": "<google oauth key>",
-        "secret": "<google oauth secret>",
+        "key": "GOOGLE_OAUTH_KEY",
+        "secret": "GOOGLE_OAUTH_SECRET",
         "scope": ["email", "profile", "openid"]
       },
       "facebook": {
@@ -46,5 +46,5 @@
       }
     }
   },
-  "mongodb": "mongodb://localhost:27017/server"
+  "mongodb": "mongodb://localhost:27017/gmrapi"
 }

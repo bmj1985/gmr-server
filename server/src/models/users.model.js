@@ -2,28 +2,25 @@
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-import { Application } from "../declarations"
-
-export default function(app: Application) {
-  const mongooseClient = app.get("mongooseClient")
+module.exports = function(app) {
+  const mongooseClient = app.get('mongooseClient');
   const users = new mongooseClient.Schema(
     {
       email: { type: String, unique: true, lowercase: true },
-
       password: { type: String },
-
-      displayName: { type: String, required: true },
-
+      profilePicture: { type: String },
       auth0Id: { type: String },
 
       googleId: { type: String },
 
-      imgUrl: { type: String }
+      facebookId: { type: String },
+
+      twitterId: { type: String }
     },
     {
       timestamps: true
     }
-  )
+  );
 
-  return mongooseClient.model("users", users)
-}
+  return mongooseClient.model('users', users);
+};
