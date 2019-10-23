@@ -1,4 +1,3 @@
-import "semantic-ui-less/semantic.less"
 import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"

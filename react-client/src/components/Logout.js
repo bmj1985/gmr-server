@@ -1,6 +1,6 @@
 import React, { useGlobal } from "reactn"
 import { useFeathers } from "figbird"
-import { Button } from "semantic-ui-react"
+import { Button } from "rebass"
 
 const Logout = () => {
   const { 1: setUser } = useGlobal("user")
@@ -12,6 +12,7 @@ const Logout = () => {
       .then(() => {
         setUser(null)
       })
+      .then(() => feathers.authentication.removeAccessToken())
       .catch(error => {
         console.log("could not log out", error)
       })
@@ -27,7 +28,11 @@ const Logout = () => {
         height: "100%"
       }}
     >
-      <Button primary onClick={signOut}>
+      <Button
+        variant={"primary"}
+        onClick={signOut}
+        sx={{ color: "black", background: "blue" }}
+      >
         Logout
       </Button>
     </div>

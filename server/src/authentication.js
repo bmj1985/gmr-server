@@ -10,6 +10,7 @@ const {
 
 class GoogleStrategy extends OAuthStrategy {
   async getEntityData(profile) {
+    console.log(profile);
     // this will set 'googleId'
     const baseData = await super.getEntityData(profile);
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useGlobal } from "reactn"
 import { useFeathers } from "figbird"
-import { Button } from "semantic-ui-react"
+import { Button } from "rebass"
 
 import API_URL from "../API_URL"
 
-const Login = () => {
+const LoginWithGoogle = () => {
   const { 1: setUser } = useGlobal("user")
   const feathers = useFeathers()
 
@@ -12,6 +12,7 @@ const Login = () => {
     feathers
       .reAuthenticate()
       .then(user => {
+        console.log(user)
         setUser(user.user)
       })
       .catch(error => {
@@ -29,11 +30,13 @@ const Login = () => {
         height: "100%"
       }}
     >
-      <Button primary>
-        <a href={`${API_URL}/oauth/google/`}>Login with Google</a>
+      <Button>
+        <a href={`${API_URL}/oauth/google`} variant="danger">
+          Login with Google
+        </a>
       </Button>
     </div>
   )
 }
 
-export default Login
+export default LoginWithGoogle
