@@ -8,7 +8,9 @@ module.exports = function(app) {
     {
       email: { type: String, unique: true, lowercase: true },
       password: { type: String },
+      name: { type: String, required: true },
       profilePicture: { type: String },
+
       auth0Id: { type: String },
 
       googleId: { type: String },
