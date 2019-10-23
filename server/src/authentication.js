@@ -19,7 +19,8 @@ class GoogleStrategy extends OAuthStrategy {
       ...baseData,
       name: profile.name,
       profilePicture: profile.picture,
-      email: profile.email
+      email: profile.email,
+      permissons: 'user'
     };
   }
 }

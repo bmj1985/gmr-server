@@ -42,6 +42,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "feathers-mongoose": "^8.0.2",
+    "feathers-permissions": "^1.1.0",
     "helmet": "^3.20.0",
     "mongodb-core": "^3.2.7",
     "mongoose": "^5.6.11",
