@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import RunDescription from '../components/RunDescription.vue'
+import RunDescription from '@/components/RunDescription.vue'
 
 export default Vue.extend({
   name: 'home',

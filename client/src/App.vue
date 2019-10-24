@@ -1,15 +1,10 @@
 <template>
   <div id="app">
-    <header>
-      <div id="nav">
-        <router-link to="/">Home</router-link>|
-        <router-link to="/about">About</router-link>
-      </div>
-    </header>
+    <NavBar class="header" />
     <main>
-      <router-view />
+      <router-view></router-view>
     </main>
-    <footer>
+    <footer id="footer">
       <div class="social-icons">
         <a
           href="https://www.facebook.com/groups/goldenmountainrunners"
@@ -30,9 +25,11 @@
 
 <script>
 import Vue from 'vue'
+import NavBar from '@/components/NavBar'
 
 export default Vue.extend({
-  name: 'app'
+  name: 'app',
+  components: { NavBar }
 })
 </script>
 
@@ -40,22 +37,112 @@ export default Vue.extend({
 @import './styles/_reset';
 @import './styles/_global';
 
+// Import Bulma's core
+@import '~bulma/sass/utilities/_all';
+
+// Set your colors
+$primary: #6cace4;
+$primary-invert: findColorInvert($primary);
+$twitter: #4099ff;
+$twitter-invert: findColorInvert($twitter);
+$gmr-blue: #6cace4;
+$gmr-grey: #53565a;
+$gmr-grey-invert: findColorInvert($gmr-grey);
+$primary-0: #6cabe4;
+$primary-1: #cbe4fb;
+$primary-1-invert: findColorInvert($primary-1);
+$primary-2: #96c6f1;
+$primary-3: #4992d4;
+$primary-4: #2a77bd;
+$primary-4-invert: findColorInvert($primary-4);
+$box-shadow-grey: rgba(0, 0, 0, 0.23);
+$box-shadow-white: rgba(0, 0, 0, 0.8);
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+  'white': (
+    $white,
+    $black
+  ),
+  'black': (
+    $black,
+    $white
+  ),
+  'light': (
+    $light,
+    $light-invert
+  ),
+  'dark': (
+    $dark,
+    $dark-invert
+  ),
+  'primary': (
+    $primary,
+    $primary-invert
+  ),
+  'info': (
+    $info,
+    $info-invert
+  ),
+  'success': (
+    $success,
+    $success-invert
+  ),
+  'warning': (
+    $warning,
+    $warning-invert
+  ),
+  'danger': (
+    $danger,
+    $danger-invert
+  ),
+  'twitter': (
+    $twitter,
+    $twitter-invert
+  ),
+  'gmr-blue': (
+    $primary,
+    $primary-invert
+  ),
+  'gmr-grey': (
+    $gmr-grey,
+    $gmr-grey-invert
+  ),
+  'light-blue': (
+    $primary-1,
+    $primary-1-invert
+  ),
+  'dark-blue': (
+    $primary-4,
+    $primary-4-invert
+  )
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 
-  header {
-    height: 7vh;
+  /* .header { */
+  /* height: 7vh;
     width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: $primary-0;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    z-index: 10;
-  }
+    z-index: 10; */
+  /* } */
 
   main {
     height: 85vh;
@@ -70,7 +157,7 @@ export default Vue.extend({
     }
   }
 
-  footer {
+  #footer {
     height: 8vh;
     width: 100vw;
     background: $primary-0;
