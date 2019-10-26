@@ -35,6 +35,17 @@
           >
             <form action="">
               <div class="modal-card" style="width:300px;">
+                <section class="modal-card-header">
+                  <div>
+                    <a href="http://localhost:3030/oauth/google">
+                      <img
+                        id="google-sign-in-image"
+                        src="../assets/googleassets/2x/btn_google_signin_dark_focus_web@2x.png"
+                      />
+                    </a>
+                  </div>
+                </section>
+                <p>OR</p>
                 <section class="modal-card-body">
                   <b-field label="Email">
                     <b-input type="email" placeholder="Your email" required>
@@ -55,6 +66,7 @@
                 </section>
                 <footer class="modal-card-foot">
                   <button class="button is-dark-blue login-button">
+                    <div />
                     Login
                   </button>
                 </footer>
@@ -69,8 +81,22 @@
 
 <script>
 import Vue from 'vue'
+import { mapState, mapActions } from 'vuex'
 export default Vue.extend({
-  name: 'NavBar'
+  name: 'NavBar',
+  data: () => ({
+    valid: false,
+    user: {
+      username: '',
+      password: ''
+    }
+  }),
+  computed: {
+    ...mapState('auth', { loading: 'isAuthenticatePending' })
+  },
+  methods: {
+    ...mapActions('localAuth', ['login'])
+  }
 })
 </script>
 
@@ -81,12 +107,19 @@ export default Vue.extend({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $primary-0;
+  background: var($primary-0);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .login-button {
   width: 100%;
+}
+
+.modal-card-foot {
+  flex-direction: column;
+}
+#google-sign-in-image {
+  max-height: 3rem;
 }
 </style>
 

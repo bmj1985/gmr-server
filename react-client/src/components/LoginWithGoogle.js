@@ -32,7 +32,7 @@ const LoginWithGoogle = () => {
     >
       <Button>
         <a href={`${API_URL}/oauth/google`} variant="danger">
-          Login with Google
+          login with Google
         </a>
       </Button>
     </div>

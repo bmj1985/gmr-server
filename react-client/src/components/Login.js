@@ -2,7 +2,7 @@ import { Flex } from "rebass"
 import LoginWithGoogle from "./LoginWithGoogle"
 import React from "reactn"
 
-const Login = () => {
+const login = () => {
   return (
     <Flex>
       <LoginWithGoogle />
@@ -10,4 +10,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default login

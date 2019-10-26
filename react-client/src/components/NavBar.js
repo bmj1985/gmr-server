@@ -38,7 +38,7 @@ const NavBar = () => {
       ) : (
         <Flex alignItems="center">
           <Button onClick={() => navigate("/login")} color="black">
-            <Link>Login/Sign Up</Link>
+            <Link>login/Sign Up</Link>
           </Button>
         </Flex>
       )}

@@ -12,7 +12,7 @@
       <div class="navbar-end">
         <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus>
           <a class="navbar-item" slot="trigger" role="button">
-            <span>Login</span>
+            <span>login</span>
             <b-icon icon="menu-down"></b-icon>
           </a>
 
@@ -43,7 +43,7 @@
                   <b-checkbox>Remember me</b-checkbox>
                 </section>
                 <footer class="modal-card-foot">
-                  <button class="button is-white">Login</button>
+                  <button class="button is-white">Who Knew?</button>
                 </footer>
               </div>
             </form>
