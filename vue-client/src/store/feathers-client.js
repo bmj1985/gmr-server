@@ -33,6 +33,4 @@ const { makeServicePlugin, makeAuthPlugin, BaseModel, models } = feathersVuex(
   }
 )
 
-console.log(window.localStorage)
-
 export { makeAuthPlugin, makeServicePlugin, BaseModel, models }

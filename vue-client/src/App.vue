@@ -29,7 +29,30 @@ import NavBar from '@/components/NavBar'
 
 export default Vue.extend({
   name: 'app',
-  components: { NavBar }
+  components: { NavBar },
+  computed: {
+    // The user is automatically set by the feathers-vuex auth module upon login.
+    user() {
+      return this.$store.state.auth.user
+    }
+  },
+  watch: {
+    // When the user is set, redirect to the Chat page.
+    // user(newVal) {
+    //   if (newVal === undefined) {
+    //     this.$router.replace({ name: 'Login' })
+    //   } else {
+    //     this.$router.replace({ name: 'Home' })
+    //   }
+    // }
+  },
+  mounted() {
+    this.$store.dispatch('auth/authenticate').catch(error => {
+      if (!error.message.includes('Could not find stored JWT')) {
+        console.error(error)
+      }
+    })
+  }
 })
 </script>
 

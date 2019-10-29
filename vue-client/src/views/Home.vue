@@ -9,7 +9,7 @@ import Vue from 'vue'
 import RunDescription from '@/components/RunDescription.vue'
 
 export default Vue.extend({
-  name: 'home',
+  name: 'Home',
   components: { RunDescription }
 })
 </script>
@@ -23,10 +23,5 @@ export default Vue.extend({
   justify-content: center;
   width: 100%;
   height: 100%;
-  .description-container {
-    width: 95%;
-    height: 95%;
-    margin: 1rem;
-  }
 }
 </style>

@@ -1,32 +1,49 @@
 <template>
-  <nav class="navbar">
-    <div class="navbar-menu">
-      <a class="navbar-item">
-        <img src="../assets/gmr_logo.png" alt="GMR Logo" />
+  <div class="level">
+    <b-navbar-item tag="div">
+      <a class="button is-light-blue">
+        <strong>Sign up</strong>
       </a>
-      <!-- <a class="navbar-item"><b-icon pack="fab" icon="instagram"></b-icon></a> -->
-      <!-- <a class="navbar-item"><b-icon pack="fab" icon="twitter"></b-icon></a> -->
-    </div>
-
-    <div class="navbar-menu">
-      <div class="navbar-end">
-        <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus>
-          <a class="navbar-item" slot="trigger" role="button">
-            <span>login</span>
-            <b-icon icon="menu-down"></b-icon>
-          </a>
-
-          <b-dropdown-item
-            aria-role="menu-item"
-            :focusable="false"
-            custom
-            paddingless
-          >
-            <form action="">
-              <div class="modal-card" style="width:300px;">
-                <section class="modal-card-body">
+    </b-navbar-item>
+    <b-navbar-item tag="div">
+      <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus>
+        <a class="navbar-item" slot="trigger" role="button">
+          <span class="button is-dark-blue">Login</span>
+        </a>
+        <b-dropdown-item
+          aria-role="menu-item"
+          :focusable="false"
+          custom
+          paddingless
+        >
+          <form action="">
+            <div class="modal-card" style="width:300px;">
+              <section class="modal-card-header">
+                <div>
+                  <a href="http://localhost:3030/oauth/google">
+                    <img
+                      id="google-sign-in-image"
+                      src="../assets/googleassets/2x/btn_google_signin_dark_focus_web@2x.png"
+                    />
+                  </a>
+                </div>
+              </section>
+              <p>OR</p>
+              <section class="modal-card-body">
+                <form
+                  class="form"
+                  method="post"
+                  @submit.prevent="onSubmit(email, password)"
+                >
                   <b-field label="Email">
-                    <b-input type="email" placeholder="Your email" required>
+                    <b-input
+                      type="email"
+                      placeholder="Your email"
+                      required
+                      class="block"
+                      name="email"
+                      v-model="user.email"
+                    >
                     </b-input>
                   </b-field>
 
@@ -36,27 +53,62 @@
                       password-reveal
                       placeholder="Your password"
                       required
+                      class="block"
+                      name="password"
+                      v-model="user.password"
                     >
                     </b-input>
                   </b-field>
 
                   <b-checkbox>Remember me</b-checkbox>
-                </section>
-                <footer class="modal-card-foot">
-                  <button class="button is-white">Who Knew?</button>
-                </footer>
-              </div>
-            </form>
-          </b-dropdown-item>
-        </b-dropdown>
-      </div>
-    </div>
-  </nav>
+                </form>
+              </section>
+              <footer class="modal-card-foot">
+                <button class="button is-dark-blue login-button" type="submit">
+                  <div />
+                  Login
+                </button>
+              </footer>
+            </div>
+          </form>
+        </b-dropdown-item>
+      </b-dropdown>
+    </b-navbar-item>
+  </div>
 </template>
 
 <script>
-export default {}
+import Vue from 'vue'
+import { mapActions, mapState } from 'vuex'
+export default Vue.extend({
+  name: 'Login',
+  data: () => ({
+    valid: false,
+    user: {
+      username: '',
+      password: '',
+      email: ''
+    }
+  }),
+  computed: {
+    ...mapState('auth', { loading: 'isAuthenticatePending' })
+  },
+  methods: {
+    ...mapActions('auth', ['authenticate']),
+    onSubmit(email, password) {
+      this.authenticate({ strategy: 'local', email, password })
+        // Just use the returned error instead of mapping it from the store.
+        .catch(error => {
+          // Convert the error to a plain object and add a message.
+          let type = error.className
+          error = Object.assign({}, error)
+          error.message =
+            type === 'not-authenticated'
+              ? 'Incorrect email or password.'
+              : 'An error prevented login.'
+          this.error = error
+        })
+    }
+  }
+})
 </script>
-
-<style>
-</style>

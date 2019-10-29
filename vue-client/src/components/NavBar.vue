@@ -15,94 +15,39 @@
         </b-navbar-item>
       </b-navbar-dropdown>
     </template>
-
     <template slot="end">
-      <b-navbar-item tag="div">
-        <a class="button is-light-blue">
-          <strong>Sign up</strong>
-        </a>
-      </b-navbar-item>
-      <b-navbar-item tag="div">
-        <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus>
-          <a class="navbar-item" slot="trigger" role="button">
-            <span class="button is-dark-blue">Login</span>
-          </a>
-          <b-dropdown-item
-            aria-role="menu-item"
-            :focusable="false"
-            custom
-            paddingless
-          >
-            <form action="">
-              <div class="modal-card" style="width:300px;">
-                <section class="modal-card-header">
-                  <div>
-                    <a href="http://localhost:3030/oauth/google">
-                      <img
-                        id="google-sign-in-image"
-                        src="../assets/googleassets/2x/btn_google_signin_dark_focus_web@2x.png"
-                      />
-                    </a>
-                  </div>
-                </section>
-                <p>OR</p>
-                <section class="modal-card-body">
-                  <b-field label="Email">
-                    <b-input type="email" placeholder="Your email" required>
-                    </b-input>
-                  </b-field>
-
-                  <b-field label="Password">
-                    <b-input
-                      type="password"
-                      password-reveal
-                      placeholder="Your password"
-                      required
-                    >
-                    </b-input>
-                  </b-field>
-
-                  <b-checkbox>Remember me</b-checkbox>
-                </section>
-                <footer class="modal-card-foot">
-                  <button class="button is-dark-blue login-button">
-                    <div />
-                    Login
-                  </button>
-                </footer>
-              </div>
-            </form>
-          </b-dropdown-item>
-        </b-dropdown>
-      </b-navbar-item>
+      <div v-if="!isUser">
+        <Login />
+      </div>
+      <div v-else>
+        <Logout />
+      </div>
     </template>
   </b-navbar>
 </template>
 
 <script>
 import Vue from 'vue'
-import { mapState, mapActions } from 'vuex'
+import Login from './Login'
+import Logout from './Logout'
 export default Vue.extend({
   name: 'NavBar',
-  data: () => ({
-    valid: false,
-    user: {
-      username: '',
-      password: ''
-    }
-  }),
+  components: { Login, Logout },
   computed: {
-    ...mapState('auth', { loading: 'isAuthenticatePending' })
-  },
-  methods: {
-    ...mapActions('localAuth', ['login'])
+    isUser() {
+      return (
+        this.$store.state.auth &&
+        this.$store.state.auth.user &&
+        this.$store.state.auth.user._id &&
+        this.$store.state.auth.user._id.length > 0
+      )
+    }
   }
 })
 </script>
 
 <style scoped>
 .navbar {
-  /* height: 7vh; */
   width: 100vw;
   display: flex;
   justify-content: space-between;
@@ -122,4 +67,3 @@ export default Vue.extend({
   max-height: 3rem;
 }
 </style>
-

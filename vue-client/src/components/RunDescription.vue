@@ -90,9 +90,12 @@ export default Vue.extend({
   justify-content: flex-start;
   background: white;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.75rem;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   // text-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  width: 95%;
+  height: 95%;
+  /* margin: 1rem; */
   a {
     text-decoration: none;
     color: #365899;
@@ -141,6 +144,7 @@ export default Vue.extend({
     }
     .major-details {
       height: 55%;
+      width: 100%;
       display: flex;
       justify-content: space-evenly;
       flex-direction: column;
