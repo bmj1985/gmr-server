@@ -10,6 +10,8 @@ export default {
   computed: {
     profilePicture() {
       return this.$store.state.auth.user.profilePicture
+        ? this.$store.state.auth.user.profilePicture
+        : '../assets/defaultProfilePic.svg'
     }
   }
 }

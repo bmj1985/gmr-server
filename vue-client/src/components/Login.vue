@@ -1,14 +1,14 @@
 <template>
   <div class="level">
     <b-navbar-item tag="div">
-      <a class="button is-light-blue">
+      <a class="button is-light-blue login-button">
         <strong>Sign up</strong>
       </a>
     </b-navbar-item>
     <b-navbar-item tag="div">
       <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus>
-        <a class="navbar-item" slot="trigger" role="button">
-          <span class="button is-dark-blue">Login</span>
+        <a slot="trigger" role="button">
+          <span class="button is-dark-blue login-button">Login</span>
         </a>
         <b-dropdown-item
           aria-role="menu-item"
@@ -20,7 +20,7 @@
             <div class="modal-card" style="width:300px;">
               <section class="modal-card-header">
                 <div>
-                  <a href="http://localhost:3030/oauth/google">
+                  <a :href="API_URL">
                     <img
                       id="google-sign-in-image"
                       src="../assets/googleassets/2x/btn_google_signin_dark_focus_web@2x.png"
@@ -65,8 +65,9 @@
               </section>
               <footer class="modal-card-foot">
                 <button class="button is-dark-blue login-button" type="submit">
-                  <div />
-                  Login
+                  <p>
+                    Login
+                  </p>
                 </button>
               </footer>
             </div>
@@ -80,6 +81,7 @@
 <script>
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
+import API_URL from '@/API_URL.js'
 export default Vue.extend({
   name: 'Login',
   data: () => ({
@@ -88,7 +90,8 @@ export default Vue.extend({
       username: '',
       password: '',
       email: ''
-    }
+    },
+    API_URL: `${API_URL}/oauth/google`
   }),
   computed: {
     ...mapState('auth', { loading: 'isAuthenticatePending' })
@@ -112,3 +115,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+.login-button {
+  min-width: 83px;
+}
+</style>

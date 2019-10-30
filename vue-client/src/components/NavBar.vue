@@ -58,6 +58,7 @@ export default Vue.extend({
 
 .login-button {
   width: 100%;
+  min-width: 83px;
 }
 
 .modal-card-foot {
