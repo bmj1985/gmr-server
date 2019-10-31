@@ -5,10 +5,9 @@
 </template>
 
 <script>
-import Vue from 'vues'
-export default Vue.extend({
+export default {
   name: 'Container'
-})
+}
 </script>
 
 <style scoped lang="scss">

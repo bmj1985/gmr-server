@@ -14,22 +14,9 @@
         <p class="next-run">Our next run will be:</p>
         <h2 class="date">
           {{ date }}
-          <!-- {{runTime}} -->
         </h2>
-        <!-- <p class="location">
-          Where:
-          <a :href="googleMapLink" target="_blank">{{location}}</a>
-        </p>-->
       </div>
       <div class="run-description">
-        <!-- <p>
-          See the
-          <a
-            href="https://www.facebook.com/groups/goldenmountainrunners"
-            target="_blank"
-            >Facebook</a
-          >
-          group page for details. Full website coming soon! -->
         <h2 class="title">{{ title }}</h2>
         <div v-if="!details" :class="{ pending: pendingRunDetails }">
           {{ pendingRunDetails }}
@@ -48,7 +35,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Container from './components/Container'
+import Container from './Container'
 import { isTuesday, eachDay, addDays, format } from 'date-fns'
 
 export default Vue.extend({
@@ -56,8 +43,6 @@ export default Vue.extend({
   components: { Container },
   data() {
     return {
-      pendingRunDetails:
-        "Stay tuned! Details on next Tuesday's run will generally be posted sometime between Thursday and Monday prior.",
       link: 'https://www.gmap-pedometer.com/?r=7360374',
       runTime: '6:30pm',
       title: 'White Ranch Take 2 (Rawhide Loop Edition)',
