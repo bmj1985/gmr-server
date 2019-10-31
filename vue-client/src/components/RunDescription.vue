@@ -1,5 +1,5 @@
 <template>
-  <div class="description-container">
+  <Container>
     <div class="photo-container">
       <img
         id="pic"
@@ -35,24 +35,25 @@
           {{ pendingRunDetails }}
         </div>
         <div v-else class="run-details">
-          <p v-for="detail in details">{{ detail }}</p>
+          <p v-for="(detail, index) in details" :key="index">{{ detail }}</p>
         </div>
         <p class="route">
           Route description:
           <a :href="link" target="_blank">{{ link }}</a>
         </p>
-        <!-- </p> -->
       </div>
     </div>
-  </div>
+  </Container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import Container from './components/Container'
 import { isTuesday, eachDay, addDays, format } from 'date-fns'
 
 export default Vue.extend({
   name: 'RunDescription',
+  components: { Container },
   data() {
     return {
       pendingRunDetails:
@@ -83,142 +84,118 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.description-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  background: white;
-  border-radius: 10px;
-  padding: 0.75rem;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  // text-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  width: 95%;
-  height: 95%;
-  /* margin: 1rem; */
-  a {
-    text-decoration: none;
-    color: #365899;
+a {
+  text-decoration: none;
+  color: #365899;
+}
+.photo-container {
+  flex: 1;
+  height: 98%;
+  img {
+    height: 100%;
+    border-radius: 10px;
+  }
+  @media only screen and (max-width: 450px) {
+    display: none;
+  }
+  @media only screen and (max-width: 600px) {
+    img {
+      max-width: calc(570px - 2rem);
+      max-height: calc(570px - 2rem);
+    }
   }
   @media only screen and (max-width: 760px) {
-    flex-direction: column;
-  }
-  .photo-container {
-    flex: 1;
-    height: 98%;
     img {
-      height: 100%;
-      border-radius: 10px;
+      max-width: calc(730px - 2rem);
+      max-height: calc(730px - 2rem);
     }
-    @media only screen and (max-width: 450px) {
-      display: none;
-    }
-    @media only screen and (max-width: 600px) {
-      img {
-        max-width: calc(570px - 2rem);
-        max-height: calc(570px - 2rem);
+  }
+}
+.text-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  margin: 2rem;
+  overflow: scroll;
+  @media only screen and (max-width: 450px) {
+    margin: 0;
+    justify-content: flex-start;
+    align-items: space-evenly;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .major-details {
+    height: 55%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    h2 {
+      font-size: 2rem;
+      @media only screen and (max-width: 450px) {
+        font-size: 1rem;
       }
     }
-    @media only screen and (max-width: 760px) {
-      img {
-        max-width: calc(730px - 2rem);
-        max-height: calc(730px - 2rem);
+    h3 {
+      font-size: 1.75rem;
+    }
+    .logo {
+      height: 10rem;
+      width: 10rem;
+      @media only screen and (max-width: 450px) {
+        height: 7rem;
+        width: 7rem;
       }
     }
   }
-  .text-container {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 100%;
-    margin: 2rem;
-    overflow: scroll;
-    @media only screen and (max-width: 450px) {
-      margin: 0;
-      justify-content: flex-start;
-      align-items: space-evenly;
-      line-height: 1.2;
+  .run-description {
+    margin-top: 1rem;
+    height: 45%;
+    line-height: 1.1;
+    h2 {
+      font-size: 1.25rem;
+      text-align: center;
+      font-weight: 800;
+    }
+    p {
+      margin-top: 0.75rem;
+    }
+    &.pending {
       text-align: center;
     }
-    .major-details {
-      height: 55%;
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      flex-direction: column;
-      align-items: center;
-      h2 {
-        font-size: 2rem;
-        @media only screen and (max-width: 450px) {
-          font-size: 1rem;
-        }
-      }
-      h3 {
-        font-size: 1.75rem;
-      }
-      .logo {
-        height: 10rem;
-        width: 10rem;
-        @media only screen and (max-width: 450px) {
-          height: 7rem;
-          width: 7rem;
-        }
-      }
-      .next-run {
-      }
-      .date {
-      }
-      .location {
-      }
+    text-align: justify;
+    font-size: 1.25rem;
+    box-shadow: 0;
+  }
+  .route {
+    font-size: 1.25rem;
+  }
+  @media only screen and (max-width: 450px) {
+    h2 {
+      font-size: 1.5rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+    }
+    .logo {
+      height: 7rem;
+      width: 7rem;
     }
     .run-description {
-      margin-top: 1rem;
-      height: 45%;
-      line-height: 1.1;
-      h2 {
-        font-size: 1.25rem;
-        text-align: center;
-        font-weight: 800;
-      }
-      p {
-        margin-top: 0.75rem;
-      }
       &.pending {
         text-align: center;
       }
       text-align: justify;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       box-shadow: 0;
     }
     .route {
-      font-size: 1.25rem;
-    }
-    @media only screen and (max-width: 450px) {
-      h2 {
-        font-size: 1.5rem;
-      }
-      h3 {
-        font-size: 1.25rem;
-      }
-      .logo {
-        height: 7rem;
-        width: 7rem;
-      }
-      .run-description {
-        &.pending {
-          text-align: center;
-        }
-        text-align: justify;
-        font-size: 1.1rem;
-        box-shadow: 0;
-      }
-      .route {
-        font-size: 1rem;
-      }
+      font-size: 1rem;
     }
   }
 }
 </style>
-

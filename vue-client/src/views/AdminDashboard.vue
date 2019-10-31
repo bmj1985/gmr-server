@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <Container>
     This is an admin dashboard
-  </div>
+  </Container>
 </template>
 
 <script>
 import Vue from 'vue'
-export default Vue.extend({ name: 'AdminDashboard' })
+import Container from '@/components/Container'
+export default Vue.extend({ name: 'AdminDashboard', components: { Container } })
 </script>

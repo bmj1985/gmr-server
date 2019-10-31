@@ -1,5 +1,6 @@
 <template>
-  <div class="description-container">
+  <!-- <div class="description-container"> -->
+  <Container>
     <div class="logo-container">
       <img
         src="../assets/gmr_logo.png"
@@ -87,17 +88,18 @@
         </section>
       </div>
     </div>
-  </div>
+  </Container>
 </template>
 
 <script>
 import Vue from 'vue'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
+import Container from '@/components/Container'
 import { mapActions } from 'vuex'
 import { emailIsValid, passwordIsValid } from '@/utils.js'
 export default Vue.extend({
   name: 'SignUp',
-  components: { GoogleSignInButton },
+  components: { GoogleSignInButton, Container },
   data: () => ({
     valid: false,
     password: '',
@@ -231,78 +233,49 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.description-container {
-  width: 100%;
+.logo-container {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
-  background: white;
-  border-radius: 10px;
-  padding: 5rem;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  // text-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  width: 95%;
-  height: 95%;
-  overflow: scroll;
-  @media only screen and (max-width: 760px) {
-    height: 100%;
-    width: 100%;
-    border-radius: 0;
-  }
-  /* margin: 1rem; */
-
-  .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      object-fit: contain;
-      padding: 2rem;
-      max-height: 30rem;
-      @media only screen and (max-width: 450px) {
-        height: 15rem;
-      }
+  img {
+    object-fit: contain;
+    padding: 2rem;
+    max-height: 30rem;
+    @media only screen and (max-width: 450px) {
+      height: 15rem;
     }
   }
-  .form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 25rem;
-    text-align: left;
-    .wrapper {
-      width: 100%;
-      @media only screen and (max-width: 450px) {
-        width: 80vw;
-      }
+}
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+  text-align: left;
+  .wrapper {
+    width: 100%;
+    @media only screen and (max-width: 450px) {
+      width: 80vw;
     }
   }
+}
 
-  .field {
-    /* padding-bottom: 0.25rem; */
-  }
-
-  a {
-    text-decoration: none;
-    color: #365899;
-  }
-  @media only screen and (max-width: 760px) {
-    flex-direction: column;
-  }
-  #or {
-    text-align: center;
-    padding-top: 1rem;
-  }
-  .sign-up-text {
-    text-align: center;
-    padding: 1rem;
-  }
-  .signup-button {
-    width: 100%;
-  }
-  footer {
-    padding-top: 1rem;
-  }
+a {
+  text-decoration: none;
+  color: #365899;
+}
+#or {
+  text-align: center;
+  padding-top: 1rem;
+}
+.sign-up-text {
+  text-align: center;
+  padding: 1rem;
+}
+.signup-button {
+  width: 100%;
+}
+footer {
+  padding-top: 1rem;
 }
 </style>

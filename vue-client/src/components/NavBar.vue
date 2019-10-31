@@ -13,6 +13,9 @@
         <b-navbar-item href="#">
           Contact
         </b-navbar-item>
+        <router-link to="/admindashboard" class="navbar-item" v-if="isAdmin">
+          Admin Dashboard
+        </router-link>
       </b-navbar-dropdown>
     </template>
     <template slot="end">
@@ -41,6 +44,16 @@ export default Vue.extend({
         this.$store.state.auth.user._id &&
         this.$store.state.auth.user._id.length > 0
       )
+    },
+    isAdmin() {
+      const admin =
+        this.$store.state.auth &&
+        this.$store.state.auth.user &&
+        this.$store.state.auth.user.permissions.find(v => v === 'admin')
+      if (admin === 'admin') {
+        return true
+      }
+      return false
     }
   }
 })

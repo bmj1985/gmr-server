@@ -1,27 +1,13 @@
 <template>
-  <div class="home">
-    <RunDescription />
-  </div>
+  <RunDescription />
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
-import RunDescription from '@/components/RunDescription.vue'
+import RunDescription from '../components/RunDescription'
 
 export default Vue.extend({
   name: 'Home',
   components: { RunDescription }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '../styles/_global';
-.home {
-  overflow: scroll;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-</style>
