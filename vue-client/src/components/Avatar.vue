@@ -5,14 +5,18 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'Avatar',
+  data: () => ({
+    defaultProfilePicture: require('@/assets/defaultProfilePic.png')
+  }),
   computed: {
     profilePicture() {
       return this.$store.state.auth.user.profilePicture
         ? this.$store.state.auth.user.profilePicture
-        : '../assets/defaultProfilePic.svg'
+        : this.defaultProfilePicture
     }
   }
-}
+})
 </script>

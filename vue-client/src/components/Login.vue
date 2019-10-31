@@ -83,7 +83,8 @@ export default Vue.extend({
     user: {
       username: '',
       password: '',
-      email: ''
+      email: '',
+      name: ''
     }
   }),
   computed: {
@@ -95,9 +96,10 @@ export default Vue.extend({
   methods: {
     ...mapActions('auth', ['authenticate']),
     onSubmit(email, password) {
-      this.authenticate({ strategy: 'local', email, password })
+      this.authenticate({ strategy: 'jwt', email, password })
         // Just use the returned error instead of mapping it from the store.
         .catch(error => {
+          console.log(error)
           // Convert the error to a plain object and add a message.
           let type = error.className
           error = Object.assign({}, error)

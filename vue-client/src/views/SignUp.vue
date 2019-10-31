@@ -18,9 +18,26 @@
           <form
             class="form"
             method="post"
-            @submit.prevent="onSubmit(email, password)"
+            @submit.prevent="onSubmit(email, password, name)"
           >
             <fieldset>
+              <b-field
+                label="Name"
+                :labelPosition="labelPosition"
+                :type="nameType"
+                :message="nameMessage"
+              >
+                <b-input
+                  type="text"
+                  placeholder="Your name"
+                  required
+                  class="block"
+                  name="name"
+                  v-model="tempName"
+                  v-on:blur="validateName"
+                >
+                </b-input>
+              </b-field>
               <b-field
                 label="Email"
                 :labelPosition="labelPosition"
@@ -107,7 +124,10 @@ export default Vue.extend({
     tempEmail: '',
     confirmPassword: '',
     tempConfirmPassword: '',
-    error: undefined
+    error: undefined,
+    tempName: '',
+    name: '',
+    nameHadFocus: false
   }),
   computed: {
     isSignUpPage() {
@@ -183,9 +203,34 @@ export default Vue.extend({
         return null
       }
       return 'is-danger'
+    },
+    nameType() {
+      if (this.tempName.length > 3) {
+        return null
+      }
+      if (this.name.length < 2 && this.nameHadFocus) {
+        return 'is-danger'
+      }
+      return null
+    },
+    nameMessage() {
+      if (this.tempName.length > 3) {
+        return null
+      }
+      if (this.name.length < 2 && this.nameHadFocus) {
+        return 'Please enter your name.'
+      }
+      return null
     }
   },
   methods: {
+    setNameHadFocus() {
+      this.nameHadFocus = true
+    },
+    validateName() {
+      this.nameHadFocus = true
+      this.name = this.tempName
+    },
     validateEmail() {
       this.email = this.tempEmail
     },
@@ -199,17 +244,19 @@ export default Vue.extend({
       this.error = undefined
       // this.clearCreateError()
     },
-    onSubmit(email, password) {
-      debugger
+    onSubmit(email, password, name) {
+      console.log('email:', email, 'password:', password, this.error)
       this.dismissError()
 
       // Automatically log the user in after successful signup.
-      this.createUser({ email, password })
-        .then(response =>
-          this.authenticate({ strategy: 'local', email, password })
-        )
+      this.createUser({ email, password, name })
+        .then(response => {
+          console.log('RESPONSE:', response)
+          this.authenticate({ strategy: 'local', email, password, name })
+        })
         // Just use the returned error instead of mapping it from the store.
         .catch(error => {
+          console.log(error)
           // Convert the error to a plain object and add a message.
           let type = error.errorType
           error = Object.assign({}, error)

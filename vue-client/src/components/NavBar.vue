@@ -70,4 +70,7 @@ export default Vue.extend({
 #google-sign-in-image {
   max-height: 3rem;
 }
+.navbar {
+  align-items: center;
+}
 </style>
