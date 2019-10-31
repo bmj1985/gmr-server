@@ -1,9 +1,9 @@
 <template>
   <div class="level">
-    <b-navbar-item tag="div">
-      <a class="button is-light-blue login-button">
-        <strong>Sign up</strong>
-      </a>
+    <b-navbar-item tag="div" v-if="!isSignUpPage">
+      <router-link to="signup" class="button is-light-blue login-button"
+        ><strong>Sign Up</strong>
+      </router-link>
     </b-navbar-item>
     <b-navbar-item tag="div">
       <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus>
@@ -19,16 +19,9 @@
           <form action="">
             <div class="modal-card" style="width:300px;">
               <section class="modal-card-header">
-                <div>
-                  <a :href="API_URL">
-                    <img
-                      id="google-sign-in-image"
-                      src="../assets/googleassets/2x/btn_google_signin_dark_focus_web@2x.png"
-                    />
-                  </a>
-                </div>
+                <GoogleSignInButton />
               </section>
-              <p>OR</p>
+              <p id="or">OR</p>
               <section class="modal-card-body">
                 <form
                   class="form"
@@ -81,20 +74,23 @@
 <script>
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
-import API_URL from '@/API_URL.js'
+import GoogleSignInButton from '@/components/GoogleSignInButton'
 export default Vue.extend({
   name: 'Login',
+  components: { GoogleSignInButton },
   data: () => ({
     valid: false,
     user: {
       username: '',
       password: '',
       email: ''
-    },
-    API_URL: `${API_URL}/oauth/google`
+    }
   }),
   computed: {
-    ...mapState('auth', { loading: 'isAuthenticatePending' })
+    ...mapState('auth', { loading: 'isAuthenticatePending' }),
+    isSignUpPage() {
+      return this.$route.name === 'SignUp'
+    }
   },
   methods: {
     ...mapActions('auth', ['authenticate']),
@@ -119,5 +115,8 @@ export default Vue.extend({
 <style scoped>
 .login-button {
   min-width: 83px;
+}
+#or {
+  padding-top: 20px;
 }
 </style>

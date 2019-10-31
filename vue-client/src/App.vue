@@ -156,20 +156,16 @@ $link-focus-border: $primary;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 
-  /* .header { */
-  /* height: 7vh;
-    width: 100vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: $primary-0;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    z-index: 10; */
-  /* } */
+  .header {
+    height: 6vh;
+  }
 
   main {
-    height: 85vh;
+    height: 89vh;
     width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-image: url('./assets/goldentopo.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -181,7 +177,7 @@ $link-focus-border: $primary;
   }
 
   #footer {
-    height: 8vh;
+    height: 5vh;
     width: 100vw;
     background: $primary-0;
     box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.19), 0 -6px 6px rgba(0, 0, 0, 0.23);
