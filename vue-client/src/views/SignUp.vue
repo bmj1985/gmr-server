@@ -209,17 +209,15 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
-
 .description-container {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
   background: white;
   border-radius: 10px;
-  padding: 0.75rem;
+  padding: 5rem;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   // text-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   width: 95%;
@@ -239,7 +237,7 @@ export default Vue.extend({
     img {
       object-fit: contain;
       padding: 2rem;
-      max-height: 40rem;
+      max-height: 30rem;
       @media only screen and (max-width: 450px) {
         height: 15rem;
       }
@@ -254,7 +252,7 @@ export default Vue.extend({
     .wrapper {
       width: 100%;
       @media only screen and (max-width: 450px) {
-        width: 80%;
+        width: 80vw;
       }
     }
   }

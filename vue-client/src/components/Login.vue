@@ -15,11 +15,12 @@
           :focusable="false"
           custom
           paddingless
+          class="dropdown-item-test"
         >
-          <form action="">
-            <div class="modal-card" style="width:300px;">
+          <form action="" class="login-form">
+            <div class="modal-card login-modal">
               <section class="modal-card-header">
-                <GoogleSignInButton />
+                <GoogleSignInButton style="width:86.6%;" />
               </section>
               <p id="or">OR</p>
               <section class="modal-card-body">
@@ -115,8 +116,26 @@ export default Vue.extend({
 <style scoped>
 .login-button {
   min-width: 83px;
+  width: 100%;
 }
 #or {
   padding-top: 20px;
+}
+.dropdown-item-test {
+  width: 100%;
+  min-width: 300px;
+  padding: 1rem;
+}
+.login-form {
+  width: 100%;
+}
+.login-modal {
+  width: 100%;
+}
+.modal-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

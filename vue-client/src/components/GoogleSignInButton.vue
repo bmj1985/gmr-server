@@ -36,6 +36,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 .google-button {
   min-height: 2rem;
   width: 100%;
