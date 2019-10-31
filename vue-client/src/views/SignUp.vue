@@ -33,7 +33,8 @@
                   required
                   class="block"
                   name="email"
-                  v-model="email"
+                  v-model="tempEmail"
+                  v-on:blur="validateEmail"
                 >
                 </b-input>
               </b-field>
@@ -51,7 +52,8 @@
                   required
                   class="block"
                   name="password"
-                  v-model="password"
+                  v-model="tempPassword"
+                  v-on:blur="validatePassword"
                 >
                 </b-input>
               </b-field>
@@ -68,7 +70,8 @@
                   required
                   class="block"
                   name="password"
-                  v-model="confirmPassword"
+                  v-model="tempConfirmPassword"
+                  v-on:blur="validateConfirmPassword"
                 >
                 </b-input>
               </b-field>
@@ -90,7 +93,7 @@
 <script>
 import Vue from 'vue'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 import { emailIsValid, passwordIsValid } from '@/utils.js'
 export default Vue.extend({
   name: 'SignUp',
@@ -98,8 +101,12 @@ export default Vue.extend({
   data: () => ({
     valid: false,
     password: '',
+    tempPassword: '',
     email: '',
-    confirmPassword: ''
+    tempEmail: '',
+    confirmPassword: '',
+    tempConfirmPassword: '',
+    error: undefined
   }),
   computed: {
     isSignUpPage() {
@@ -153,6 +160,9 @@ export default Vue.extend({
     },
     confirmPasswordMessage() {
       // A valid password has at least one uppercase, one lowercase, one digit, one special charachter, and is at least 8 characters long
+      if (this.tempConfirmPassword === this.password) {
+        return null
+      }
       if (this.password.length === 0) {
         return null
       }
@@ -162,6 +172,9 @@ export default Vue.extend({
       return 'Passwords do not match.'
     },
     confirmPasswordType() {
+      if (this.tempConfirmPassword === this.password) {
+        return null
+      }
       if (this.confirmPassword.length === 0) {
         return null
       }
@@ -172,9 +185,18 @@ export default Vue.extend({
     }
   },
   methods: {
+    validateEmail() {
+      this.email = this.tempEmail
+    },
+    validatePassword() {
+      this.password = this.tempPassword
+    },
+    validateConfirmPassword() {
+      this.confirmPassword = this.tempConfirmPassword
+    },
     dismissError() {
       this.error = undefined
-      this.clearCreateError()
+      // this.clearCreateError()
     },
     onSubmit(email, password) {
       debugger
@@ -200,9 +222,9 @@ export default Vue.extend({
     ...mapActions('users', {
       createUser: 'create'
     }),
-    ...mapMutations('users', {
-      clearCreateError: 'clearCreateError'
-    }),
+    // ...mapMutations('users', {
+    //   clearCreateError: 'clearCreateError'
+    // }),
     ...mapActions('auth', ['authenticate'])
   }
 })
