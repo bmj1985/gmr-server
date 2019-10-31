@@ -128,6 +128,7 @@ export default Vue.extend({
 }
 .login-form {
   width: 100%;
+  display: flex;
 }
 .login-modal {
   width: 100%;

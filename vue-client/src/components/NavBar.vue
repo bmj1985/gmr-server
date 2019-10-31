@@ -46,7 +46,8 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/_global';
 .navbar {
   width: 100vw;
   display: flex;
