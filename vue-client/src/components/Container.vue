@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="gmrContainer">
     <slot />
   </div>
 </template>
@@ -11,8 +11,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container {
-  width: 100%;
+.gmrContainer {
+  width: 98%;
   height: 98%;
   display: flex;
   flex-direction: row;
@@ -31,9 +31,11 @@ export default {
   }
   @media only screen and (max-width: 500px) {
     flex-direction: column;
+    justify-content: flex-start;
     height: 100%;
     width: 100%;
     border-radius: 0;
+    overflow: scroll;
   }
 }
 </style>

@@ -2,17 +2,15 @@
   <b-navbar class="is-primary">
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <img src="../assets/gmr_logo.png" alt="GMR Logo" />
+        <img
+          src="../assets/gmr_logo.png"
+          alt="GMR Logo"
+          class="image is-28x28"
+        />
       </b-navbar-item>
     </template>
     <template slot="start">
       <b-navbar-dropdown label="Menu">
-        <b-navbar-item href="#">
-          About
-        </b-navbar-item>
-        <b-navbar-item href="#">
-          Contact
-        </b-navbar-item>
         <router-link to="/admindashboard" class="navbar-item" v-if="isAdmin">
           Admin Dashboard
         </router-link>
@@ -61,15 +59,6 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 @import '../styles/_global';
-.navbar {
-  width: 100vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var($primary-0);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-}
-
 .login-button {
   width: 100%;
   min-width: 83px;

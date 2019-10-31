@@ -1,11 +1,10 @@
 <template>
-  <!-- <div class="description-container"> -->
   <Container>
     <div class="logo-container">
       <img
-        src="../assets/gmr_logo.png"
+        src="../assets/gmr_logo_svg.svg"
         alt="GMR Logo"
-        class="image is-square"
+        class="image is-square svg-logo"
       />
     </div>
     <div class="form-container">
@@ -238,11 +237,13 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
   img {
+    height: 30rem;
     object-fit: contain;
     padding: 2rem;
     max-height: 30rem;
     @media only screen and (max-width: 450px) {
       height: 15rem;
+      padding: 1rem;
     }
   }
 }

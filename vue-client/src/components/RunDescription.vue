@@ -1,16 +1,14 @@
 <template>
   <Container>
-    <div class="photo-container">
-      <img
-        id="pic"
-        alt="Golden Mountain runners action photo"
-        src="../assets/northtable.png"
-      />
-    </div>
+    <div class="photo-container"></div>
     <div class="text-container">
       <div class="major-details">
         <h3>Welcome to</h3>
-        <img class="logo" alt="GMR logo" src="../assets/gmr_logo.png" />
+        <img
+          class="logo is-96x96"
+          alt="GMR logo"
+          src="../assets/gmr_logo.png"
+        />
         <p class="next-run">Our next run will be:</p>
         <h2 class="date">
           {{ date }}
@@ -75,12 +73,11 @@ a {
 }
 .photo-container {
   flex: 1;
-  height: 98%;
-  img {
-    height: 100%;
-    border-radius: 10px;
-  }
-  @media only screen and (max-width: 450px) {
+  height: 100%;
+  background-image: url('../assets/northtable.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  @media only screen and (max-width: 760px) {
     display: none;
   }
   @media only screen and (max-width: 600px) {
@@ -113,12 +110,20 @@ a {
     text-align: center;
   }
   .major-details {
-    height: 55%;
+    /* height: 55%; */
+    padding: 1rem;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
     align-items: center;
+    .next-run {
+      padding: 0.5rem;
+    }
+    .date {
+      padding: 0.5rem;
+      padding-top: 0;
+    }
     h2 {
       font-size: 2rem;
       @media only screen and (max-width: 450px) {
@@ -138,7 +143,7 @@ a {
     }
   }
   .run-description {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     height: 45%;
     line-height: 1.1;
     h2 {

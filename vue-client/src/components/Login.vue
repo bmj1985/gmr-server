@@ -1,5 +1,5 @@
 <template>
-  <div class="level">
+  <div class="level is-mobile">
     <b-navbar-item tag="div" v-if="!isSignUpPage">
       <router-link to="signup" class="button is-light-blue login-button"
         ><strong>Sign Up</strong>
@@ -15,7 +15,6 @@
           :focusable="false"
           custom
           paddingless
-          class="dropdown-item-test"
         >
           <form action="" class="login-form">
             <div class="modal-card login-modal">
@@ -113,7 +112,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-button {
   min-width: 83px;
   width: 100%;
@@ -121,17 +120,16 @@ export default Vue.extend({
 #or {
   padding-top: 20px;
 }
-.dropdown-item-test {
-  width: 100%;
-  min-width: 300px;
-  padding: 1rem;
-}
+
 .login-form {
   width: 100%;
   display: flex;
 }
 .login-modal {
   width: 100%;
+  @media only screen and (min-width: 450px) {
+    min-width: 300px;
+  }
 }
 .modal-card-header {
   width: 100%;
