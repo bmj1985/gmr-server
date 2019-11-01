@@ -18,7 +18,7 @@ module.exports = function(app) {
       facebookId: { type: String },
 
       twitterId: { type: String },
-      permissions: { type: [String] }
+      permissions: { type: [String], default: ['user'] }
     },
     {
       timestamps: true
