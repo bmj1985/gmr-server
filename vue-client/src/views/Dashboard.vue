@@ -14,7 +14,7 @@
         <li>Chimney Gulch to First Road</li>
       </ul>
     </div>
-    <button class="button is-primary" v-on:click="console()">
+    <button class="button is-primary">
       Add event
     </button>
   </Container>
@@ -23,13 +23,5 @@
 <script>
 import Vue from 'vue'
 import Container from '@/components/Container'
-export default Vue.extend({
-  name: 'AdminDashboard',
-  components: { Container },
-  methods: {
-    console() {
-      console.log('Button is clicked from admin dashboard')
-    }
-  }
-})
+export default Vue.extend({ name: 'Dashboard', components: { Container } })
 </script>

@@ -14,11 +14,14 @@
         <router-link to="/admindashboard" class="navbar-item" v-if="isAdmin">
           Admin Dashboard
         </router-link>
+        <router-link to="/admindashboard" class="navbar-item" v-if="isUser">
+          Dashboard
+        </router-link>
       </b-navbar-dropdown>
     </template>
     <template slot="end">
       <div v-if="!isUser">
-        <Login />
+        <LoginSignUpNav />
       </div>
       <div v-else>
         <Logout />
@@ -29,11 +32,11 @@
 
 <script>
 import Vue from 'vue'
-import Login from './Login'
+import LoginSignUpNav from './LoginSignUpNav'
 import Logout from './Logout'
 export default Vue.extend({
   name: 'NavBar',
-  components: { Login, Logout },
+  components: { LoginSignUpNav, Logout },
   computed: {
     isUser() {
       return (

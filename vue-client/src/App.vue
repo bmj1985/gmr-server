@@ -40,18 +40,23 @@ export default Vue.extend({
     // When the user is set, redirect to the Chat page.
     // user(newVal) {
     //   if (newVal === undefined) {
-    //     this.$router.replace({ name: 'Login' })
+    //     this.$router.replace({ name: 'SignUp' })
     //   } else {
     //     this.$router.replace({ name: 'Home' })
     //   }
     // }
   },
   mounted() {
-    this.$store.dispatch('auth/authenticate').catch(error => {
-      if (!error.message.includes('Could not find stored JWT')) {
-        console.error(error)
-      }
-    })
+    try {
+      this.$store.dispatch('auth/authenticate').catch(error => {
+        if (!error.message.includes('Could not find stored JWT')) {
+          console.error(error)
+          console.log('MOUNTED ERROR:', error)
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 })
 </script>

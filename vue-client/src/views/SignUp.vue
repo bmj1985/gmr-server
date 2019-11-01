@@ -245,14 +245,13 @@ export default Vue.extend({
       // this.clearCreateError()
     },
     onSubmit(email, password, name) {
-      console.log('email:', email, 'password:', password, this.error)
       this.dismissError()
 
       // Automatically log the user in after successful signup.
       this.createUser({ email, password, name })
         .then(response => {
           console.log('RESPONSE:', response)
-          this.authenticate({ strategy: 'local', email, password, name })
+          this.authenticate({ strategy: 'local', email, password })
         })
         // Just use the returned error instead of mapping it from the store.
         .catch(error => {
@@ -265,6 +264,7 @@ export default Vue.extend({
               ? 'That email address is unavailable.'
               : 'An error prevented signup.'
           this.error = error
+          console.log('THIS.ERROR:', this.error)
         })
     },
     ...mapActions('users', {
@@ -274,6 +274,13 @@ export default Vue.extend({
     //   clearCreateError: 'clearCreateError'
     // }),
     ...mapActions('auth', ['authenticate'])
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (vm.$store.state.auth.user) {
+        next(from.path)
+      } else next()
+    })
   }
 })
 </script>
