@@ -29,8 +29,8 @@ export default Vue.extend({
   methods: {
     ...mapActions('auth', ['logout']),
     logoutRedirect() {
-      // Force vuex reset with $router.go
       this.logout().then(() => {
+        this.$router.push('/')
         this.clearAll()
       })
     },
@@ -43,6 +43,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style>
-</style>
