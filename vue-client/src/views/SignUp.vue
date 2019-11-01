@@ -249,9 +249,10 @@ export default Vue.extend({
       // Automatically log the user in after successful signup.
       this.createUser({ email, password, name })
         .then(response => {
-          console.log(response)
-          debugger
           this.authenticate({ strategy: 'local', email, password })
+        })
+        .then(res => {
+          this.$router.push('/dashboard')
         })
         // Just use the returned error instead of mapping it from the store.
         .catch(error => {
@@ -268,9 +269,6 @@ export default Vue.extend({
     ...mapActions('users', {
       createUser: 'create'
     }),
-    // ...mapMutations('users', {
-    //   clearCreateError: 'clearCreateError'
-    // }),
     ...mapActions('auth', ['authenticate'])
   },
   beforeRouteEnter(to, from, next) {

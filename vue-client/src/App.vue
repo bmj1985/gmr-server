@@ -51,7 +51,6 @@ export default Vue.extend({
       this.$store.dispatch('auth/authenticate').catch(error => {
         if (!error.message.includes('Could not find stored JWT')) {
           console.error(error)
-          console.log('MOUNTED ERROR:', error)
         }
       })
     } catch (error) {
