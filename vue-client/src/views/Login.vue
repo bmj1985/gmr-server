@@ -92,10 +92,10 @@ export default Vue.extend({
         password: password
       })
         .then(() => {
-          console.log('ROUTE', this.$router)
           this.$router.push('Dashboard')
         })
         .catch(e => {
+          console.log(email, password)
           // Show login page (potentially with `e.message`)
           console.error('Authentication error', e)
         })

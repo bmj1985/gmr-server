@@ -4,16 +4,18 @@ import feathersClient, {
 } from '../feathers-client'
 
 class User extends BaseModel {
-  // constructor(data, options) {
-  //   super(data, options)
-  // }
+  constructor(data, options) {
+    super(data, options)
+    console.log('DATA:', data, 'OPTIONS:', options)
+  }
   // Required for $FeathersVuex plugin to work after production transpile.
   static modelName = 'User'
   // Define default properties here
   static instanceDefaults() {
     return {
       email: '',
-      password: ''
+      password: '',
+      name: ''
     }
   }
 }
