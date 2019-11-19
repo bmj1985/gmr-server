@@ -64,7 +64,7 @@
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
-import Container from '@/components/Container'
+import Container from '@/UIComponents/Container'
 export default Vue.extend({
   name: 'Login',
   components: { GoogleSignInButton, Container },

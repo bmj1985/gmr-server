@@ -6,8 +6,8 @@ module.exports = function(app) {
   const mongooseClient = app.get('mongooseClient');
   const events = new mongooseClient.Schema(
     {
-      dateTime: { type: Date },
-      details: { type: [String] },
+      date: { type: Date },
+      details: { type: String },
       trailheadLink: { type: String },
       trailheadAddress: { type: String },
       runRouteLink: { type: String },

@@ -1,65 +1,97 @@
 <template>
-  <Container>
-    <div class="photo-container"></div>
-    <div class="text-container">
-      <div class="major-details">
-        <h3>Welcome to</h3>
-        <img
-          class="logo is-96x96"
-          alt="GMR logo"
-          src="../assets/gmr_logo.png"
-        />
-        <p class="next-run">Our next run will be:</p>
-        <h2 class="date">
-          {{ date }}
-        </h2>
+  <div class="text-container">
+    <div class="welcome">
+      <h3>Welcome to</h3>
+      <img class="logo is-96x96" alt="GMR logo" src="../assets/gmr_logo.png" />
+      <p class="next-run">Our next run will be:</p>
+      <h2 class="date">
+        {{ isAdminDashboard ? editingEventDate : nextEventDate }}
+      </h2>
+    </div>
+    <div v-if="isAdminDashboard" class="run-description">
+      <h2 class="title">{{ editingEvent.title }}</h2>
+      <div class="run-details">
+        <span v-html="editingEvent.details" class="rawHtml"></span>
       </div>
-      <div class="run-description">
-        <h2 class="title">{{ title }}</h2>
-        <div v-if="!details" :class="{ pending: pendingRunDetails }">
-          {{ pendingRunDetails }}
-        </div>
-        <div v-else class="run-details">
-          <p v-for="(detail, index) in details" :key="index">{{ detail }}</p>
-        </div>
-        <p class="route">
-          Route description:
+      <div class="route">
+        <p>
+          Link to route:
           <a :href="link" target="_blank">{{ link }}</a>
         </p>
       </div>
     </div>
-  </Container>
+    <div v-if="nextEvent.details" class="run-description">
+      <h2 class="title">{{ nextEvent.title }}</h2>
+      <div class="run-details">
+        <span v-html="nextEvent.details" class="rawHtml"></span>
+      </div>
+      <p class="route">
+        Link to route:
+        <a :href="link" target="_blank">{{ nextEvent.link }}</a>
+      </p>
+    </div>
+    <div
+      v-if="!isAdminDashboard && !nextEvent.details"
+      :class="{ pending: pendingRunDetails }"
+    >
+      {{ pendingRunDetails }}
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
-import Container from './Container'
-import { isTuesday, eachDay, addDays, format } from 'date-fns'
+import { models } from 'feathers-vuex'
+import { format } from 'date-fns'
 
 export default Vue.extend({
   name: 'RunDescription',
-  components: { Container },
   data() {
     return {
-      link: 'https://www.gmap-pedometer.com/?r=7360374',
-      runTime: '6:30pm',
-      title: 'White Ranch Take 2 (Rawhide Loop Edition)',
-      location: '25303 Belcher Hill Rd, Golden, CO 80403',
-      details: [
-        '****Note Start Time 6:30*****',
-        'Apparently all of the mountain bikes in the State of Colorado wanted to meet in the lower parking lot of White Ranch this past Tuesday.  I very much appreciate everyone’s flexibility in making the last minute shift to North Table to avoid an overcrowding situation at WR.  This week, we will try White Ranch.  This time we will head to the west lot to try to avoid some of the crowds.  We will call this one the Rawhide Loop since the entire run will be on Rawhide trail.  Pretty creative right?!?!',
-        'We will start the run at 6:30 to allow for a little extra drive time to get the west lot.  For those who want to make sure we leave parking for other users (or just want to be environmentally friendly) we could definitely do some carpooling from Golden.  Respond in the comments if you want to meet at Mountain Toad at 6:00 and carpool up to the west lot.',
-        'The total loop is about 5.2 miles.  It will definitely be a little more mellow than the lower section of the park, but still has good rolling climbs and great views.  After the run we will head back to town and grab some beers at the Toad.  See you all on Tuesday!'
-      ],
-      googleMapLink: 'https://goo.gl/maps/fqmqohpp3LH2'
+      events: [],
+      pendingRunDetails:
+        'Runs are usually posted between Thursday an Monday prior.'
     }
   },
   computed: {
-    date: function() {
-      const oneWeekFromToday = addDays(new Date(), 7)
-      const daysArr = eachDay(new Date(), oneWeekFromToday)
-      const tuesday = daysArr.find(v => isTuesday(v))
-      return tuesday ? format(tuesday, 'dddd MMMM Do, YYYY') : null
+    nextEvent() {
+      if (this.events.length > 0) {
+        return this.events[0]
+      }
+      return new models.api.GmrEvent()
+    },
+    nextEventDate() {
+      return format(this.nextEvent.date, 'dddd MMMM Do, YYYY h:mm aa')
+    },
+    editingEvent() {
+      return this.$store.state.editingEvent
+    },
+    editingEventDate() {
+      return format(
+        this.$store.state.editingEvent.date,
+        'dddd MMMM Do, YYYY h:mm aa'
+      )
+    },
+    link() {
+      return (
+        this.$store &&
+        this.$store.state &&
+        this.$store.state.editingEvent &&
+        this.$store.state.editingEvent.link
+      )
+    },
+    isAdmin() {
+      const admin =
+        this.$store.state.auth &&
+        this.$store.state.auth.user &&
+        this.$store.state.auth.user.permissions.find(v => v === 'admin')
+      if (admin === 'admin') {
+        return true
+      }
+      return false
+    },
+    isAdminDashboard() {
+      return this.$route.path === '/admindashboard'
     }
   }
 })
@@ -67,31 +99,15 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.rawHtml {
+  font-size: 1.25rem;
+  font-family: inherit;
+  line-height: 1.2;
+}
+
 a {
   text-decoration: none;
   color: #365899;
-}
-.photo-container {
-  flex: 1;
-  height: 100%;
-  background-image: url('../assets/northtable.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  @media only screen and (max-width: 760px) {
-    display: none;
-  }
-  @media only screen and (max-width: 600px) {
-    img {
-      max-width: calc(570px - 2rem);
-      max-height: calc(570px - 2rem);
-    }
-  }
-  @media only screen and (max-width: 760px) {
-    img {
-      max-width: calc(730px - 2rem);
-      max-height: calc(730px - 2rem);
-    }
-  }
 }
 .text-container {
   display: flex;
@@ -109,7 +125,7 @@ a {
     line-height: 1.2;
     text-align: center;
   }
-  .major-details {
+  .welcome {
     /* height: 55%; */
     padding: 1rem;
     width: 100%;
@@ -163,6 +179,7 @@ a {
   }
   .route {
     font-size: 1.25rem;
+    color: black;
   }
   @media only screen and (max-width: 450px) {
     h2 {

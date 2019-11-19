@@ -110,7 +110,7 @@
 <script>
 import Vue from 'vue'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
-import Container from '@/components/Container'
+import Container from '@/UIComponents/Container'
 import { mapActions } from 'vuex'
 import { emailIsValid, passwordIsValid } from '@/utils.js'
 export default Vue.extend({

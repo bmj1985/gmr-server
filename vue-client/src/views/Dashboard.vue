@@ -22,6 +22,6 @@
 
 <script>
 import Vue from 'vue'
-import Container from '@/components/Container'
+import Container from '@/UIComponents/Container'
 export default Vue.extend({ name: 'Dashboard', components: { Container } })
 </script>
