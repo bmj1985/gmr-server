@@ -1,3 +1,14 @@
+import { addDays, eachDay, isTuesday, addHours, addMinutes } from 'date-fns'
+
+function nextTuesday() {
+  const oneWeekFromToday = addDays(new Date(), 7)
+  const daysArr = eachDay(new Date(), oneWeekFromToday)
+  const tuesday = daysArr.find(v => isTuesday(v))
+  const tuesdayAtSix = addHours(tuesday, 18)
+  const tuesdayAtSixFifteen = addMinutes(tuesdayAtSix, 15)
+  return tuesdayAtSixFifteen
+}
+
 function emailIsValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
@@ -27,4 +38,4 @@ function debounce(fn, delay) {
   }
 }
 
-export { emailIsValid, debounce, passwordIsValid }
+export { emailIsValid, debounce, passwordIsValid, nextTuesday }

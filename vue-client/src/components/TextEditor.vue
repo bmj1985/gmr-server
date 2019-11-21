@@ -40,6 +40,7 @@ export default Vue.extend({
 }
 .editor-content :first-child {
   height: 15rem;
+  width: 100%;
   min-height: 100px;
   max-height: 500px;
 }

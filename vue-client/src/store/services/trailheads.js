@@ -2,42 +2,27 @@ import feathersClient, {
   makeServicePlugin,
   BaseModel
 } from '../feathers-client'
-import { addDays, eachDay, isTuesday, addHours, addMinutes } from 'date-fns'
 
-function nextTuesday() {
-  const oneWeekFromToday = addDays(new Date(), 7)
-  const daysArr = eachDay(new Date(), oneWeekFromToday)
-  const tuesday = daysArr.find(v => isTuesday(v))
-  const tuesdayAtSix = addHours(tuesday, 18)
-  const tuesdayAtSixFifteen = addMinutes(tuesdayAtSix, 15)
-  return tuesdayAtSixFifteen
-}
-
-class GmrEvent extends BaseModel {
+class Trailhead extends BaseModel {
   // constructor(data, options) {
   //   super(data, options)
   // }
   // Required for $FeathersVuex plugin to work after production transpile.
-  static modelName = 'GmrEvent'
+  static modelName = 'Trailhead'
   // Define default properties here
   static instanceDefaults() {
-    // Needs to be stubbed out.
     return {
-      date: nextTuesday(),
-      details: '',
-      trailheadLink: '',
-      trailheadAddress: '',
-      runRouteLink: '',
-      time: '',
-      title: ''
+      name: '',
+      address: ''
     }
   }
 }
-const servicePath = 'gmrEvents'
+const servicePath = 'trailheads'
 const servicePlugin = makeServicePlugin({
-  Model: GmrEvent,
+  Model: Trailhead,
   service: feathersClient.service(servicePath),
-  servicePath
+  servicePath,
+  name: 'trailheads'
 })
 
 // Setup the client-side Feathers hooks.

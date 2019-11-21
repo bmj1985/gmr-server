@@ -1,6 +1,6 @@
 <template>
   <div class="add-event-container">
-    <h2>Add an Event Here</h2>
+    <h2 class="title">Add an Event Here</h2>
     <form>
       <fieldset class="event-fieldset">
         <b-field label="Title">
@@ -17,14 +17,36 @@
           >
           </b-datetimepicker>
         </b-field>
+        <b-field label="Trailhead" class="trailhead-wrapper">
+          <div class="trailhead-content">
+            <b-select
+              placeholder="Select a trailhead"
+              v-model="editingEvent.trailhead"
+            >
+              <option
+                v-for="trailhead in trailheads"
+                :value="trailhead"
+                :key="trailhead.name"
+              >
+                {{ trailhead.name }}
+              </option>
+            </b-select>
+            <button class="button">Add Trailhead</button>
+          </div>
+        </b-field>
         <b-field label="Description">
           <TextEditor />
         </b-field>
-        <b-field>
-          <b-input placeholder="Run link" v-model="editingEvent.link"></b-input>
+        <b-field label="Run Route Link">
+          <b-input
+            placeholder="Run link"
+            v-model="editingEvent.runRouteLink"
+          ></b-input>
         </b-field>
       </fieldset>
-      <button type="submit">Add Event</button>
+      <button type="submit" @click.prevent="onSubmit(editingEvent)">
+        Add Event
+      </button>
     </form>
   </div>
 </template>
@@ -33,10 +55,29 @@
 import Vue from 'vue'
 import { models } from 'feathers-vuex'
 import TextEditor from './TextEditor'
+import { format } from 'date-fns'
+import { mapActions } from 'vuex'
 export default Vue.extend({
   name: 'AddEvent',
   components: { TextEditor },
   data: () => ({
+    trailheads: [
+      {
+        id: 2,
+        name: 'Green Mountain/Rooney',
+        address: '1000 S. Rooney Road, Lakewood, CO 80228'
+      },
+      {
+        id: 1,
+        name: 'Mountain Toad',
+        address: '900 Washington Ave, Golden, CO 80401'
+      },
+      {
+        id: 3,
+        name: 'Matthews/Winters',
+        address: '1103 County Highway 93 Golden, CO 80401'
+      }
+    ],
     rawEventDetails: '',
     showWeekNumber: false,
     formatAmPm: true,
@@ -72,28 +113,53 @@ export default Vue.extend({
     },
     link: {
       get() {
-        return this.editingEvent && this.editingEvent.link
+        return this.editingEvent && this.editingEvent.runRouteLink
       },
       set(newVal) {
-        this.editingEvent.link = newVal
+        this.editingEvent.runRouteLink = newVal
       }
+    },
+    time() {
+      const eventTime = format(this.editingEvent.date, 'h:mma')
+      return eventTime
     },
     format() {
       return this.formatAmPm ? '12' : '24'
     }
   },
   methods: {
+    ...mapActions('gmr-events', {
+      createEvent: 'create'
+    }),
+    onSubmit(event) {
+      this.createEvent(event)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    },
     setEditingEventTitle() {
       if (!this.$store.state.editingEvent) {
         this.$store.state.editingEvent = new models.api.GmrEvent()
       }
       this.$store.state.editingEvent.title = this.event.title
+    },
+    setEditingEventTime() {
+      this.editingEvent.time = this.time
+    },
+    addEvent() {
+      this.setEditingEventTime()
+      console.log(this.editingEvent)
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
+.trailhead-wrapper {
+  flex-direction: column;
+}
+.trailhead-content {
+  flex-direction: row;
+}
 .add-event-container {
   flex: 1;
   overflow: scroll;

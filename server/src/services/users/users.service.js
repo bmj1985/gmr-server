@@ -3,7 +3,7 @@ const { Users } = require('./users.class');
 const createModel = require('../../models/users.model');
 const hooks = require('./users.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
 
@@ -17,6 +17,10 @@ module.exports = function (app) {
 
   // Get our initialized service so that we can register hooks
   const service = app.service('users');
+
+  app.service('users').on('created', data => {
+    console.log(data);
+  });
 
   service.hooks(hooks);
 };

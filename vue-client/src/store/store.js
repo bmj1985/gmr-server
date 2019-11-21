@@ -8,7 +8,7 @@ const requireModule = require.context(
   // The path where the service modules live
   './services',
   // Whether to look in subfolders
-  true,
+  false,
   // Only include .js files (prevents duplicate imports`)
   /.js$/
 )
@@ -16,7 +16,7 @@ const servicePlugins = requireModule
   .keys()
   .map(modulePath => requireModule(modulePath).default)
 
-// console.log('servicePlugins:', servicePlugins)
+console.log('servicePlugins:', servicePlugins)
 
 export default new Vuex.Store({
   state: {

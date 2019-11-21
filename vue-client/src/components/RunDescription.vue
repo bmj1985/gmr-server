@@ -77,7 +77,7 @@ export default Vue.extend({
         this.$store &&
         this.$store.state &&
         this.$store.state.editingEvent &&
-        this.$store.state.editingEvent.link
+        this.$store.state.editingEvent.runRouteLink
       )
     },
     isAdmin() {
