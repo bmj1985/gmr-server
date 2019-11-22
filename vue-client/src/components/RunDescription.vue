@@ -14,7 +14,9 @@
         {{ event.trailhead && event.trailhead.address }}
       </h3>
       <div class="run-details">
-        <span v-html="event.details" class="rawHtml"></span>
+        <p v-for="(paragraph, i) in paragraphs" :key="i">
+          {{ paragraph }}
+        </p>
       </div>
       <div class="route">
         <p>
@@ -50,6 +52,9 @@ export default Vue.extend({
     },
     isPendingEvent() {
       return this.event && !this.event.details && !this.event.title
+    },
+    paragraphs() {
+      return this.event.details.content
     }
   }
 })

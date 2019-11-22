@@ -11,7 +11,13 @@
           {{ runEvent.title }}
         </p>
         <p>{{ runEvent.trailhead.address }}</p>
-        <span v-html="runEvent.details" class="rawHtml"></span>
+        <p
+          v-for="(paragraph, i) in paragraphs"
+          :key="i"
+          class="detail-paragraph"
+        >
+          {{ paragraph }}
+        </p>
         <a :href="runEvent.runRouteLink" target="_blank">{{
           runEvent.runRouteLink
         }}</a>
@@ -43,6 +49,9 @@ export default Vue.extend({
         return true
       }
       return false
+    },
+    paragraphs() {
+      return this.runEvent.details.content
     }
   }
 })
@@ -79,5 +88,8 @@ export default Vue.extend({
 }
 .card-footer {
   justify-self: flex-end;
+}
+.detail-paragraph {
+  text-align: left;
 }
 </style>

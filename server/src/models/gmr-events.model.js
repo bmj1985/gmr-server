@@ -8,7 +8,7 @@ module.exports = function(app) {
   const gmrEvents = new mongooseClient.Schema(
     {
       date: { type: Date, required: true },
-      details: { type: String },
+      details: { content: { type: Array } },
       trailhead: { name: { type: String }, address: { type: String } },
       route_id: { type: String },
       title: { type: String, required: true },

@@ -18,11 +18,17 @@ export default Vue.extend({
       // then passed to the `EditorContent` component as a `prop`
       editor: new Editor({
         content: '<p>Event details go here.</p>',
-        onUpdate: ({ getHTML }) => {
-          // get new content on update
-          const newContent = getHTML()
-
-          this.$store.state.editingEvent.details = newContent
+        onUpdate: ({ getJSON }) => {
+          const newJSONContent = getJSON()
+          const transformedJSON = {
+            content: newJSONContent.content.map(
+              contentObject =>
+                contentObject.content.map(
+                  nestedContentObject => nestedContentObject.text
+                )[0]
+            )
+          }
+          this.$store.state.editingEvent.details = transformedJSON
         }
       })
     }
@@ -37,6 +43,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .editor-content {
   height: 100%;
+  overflow: scroll;
 }
 .editor-content :first-child {
   height: 15rem;
