@@ -30,16 +30,6 @@ export default Vue.extend({
       return this.$store.state.auth.user
     }
   },
-  watch: {
-    // When the user is set, redirect to the Chat page.
-    // user(newVal) {
-    //   if (newVal === undefined) {
-    //     this.$router.replace({ name: 'SignUp' })
-    //   } else {
-    //     this.$router.replace({ name: 'Home' })
-    //   }
-    // }
-  },
   mounted() {
     try {
       this.$store.dispatch('auth/authenticate').catch(error => {

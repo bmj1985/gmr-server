@@ -22,7 +22,6 @@ export default Vue.extend({
       return this.$store.state.editingEvent
     },
     windowWidth() {
-      console.log(window.innerWidth)
       return window.innerWidth
     }
   }

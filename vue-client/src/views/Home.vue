@@ -1,7 +1,7 @@
 <template>
   <Container>
     <div class="photo-container"></div>
-    <RunDescription :event="nextEvent" />
+    <RunDescription :event="nextGmrEvent" />
   </Container>
 </template>
 
@@ -17,7 +17,7 @@ import { models } from 'feathers-vuex'
 export default Vue.extend({
   name: 'Home',
   components: { RunDescription, Container },
-  data: () => ({ nextEvent: {} }),
+  data: () => ({ nextGmrEvent: {} }),
   created() {
     this.findEvents({
       query: {
@@ -36,11 +36,11 @@ export default Vue.extend({
               isEqual(runEvent.date, runDate) && isFuture(runEvent.date)
           ).length > 0
         ) {
-          this.nextEvent = res.data.filter(
+          this.nextGmrEvent = res.data.filter(
             runEvent =>
               isEqual(runEvent.date, runDate) && isFuture(runEvent.date)
           )[0]
-        } else this.nextEvent = new models.api.GmrEvent()
+        } else this.nextGmrEvent = new models.api.GmrEvent()
       })
       .catch(err => console.log(err))
   },
