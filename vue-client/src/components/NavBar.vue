@@ -11,11 +11,11 @@
     </template>
     <template slot="start">
       <b-navbar-dropdown label="Menu">
-        <router-link to="/admindashboard" class="navbar-item" v-if="isAdmin">
-          Admin Dashboard
+        <router-link to="/events" class="navbar-item">
+          Events
         </router-link>
-        <router-link to="/admindashboard" class="navbar-item" v-if="isUser">
-          Dashboard
+        <router-link to="/addevent" class="navbar-item" v-if="isAdmin">
+          Add Event
         </router-link>
       </b-navbar-dropdown>
     </template>

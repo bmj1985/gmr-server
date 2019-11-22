@@ -1,4 +1,11 @@
-import { addDays, eachDay, isTuesday, addHours, addMinutes } from 'date-fns'
+import {
+  addDays,
+  eachDay,
+  isTuesday,
+  addHours,
+  addMinutes,
+  format
+} from 'date-fns'
 
 function nextTuesday() {
   const oneWeekFromToday = addDays(new Date(), 7)
@@ -7,6 +14,10 @@ function nextTuesday() {
   const tuesdayAtSix = addHours(tuesday, 18)
   const tuesdayAtSixFifteen = addMinutes(tuesdayAtSix, 15)
   return tuesdayAtSixFifteen
+}
+
+function formatDate(date) {
+  return format(date, 'dddd MMMM Do, YYYY h:mm aa')
 }
 
 function emailIsValid(email) {
@@ -38,4 +49,4 @@ function debounce(fn, delay) {
   }
 }
 
-export { emailIsValid, debounce, passwordIsValid, nextTuesday }
+export { emailIsValid, debounce, passwordIsValid, nextTuesday, formatDate }

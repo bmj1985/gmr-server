@@ -7,16 +7,10 @@
     <footer id="footer">
       <div class="social-icons">
         <a
-          href="https://www.facebook.com/groups/goldenmountainrunners"
-          target="_blank"
-        >
-          <i class="fab fa-facebook-square fa-2x" />
-        </a>
-        <a
           href="https://www.instagram.com/goldenmountainrunners"
           target="_blank"
         >
-          <i class="fab fa-instagram fa-2x" />
+          <font-awesome-icon :icon="['fab', 'instagram']" id="instagram" />
         </a>
       </div>
     </footer>
@@ -196,6 +190,9 @@ $link-focus-border: $primary;
       margin: 1rem;
     }
     .social-icons {
+      height: 100%;
+      width: 48px;
+      padding: 0.25rem;
       display: flex;
       a {
         text-decoration: none;
@@ -203,6 +200,11 @@ $link-focus-border: $primary;
           margin: 1rem;
           color: $gmr-grey;
         }
+      }
+      #instagram {
+        height: 100%;
+        width: 100%;
+        color: white;
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="add-event-container">
-    <h2 class="title">Add an Event Here</h2>
+    <h2 class="title">Add Event</h2>
     <form>
       <fieldset class="event-fieldset">
         <b-field label="Title">
@@ -63,17 +63,15 @@ export default Vue.extend({
   data: () => ({
     trailheads: [
       {
-        id: 2,
         name: 'Green Mountain/Rooney',
         address: '1000 S. Rooney Road, Lakewood, CO 80228'
       },
       {
-        id: 1,
         name: 'Mountain Toad',
-        address: '900 Washington Ave, Golden, CO 80401'
+        address: '900 Washington Ave, Golden, CO 80401',
+        coordinates: [39.758076, -105.224173]
       },
       {
-        id: 3,
         name: 'Matthews/Winters',
         address: '1103 County Highway 93 Golden, CO 80401'
       }
@@ -132,9 +130,7 @@ export default Vue.extend({
       createEvent: 'create'
     }),
     onSubmit(event) {
-      this.createEvent(event)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+      this.createEvent(event).catch(err => console.log(err))
     },
     setEditingEventTitle() {
       if (!this.$store.state.editingEvent) {

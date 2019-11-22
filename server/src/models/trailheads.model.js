@@ -6,7 +6,6 @@ module.exports = function(app) {
   const mongooseClient = app.get('mongooseClient');
   const trailheads = new mongooseClient.Schema(
     {
-      trailhead_id: Number,
       name: { type: String, required: true },
       address: { type: String, required: true },
       routes: [String]
