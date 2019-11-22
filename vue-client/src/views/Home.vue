@@ -1,7 +1,7 @@
 <template>
   <Container>
     <div class="photo-container"></div>
-    <RunDescription />
+    <RunDescription :event="nextEvent" />
   </Container>
 </template>
 
@@ -9,10 +9,46 @@
 import Vue from 'vue'
 import RunDescription from '../components/RunDescription'
 import Container from '@/UIComponents/Container'
+import { mapActions } from 'vuex'
+import { nextTuesday } from '../utils'
+import { closestTo, isEqual, isFuture } from 'date-fns'
+import { models } from 'feathers-vuex'
 
 export default Vue.extend({
   name: 'Home',
-  components: { RunDescription, Container }
+  components: { RunDescription, Container },
+  data: () => ({ nextEvent: {} }),
+  created() {
+    this.findEvents({
+      query: {
+        $sort: { createdAt: -1 },
+        $limit: 25
+      }
+    })
+      .then(res => {
+        const runDate = closestTo(
+          nextTuesday(),
+          res.data.map(data => data.date)
+        )
+        if (
+          res.data.filter(
+            runEvent =>
+              isEqual(runEvent.date, runDate) && isFuture(runEvent.date)
+          ).length > 0
+        ) {
+          this.nextEvent = res.data.filter(
+            runEvent =>
+              isEqual(runEvent.date, runDate) && isFuture(runEvent.date)
+          )[0]
+        } else this.nextEvent = new models.api.GmrEvent()
+      })
+      .catch(err => console.log(err))
+  },
+  methods: {
+    ...mapActions('gmr-events', {
+      findEvents: 'find'
+    })
+  }
 })
 </script>
 

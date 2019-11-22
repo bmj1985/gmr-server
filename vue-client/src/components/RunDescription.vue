@@ -1,39 +1,31 @@
 <template>
-  <div class="text-container">
+  <div class="text-container" :class="{ isPendingEvent: isPendingEvent }">
     <div class="welcome">
       <h3>Welcome to</h3>
       <img class="logo is-96x96" alt="GMR logo" src="../assets/gmr_logo.png" />
       <p class="next-run">Our next run will be:</p>
       <h2 class="date">
-        {{ isAdminDashboard ? editingEventDate : nextEventDate }}
+        {{ eventDate }}
       </h2>
     </div>
-    <div v-if="isAdminDashboard" class="run-description">
-      <h2 class="title">{{ editingEvent.title }}</h2>
+    <div v-if="!isPendingEvent" class="run-description">
+      <h2 class="title">{{ event.title }}</h2>
+      <h3 class="trailhead-address">
+        {{ event.trailhead && event.trailhead.address }}
+      </h3>
       <div class="run-details">
-        <span v-html="editingEvent.details" class="rawHtml"></span>
+        <span v-html="event.details" class="rawHtml"></span>
       </div>
       <div class="route">
         <p>
           Link to route:
-          <a :href="link" target="_blank">{{ link }}</a>
+          <a :href="event.runRouteLink" target="_blank">{{
+            event.runRouteLink
+          }}</a>
         </p>
       </div>
     </div>
-    <div v-if="nextEvent.details" class="run-description">
-      <h2 class="title">{{ nextEvent.title }}</h2>
-      <div class="run-details">
-        <span v-html="nextEvent.details" class="rawHtml"></span>
-      </div>
-      <p class="route">
-        Link to route:
-        <a :href="link" target="_blank">{{ nextEvent.link }}</a>
-      </p>
-    </div>
-    <div
-      v-if="!isAdminDashboard && !nextEvent.details"
-      :class="{ pending: pendingRunDetails }"
-    >
+    <div v-if="isPendingEvent" :class="{ pending: pendingRunDetails }">
       {{ pendingRunDetails }}
     </div>
   </div>
@@ -41,57 +33,23 @@
 
 <script>
 import Vue from 'vue'
-import { models } from 'feathers-vuex'
-import { format } from 'date-fns'
+import { formatDate } from '../utils'
 
 export default Vue.extend({
   name: 'RunDescription',
+  props: { event },
   data() {
     return {
-      events: [],
       pendingRunDetails:
-        'Runs are usually posted between Thursday an Monday prior.'
+        'Details coming soon! Runs are usually posted between the Thursday and Monday prior.'
     }
   },
   computed: {
-    nextEvent() {
-      if (this.events.length > 0) {
-        return this.events[0]
-      }
-      return new models.api.GmrEvent()
+    eventDate() {
+      return formatDate(this.event.date)
     },
-    nextEventDate() {
-      return format(this.nextEvent.date, 'dddd MMMM Do, YYYY h:mm aa')
-    },
-    editingEvent() {
-      return this.$store.state.editingEvent
-    },
-    editingEventDate() {
-      return format(
-        this.$store.state.editingEvent.date,
-        'dddd MMMM Do, YYYY h:mm aa'
-      )
-    },
-    link() {
-      return (
-        this.$store &&
-        this.$store.state &&
-        this.$store.state.editingEvent &&
-        this.$store.state.editingEvent.runRouteLink
-      )
-    },
-    isAdmin() {
-      const admin =
-        this.$store.state.auth &&
-        this.$store.state.auth.user &&
-        this.$store.state.auth.user.permissions.find(v => v === 'admin')
-      if (admin === 'admin') {
-        return true
-      }
-      return false
-    },
-    isAdminDashboard() {
-      return this.$route.path === '/admindashboard'
+    isPendingEvent() {
+      return this.event && !this.event.details && !this.event.title
     }
   }
 })
@@ -118,6 +76,10 @@ a {
   height: 100%;
   margin: 2rem;
   overflow: scroll;
+
+  &.isPendingEvent {
+    justify-content: flex-start;
+  }
   @media only screen and (max-width: 450px) {
     margin: 0;
     justify-content: flex-start;
@@ -170,12 +132,18 @@ a {
     p {
       margin-top: 0.75rem;
     }
-    &.pending {
-      text-align: center;
-    }
     text-align: justify;
     font-size: 1.25rem;
     box-shadow: 0;
+  }
+  .pending {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 1.25rem;
+  }
+  .trailhead-address {
+    text-align: center;
+    margin-bottom: 1rem;
   }
   .route {
     font-size: 1.25rem;

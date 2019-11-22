@@ -14,11 +14,14 @@ class GmrEvent extends BaseModel {
   static instanceDefaults() {
     return {
       date: nextTuesday(),
-      details: '',
-      trailhead_id: '',
-      route_id: '',
-      runRouteLink: '',
-      title: ''
+      details: null,
+      trailhead: {
+        name: null,
+        address: null
+      },
+      route_id: null,
+      runRouteLink: null,
+      title: null
     }
   }
 }
