@@ -18,7 +18,7 @@
         <p>Add Event</p>
       </router-link>
     </div>
-    <div class="check-back-later" v-if="events.length < 1">
+    <div class="check-back-later" v-if="shouldShowCheckBackText">
       {{ checkBackText }}
     </div>
   </Container>
@@ -56,7 +56,6 @@ export default Vue.extend({
         const pastEvents = res.data.filter(runEvent => isPast(runEvent.date))
         this.futureEvents = futureEvents
         this.pastEvents = pastEvents
-        this.events = futureEvents
       })
       .catch(err => console.log(err))
   },
@@ -78,6 +77,9 @@ export default Vue.extend({
       return `Our next run will be ${formatDate(
         nextTuesday()
       )}, please check back soon for more details.`
+    },
+    shouldShowCheckBackText() {
+      return this.events.length < 1 && this.activeTab === 0
     },
     isAdmin() {
       const admin =
