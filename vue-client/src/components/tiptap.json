@@ -1,0 +1,65 @@
+{
+  "type": "heading",
+  "attrs": {
+    "level": 2
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "How do you feel about a full on 5K GMR Turkey trot? Well it's on! "
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "text",
+      "text": "Bring your racing flats, split shorts and singlet and lets see how fast you can go. We will see if we can't round up a few small prizes. If prizes are available, don't expect them to all go to the fastest. There will be other competitions as well. "
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "text",
+      "text": "If you don't feel like going all out, that's fine too. Run the course at your own pace...it is called a Turkey TROT after all. "
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "text",
+      "text": "The finish line will be at "
+    },
+    {
+      "type": "text",
+      "marks": [
+        {
+          "type": "link",
+          "attrs": {
+            "href": "https://www.facebook.com/Mountain-Toad-Brewing-201445813323279/"
+          }
+        }
+      ],
+      "text": "Mountain Toad Brewing"
+    },
+    {
+      "type": "text",
+      "text": " brewing, so go ahead and break the tape and head straight to the bar for some happy hour priced beers. "
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "hard_break"
+    },
+    {
+      "type": "text",
+      "text": "The route is posted below. Be sure to look at it, the course will not be marked :)"
+    }
+  ]
+}

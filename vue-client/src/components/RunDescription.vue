@@ -14,9 +14,7 @@
         {{ event.trailhead && event.trailhead.address }}
       </h3>
       <div class="run-details">
-        <p v-for="(paragraph, i) in paragraphs" :key="i">
-          {{ paragraph }}
-        </p>
+        <ProseMirrorJSONToTemplate :content="content" />
       </div>
       <div class="route">
         <p>
@@ -35,10 +33,12 @@
 
 <script>
 import Vue from 'vue'
-import { formatDate } from '../utils'
+import { formatDate, nextTuesday } from '../utils'
+import ProseMirrorJSONToTemplate from './ProseMirrorJSONToTemplate/ProseMirrorJSONToTemplate'
 
 export default Vue.extend({
   name: 'RunDescription',
+  components: { ProseMirrorJSONToTemplate },
   props: { event },
   data() {
     return {
@@ -46,15 +46,22 @@ export default Vue.extend({
         'Details coming soon! Runs are usually posted between the Thursday and Monday prior.'
     }
   },
+  watch: {
+    content() {
+      return this.event.details
+    }
+  },
   computed: {
     eventDate() {
-      return formatDate(this.event.date)
+      if (this.event.date) {
+        return formatDate(this.event.date)
+      } else return formatDate(nextTuesday())
     },
     isPendingEvent() {
       return this.event && !this.event.details && !this.event.title
     },
-    paragraphs() {
-      return this.event.details.content
+    content() {
+      return this.event.details
     }
   }
 })

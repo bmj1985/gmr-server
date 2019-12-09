@@ -11,8 +11,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/Home.vue')
+      component: () => import('./views/Home.vue')
     },
     {
       path: '/signup',
@@ -26,31 +25,17 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/Login.vue')
+      component: () => import('./views/Login.vue')
     },
     {
       path: '/events',
       name: 'Events',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/Events.vue')
+      component: () => import('./views/Events.vue')
     },
     {
       path: '/addevent',
       name: 'AddEventWithPreview',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(
-          /* webpackChunkName: "about" */ './views/AddEventWithPreview.vue'
-        ),
+      component: () => import('./views/AddEventWithPreview.vue'),
       beforeEnter: (to, from, next) => {
         store
           .dispatch('auth/authenticate')
@@ -70,6 +55,14 @@ export default new Router({
             }
           })
       }
+    },
+    {
+      path: '/test',
+      name: 'ProseMirrorToJSON',
+      component: () =>
+        import(
+          './components/ProseMirrorJSONToTemplate/ProseMirrorJSONToTemplate.vue'
+        )
     }
   ]
 })

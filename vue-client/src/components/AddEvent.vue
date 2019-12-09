@@ -35,7 +35,7 @@
           </div>
         </b-field>
         <b-field label="Description">
-          <TextEditor />
+          <Tiptap />
         </b-field>
         <b-field label="Run Route Link">
           <b-input
@@ -54,12 +54,12 @@
 <script>
 import Vue from 'vue'
 import { models } from 'feathers-vuex'
-import TextEditor from './TextEditor'
+import Tiptap from './Tiptap'
 import { format } from 'date-fns'
 import { mapActions } from 'vuex'
 export default Vue.extend({
   name: 'AddEvent',
-  components: { TextEditor },
+  components: { Tiptap },
   data: () => ({
     trailheads: [
       {

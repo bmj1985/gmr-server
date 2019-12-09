@@ -24,6 +24,7 @@
     "lodash": "^4.17.15",
     "socket.io-client": "^2.3.0",
     "tiptap": "^1.26.4",
+    "tiptap-extensions": "^1.28.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
