@@ -55,14 +55,6 @@ export default new Router({
             }
           })
       }
-    },
-    {
-      path: '/test',
-      name: 'ProseMirrorToJSON',
-      component: () =>
-        import(
-          './components/ProseMirrorJSONToTemplate/ProseMirrorJSONToTemplate.vue'
-        )
     }
   ]
 })

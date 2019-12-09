@@ -152,9 +152,9 @@ export default Vue.extend({
         ],
         content: `<p>Hello world</p>
         `,
-        onUpdate: ({ getJSON }) => {
-          const jsonContent = getJSON()
-          this.$store.state.editingEvent.details = jsonContent
+        onUpdate: ({ getHTML }) => {
+          const htmlContent = getHTML()
+          this.$store.state.editingEvent.details = htmlContent
         }
       })
     }

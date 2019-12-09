@@ -11,15 +11,7 @@
           {{ runEvent.title }}
         </p>
         <p>{{ runEvent.trailhead.address }}</p>
-        <!-- <span v-html="runEvent.details"></span> -->
-        <ProseMirrorJSONToTemplate :content="runEvent.details" />
-        <!-- <p
-          v-for="(paragraph, i) in paragraphs"
-          :key="i"
-          class="detail-paragraph"
-        >
-          {{ paragraph }}
-        </p> -->
+        <span v-html="details"></span>
         <a :href="runEvent.runRouteLink" target="_blank">{{
           runEvent.runRouteLink
         }}</a>
@@ -35,11 +27,9 @@
 <script>
 import Vue from 'vue'
 import { formatDate } from '../utils'
-import ProseMirrorJSONToTemplate from './ProseMirrorJSONToTemplate/ProseMirrorJSONToTemplate'
 export default Vue.extend({
   name: 'EventCard',
   props: { runEvent: { type: Object } },
-  components: { ProseMirrorJSONToTemplate },
   computed: {
     formattedDate() {
       return formatDate(this.runEvent.date)
@@ -54,9 +44,10 @@ export default Vue.extend({
       }
       return false
     },
-    paragraphs() {
-      console.log('Details:', this.runEvent.details)
-      return this.runEvent.details.content
+    details() {
+      var pbr = /<p><br>/gi
+      let newText = this.runEvent.details.replace(pbr, '<p>')
+      return newText
     }
   }
 })
@@ -69,6 +60,7 @@ export default Vue.extend({
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  word-wrap: break-word;
 
   &.isAdmin {
     justify-content: space-between;

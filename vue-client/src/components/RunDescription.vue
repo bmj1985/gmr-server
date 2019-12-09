@@ -14,7 +14,7 @@
         {{ event.trailhead && event.trailhead.address }}
       </h3>
       <div class="run-details">
-        <ProseMirrorJSONToTemplate :content="content" />
+        <span v-html="details"></span>
       </div>
       <div class="route">
         <p>
@@ -34,11 +34,9 @@
 <script>
 import Vue from 'vue'
 import { formatDate, nextTuesday } from '../utils'
-import ProseMirrorJSONToTemplate from './ProseMirrorJSONToTemplate/ProseMirrorJSONToTemplate'
 
 export default Vue.extend({
   name: 'RunDescription',
-  components: { ProseMirrorJSONToTemplate },
   props: { event },
   data() {
     return {
@@ -62,6 +60,12 @@ export default Vue.extend({
     },
     content() {
       return this.event.details
+    },
+    details() {
+      var pbr = /<p><br>/gi
+      let newText = this.event.details.replace(pbr, '<p>')
+      console.log('Details:', newText)
+      return newText
     }
   }
 })
