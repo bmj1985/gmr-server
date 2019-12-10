@@ -1,6 +1,6 @@
 <template>
   <figure class="image is-48x48">
-    <img class="is-rounded" :src="profilePicture" style="margin:0.1rem;" />
+    <img class="is-rounded" :src="profilePicture" style="padding:0.1rem;" />
   </figure>
 </template>
 

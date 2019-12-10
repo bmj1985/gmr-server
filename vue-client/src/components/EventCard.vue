@@ -10,11 +10,14 @@
         <p class="title">
           {{ runEvent.title }}
         </p>
-        <p>{{ runEvent.trailhead.address }}</p>
-        <span v-html="details"></span>
-        <a :href="runEvent.runRouteLink" target="_blank">{{
-          runEvent.runRouteLink
-        }}</a>
+        <p class="address">{{ runEvent.trailhead.address }}</p>
+        <span class="details" v-html="details"></span>
+        <p class="run-link">
+          Link to run:
+          <a :href="runEvent.runRouteLink" target="_blank">{{
+            runEvent.runRouteLink
+          }}</a>
+        </p>
       </div>
     </div>
     <footer class="card-footer" v-if="isAdmin">
@@ -55,12 +58,13 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .card {
-  width: 400px;
-  margin: 1rem;
-  padding: 1rem;
+  width: 100%;
+  margin: 0.25rem;
+  padding: 0.25rem;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
+  text-align: left;
 
   &.isAdmin {
     justify-content: space-between;
@@ -82,6 +86,12 @@ export default Vue.extend({
   text-align: center;
   font-weight: 700;
   font-size: 1rem;
+}
+.address {
+  text-align: center;
+}
+.run-link {
+  margin-top: 1rem;
 }
 .card-footer {
   justify-self: flex-end;

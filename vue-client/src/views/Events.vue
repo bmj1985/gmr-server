@@ -54,7 +54,7 @@ export default Vue.extend({
           isFuture(runEvent.date)
         )
         const pastEvents = res.data.filter(runEvent => isPast(runEvent.date))
-        this.futureEvents = futureEvents
+        this.futureEvents = futureEvents.reverse()
         this.pastEvents = pastEvents
       })
       .catch(err => console.log(err))
@@ -130,7 +130,7 @@ export default Vue.extend({
     padding: 1rem;
     height: 10rem;
     min-height: 200px;
-    width: 400px;
+    width: 100%;
 
     @media screen and (max-width: 320px) {
       max-width: 320px;

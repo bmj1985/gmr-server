@@ -13,9 +13,7 @@
       <h3 class="trailhead-address">
         {{ event.trailhead && event.trailhead.address }}
       </h3>
-      <div class="run-details">
-        <span v-html="details"></span>
-      </div>
+      <RunDetailsHTML :details="details" />
       <div class="route">
         <p>
           Link to route:
@@ -34,9 +32,11 @@
 <script>
 import Vue from 'vue'
 import { formatDate, nextTuesday } from '../utils'
+import RunDetailsHTML from './RunDetailsHTML.vue'
 
 export default Vue.extend({
   name: 'RunDescription',
+  components: { RunDetailsHTML },
   props: { event },
   data() {
     return {
@@ -44,11 +44,11 @@ export default Vue.extend({
         'Details coming soon! Runs are usually posted between the Thursday and Monday prior.'
     }
   },
-  watch: {
-    content() {
-      return this.event.details
-    }
-  },
+  // watch: {
+  //   content() {
+  //     return this.event.details
+  //   }
+  // },
   computed: {
     eventDate() {
       if (this.event.date) {
@@ -64,7 +64,6 @@ export default Vue.extend({
     details() {
       var pbr = /<p><br>/gi
       let newText = this.event.details.replace(pbr, '<p>')
-      console.log('Details:', newText)
       return newText
     }
   }
@@ -73,12 +72,6 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.rawHtml {
-  font-size: 1.25rem;
-  font-family: inherit;
-  line-height: 1.2;
-}
-
 a {
   text-decoration: none;
   color: #365899;
@@ -106,6 +99,7 @@ a {
   .welcome {
     /* height: 55%; */
     padding: 1rem;
+    padding-bottom: 0;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -119,7 +113,7 @@ a {
       padding-top: 0;
     }
     h2 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       @media only screen and (max-width: 450px) {
         font-size: 1rem;
       }
@@ -180,7 +174,7 @@ a {
       &.pending {
         text-align: center;
       }
-      text-align: justify;
+      text-align: left;
       font-size: 1.1rem;
       box-shadow: 0;
     }

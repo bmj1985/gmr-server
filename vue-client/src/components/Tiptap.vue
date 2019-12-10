@@ -107,7 +107,6 @@ import Vue from 'vue'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
-  HardBreak,
   Heading,
   HorizontalRule,
   OrderedList,
@@ -135,7 +134,6 @@ export default Vue.extend({
         extensions: [
           new Blockquote(),
           new BulletList(),
-          new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
           new HorizontalRule(),
           new ListItem(),
