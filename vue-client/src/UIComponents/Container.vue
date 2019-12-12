@@ -25,15 +25,15 @@ export default {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   overflow: hidden;
   @media only screen and (max-width: 760px) {
-    height: 100%;
-    width: 100%;
+    height: 98%;
+    width: 98%;
     border-radius: 0;
   }
   @media only screen and (max-width: 500px) {
     flex-direction: column;
     justify-content: flex-start;
-    height: 100%;
-    width: 100%;
+    height: 98%;
+    width: 98%;
     border-radius: 0;
     overflow: scroll;
   }

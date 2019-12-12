@@ -8,8 +8,8 @@
         </b-tabs>
       </section>
     </div>
-    <div class="event-cards">
-      <EventCard v-for="event in events" :key="event._id" :runEvent="event" />
+    <div class="event-cards" v-if="!shouldShowCheckBackText">
+      <EventCard v-for="event in events" :key="event._id" :gmrEvent="event" />
       <router-link to="/addevent" v-if="isAdmin" class="add-button-container">
         <font-awesome-icon
           :icon="['fas', 'plus-circle']"
@@ -50,10 +50,10 @@ export default Vue.extend({
       }
     })
       .then(res => {
-        const futureEvents = res.data.filter(runEvent =>
-          isFuture(runEvent.date)
+        const futureEvents = res.data.filter(gmrEvent =>
+          isFuture(gmrEvent.date)
         )
-        const pastEvents = res.data.filter(runEvent => isPast(runEvent.date))
+        const pastEvents = res.data.filter(gmrEvent => isPast(gmrEvent.date))
         this.futureEvents = futureEvents.reverse()
         this.pastEvents = pastEvents
       })
@@ -156,6 +156,7 @@ export default Vue.extend({
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10rem;
     height: 100%;
     width: 80%;
     font-size: 1.5rem;

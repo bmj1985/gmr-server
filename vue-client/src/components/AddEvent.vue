@@ -150,6 +150,9 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.field {
+  width: calc(100% - 17px);
+}
 .trailhead-wrapper {
   flex-direction: column;
 }
@@ -164,7 +167,7 @@ export default Vue.extend({
   height: 100%;
   flex-direction: column;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 .event-fieldset {
@@ -173,6 +176,7 @@ export default Vue.extend({
   justify-content: flex-start;
   align-items: flex-start;
   text-align: left;
+  width: 100%;
 }
 .input-wrapper {
   margin-top: 2rem;

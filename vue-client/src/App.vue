@@ -1,29 +1,34 @@
 <template>
   <div id="app">
-    <NavBar class="header" />
-    <main>
-      <router-view></router-view>
-    </main>
-    <footer id="footer">
-      <div class="social-icons">
-        <a
-          href="https://www.instagram.com/goldenmountainrunners"
-          target="_blank"
-        >
-          <font-awesome-icon :icon="['fab', 'instagram']" id="instagram" />
-        </a>
-      </div>
-    </footer>
+    <vue100vh id="vue100vh">
+      <NavBar class="header" />
+      <vue100vh :css="{ height: 'calc(100rvh - 6rem)' }">
+        <main>
+          <router-view></router-view>
+        </main>
+      </vue100vh>
+      <footer id="footer">
+        <div class="social-icons">
+          <a
+            href="https://www.instagram.com/goldenmountainrunners"
+            target="_blank"
+          >
+            <font-awesome-icon :icon="['fab', 'instagram']" id="instagram" />
+          </a>
+        </div>
+      </footer>
+    </vue100vh>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import NavBar from '@/components/NavBar'
+import vue100vh from 'vue-100vh'
 
 export default Vue.extend({
   name: 'app',
-  components: { NavBar },
+  components: { NavBar, vue100vh },
   computed: {
     // The user is automatically set by the feathers-vuex auth module upon login.
     user() {
@@ -48,108 +53,29 @@ export default Vue.extend({
 @import './styles/_reset';
 @import './styles/_global';
 
-// Import Bulma's core
-@import '~bulma/sass/utilities/_all';
-
-// Set your colors
-$primary: #6cace4;
-$primary-invert: findColorInvert($primary);
-$twitter: #4099ff;
-$twitter-invert: findColorInvert($twitter);
-$gmr-blue: #6cace4;
-$gmr-grey: #53565a;
-$gmr-grey-invert: findColorInvert($gmr-grey);
-$primary-0: #6cabe4;
-$primary-1: #cbe4fb;
-$primary-1-invert: findColorInvert($primary-1);
-$primary-2: #96c6f1;
-$primary-3: #4992d4;
-$primary-4: #2a77bd;
-$primary-4-invert: findColorInvert($primary-4);
-$box-shadow-grey: rgba(0, 0, 0, 0.23);
-$box-shadow-white: rgba(0, 0, 0, 0.8);
-
-// Setup $colors to use as bulma classes (e.g. 'is-twitter')
-$colors: (
-  'white': (
-    $white,
-    $black
-  ),
-  'black': (
-    $black,
-    $white
-  ),
-  'light': (
-    $light,
-    $light-invert
-  ),
-  'dark': (
-    $dark,
-    $dark-invert
-  ),
-  'primary': (
-    $primary,
-    $primary-invert
-  ),
-  'info': (
-    $info,
-    $info-invert
-  ),
-  'success': (
-    $success,
-    $success-invert
-  ),
-  'warning': (
-    $warning,
-    $warning-invert
-  ),
-  'danger': (
-    $danger,
-    $danger-invert
-  ),
-  'twitter': (
-    $twitter,
-    $twitter-invert
-  ),
-  'gmr-blue': (
-    $primary,
-    $primary-invert
-  ),
-  'gmr-grey': (
-    $gmr-grey,
-    $gmr-grey-invert
-  ),
-  'light-blue': (
-    $primary-1,
-    $primary-1-invert
-  ),
-  'dark-blue': (
-    $primary-4,
-    $primary-4-invert
-  )
-);
-
-// Links
-$link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
-
-// Import Bulma and Buefy styles
-@import '~bulma';
-@import '~buefy/src/scss/buefy';
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+}
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
+
+  #vue100vh {
+    overflow: hidden;
+  }
 
   .header {
-    height: 6vh;
+    height: 3.25rem;
   }
 
   main {
-    height: 89vh;
+    height: 100%;
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -165,7 +91,7 @@ $link-focus-border: $primary;
   }
 
   #footer {
-    height: 5vh;
+    height: 2.75rem;
     width: 100vw;
     background: $primary-0;
     box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.19), 0 -6px 6px rgba(0, 0, 0, 0.23);
@@ -184,7 +110,12 @@ $link-focus-border: $primary;
       width: 48px;
       padding: 0.25rem;
       display: flex;
+      justify-content: center;
+      align-items: center;
       a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-decoration: none;
         i {
           margin: 1rem;
@@ -192,9 +123,10 @@ $link-focus-border: $primary;
         }
       }
       #instagram {
-        height: 100%;
+        height: 90%;
         width: 100%;
         color: white;
+        max-height: 2.25rem;
       }
     }
   }

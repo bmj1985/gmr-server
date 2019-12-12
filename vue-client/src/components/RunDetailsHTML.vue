@@ -10,14 +10,24 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<style lang="scss">
+@import '../styles/_global';
+
 .rawHtml {
+  width: calc(100% - 17px);
   font-size: 1.25rem;
   font-family: inherit;
   line-height: 1.2;
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
 }
+
 .rawHtml * {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 </style>

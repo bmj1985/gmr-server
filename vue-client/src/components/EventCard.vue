@@ -7,17 +7,7 @@
     </header>
     <div class="card-content">
       <div class="content">
-        <p class="title">
-          {{ runEvent.title }}
-        </p>
-        <p class="address">{{ runEvent.trailhead.address }}</p>
-        <span class="details" v-html="details"></span>
-        <p class="run-link">
-          Link to run:
-          <a :href="runEvent.runRouteLink" target="_blank">{{
-            runEvent.runRouteLink
-          }}</a>
-        </p>
+        <RunDescription :gmrEvent="gmrEvent" />
       </div>
     </div>
     <footer class="card-footer" v-if="isAdmin">
@@ -30,12 +20,14 @@
 <script>
 import Vue from 'vue'
 import { formatDate } from '../utils'
+import RunDescription from './RunDescription'
 export default Vue.extend({
   name: 'EventCard',
-  props: { runEvent: { type: Object } },
+  components: { RunDescription },
+  props: { gmrEvent: { type: Object } },
   computed: {
     formattedDate() {
-      return formatDate(this.runEvent.date)
+      return formatDate(this.gmrEvent.date)
     },
     isAdmin() {
       const admin =
@@ -46,11 +38,6 @@ export default Vue.extend({
         return true
       }
       return false
-    },
-    details() {
-      var pbr = /<p><br>/gi
-      let newText = this.runEvent.details.replace(pbr, '<p>')
-      return newText
     }
   }
 })

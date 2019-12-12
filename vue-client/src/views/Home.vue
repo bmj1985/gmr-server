@@ -1,13 +1,17 @@
 <template>
   <Container>
     <div class="photo-container"></div>
-    <RunDescription :event="nextGmrEvent" />
+    <div class="text-container">
+      <WelcomeToGmr :gmrEvent="nextGmrEvent" />
+      <RunDescription :gmrEvent="nextGmrEvent" />
+    </div>
   </Container>
 </template>
 
 <script>
 import Vue from 'vue'
 import RunDescription from '../components/RunDescription'
+import WelcomeToGmr from '../components/WelcomeToGmr'
 import Container from '@/UIComponents/Container'
 import { mapActions } from 'vuex'
 import { nextTuesday } from '../utils'
@@ -16,7 +20,7 @@ import { models } from 'feathers-vuex'
 
 export default Vue.extend({
   name: 'Home',
-  components: { RunDescription, Container },
+  components: { RunDescription, Container, WelcomeToGmr },
   data: () => ({ nextGmrEvent: {} }),
   created() {
     this.findEvents({
@@ -32,17 +36,22 @@ export default Vue.extend({
         )
         if (
           res.data.filter(
-            runEvent =>
-              isEqual(runEvent.date, runDate) && isFuture(runEvent.date)
+            gmrEvent =>
+              isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
           ).length > 0
         ) {
           this.nextGmrEvent = res.data.filter(
-            runEvent =>
-              isEqual(runEvent.date, runDate) && isFuture(runEvent.date)
+            gmrEvent =>
+              isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
           )[0]
         } else this.nextGmrEvent = new models.api.GmrEvent()
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        if (err.code === 408 || err.code === 500) {
+          console.log('Something is wrong with our server.')
+        }
+      })
   },
   methods: {
     ...mapActions('gmr-events', {
@@ -74,5 +83,15 @@ export default Vue.extend({
       max-height: calc(730px - 2rem);
     }
   }
+}
+.text-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  margin: 2rem;
+  overflow: scroll;
 }
 </style>

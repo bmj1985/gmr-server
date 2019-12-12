@@ -148,7 +148,7 @@ export default Vue.extend({
           new Underline(),
           new History()
         ],
-        content: `<p>Hello world</p>
+        content: `<p>Details go here ...</p>
         `,
         onUpdate: ({ getHTML }) => {
           const htmlContent = getHTML()

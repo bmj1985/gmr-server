@@ -1,31 +1,24 @@
 <template>
-  <div class="text-container" :class="{ isPendingEvent: isPendingEvent }">
-    <div class="welcome">
-      <h3>Welcome to</h3>
-      <img class="logo is-96x96" alt="GMR logo" src="../assets/gmr_logo.png" />
-      <p class="next-run">Our next run will be:</p>
-      <h2 class="date">
-        {{ eventDate }}
-      </h2>
+  <div v-if="!isPendingRunEvent" class="run-description">
+    <h2 v-if="gmrEvent.title" class="title">{{ gmrEvent.title }}</h2>
+    <h3
+      v-if="gmrEvent.trailhead && gmrEvent.trailhead.address"
+      class="trailhead-address"
+    >
+      {{ gmrEvent.trailhead.address }}
+    </h3>
+    <RunDetailsHTML :details="details" v-if="details" />
+    <div class="route" v-if="gmrEvent.runRouteLink">
+      <p>
+        Link to route:
+        <a :href="gmrEvent.runRouteLink" target="_blank">{{
+          gmrEvent.runRouteLink
+        }}</a>
+      </p>
     </div>
-    <div v-if="!isPendingEvent" class="run-description">
-      <h2 class="title">{{ event.title }}</h2>
-      <h3 class="trailhead-address">
-        {{ event.trailhead && event.trailhead.address }}
-      </h3>
-      <RunDetailsHTML :details="details" />
-      <div class="route">
-        <p>
-          Link to route:
-          <a :href="event.runRouteLink" target="_blank">{{
-            event.runRouteLink
-          }}</a>
-        </p>
-      </div>
-    </div>
-    <div v-if="isPendingEvent" :class="{ pending: pendingRunDetails }">
-      {{ pendingRunDetails }}
-    </div>
+  </div>
+  <div v-else :class="{ pending: isPendingRunEvent }">
+    {{ pendingRunDetails }}
   </div>
 </template>
 
@@ -37,33 +30,35 @@ import RunDetailsHTML from './RunDetailsHTML.vue'
 export default Vue.extend({
   name: 'RunDescription',
   components: { RunDetailsHTML },
-  props: { event },
+  props: { gmrEvent: { type: Object } },
   data() {
     return {
       pendingRunDetails:
         'Details coming soon! Runs are usually posted between the Thursday and Monday prior.'
     }
   },
-  // watch: {
-  //   content() {
-  //     return this.event.details
-  //   }
-  // },
   computed: {
-    eventDate() {
-      if (this.event.date) {
-        return formatDate(this.event.date)
+    gmrEventDate() {
+      if (this.gmrEvent.date) {
+        return formatDate(this.gmrEvent.date)
       } else return formatDate(nextTuesday())
     },
-    isPendingEvent() {
-      return this.event && !this.event.details && !this.event.title
-    },
-    content() {
-      return this.event.details
+    isPendingRunEvent() {
+      if (
+        this.gmrEvent &&
+        (this.gmrEvent.details ||
+          this.gmrEvent.title ||
+          this.gmrEvent.runRouteLink)
+      ) {
+        return false
+      } else return true
     },
     details() {
+      if (this.gmrEvent && !this.gmrEvent.details) {
+        return null
+      }
       var pbr = /<p><br>/gi
-      let newText = this.event.details.replace(pbr, '<p>')
+      let newText = this.gmrEvent.details.replace(pbr, '<p>')
       return newText
     }
   }
@@ -76,111 +71,57 @@ a {
   text-decoration: none;
   color: #365899;
 }
-.text-container {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 100%;
-  margin: 2rem;
-  overflow: scroll;
 
-  &.isPendingEvent {
-    justify-content: flex-start;
-  }
-  @media only screen and (max-width: 450px) {
-    margin: 0;
-    justify-content: flex-start;
-    align-items: space-evenly;
-    line-height: 1.2;
+.run-description {
+  margin-top: 0.5rem;
+  height: 45%;
+  line-height: 1.1;
+  h2 {
+    font-size: 1.25rem;
     text-align: center;
+    font-weight: 800;
   }
-  .welcome {
-    /* height: 55%; */
-    padding: 1rem;
-    padding-bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    align-items: center;
-    .next-run {
-      padding: 0.5rem;
-    }
-    .date {
-      padding: 0.5rem;
-      padding-top: 0;
-    }
-    h2 {
-      font-size: 1.5rem;
-      @media only screen and (max-width: 450px) {
-        font-size: 1rem;
-      }
-    }
-    h3 {
-      font-size: 1.75rem;
-    }
-    .logo {
-      height: 10rem;
-      width: 10rem;
-      @media only screen and (max-width: 450px) {
-        height: 7rem;
-        width: 7rem;
-      }
-    }
+  p {
+    margin-top: 0.75rem;
+  }
+  text-align: justify;
+  font-size: 1.25rem;
+  box-shadow: 0;
+}
+.pending {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 1.25rem;
+}
+.trailhead-address {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.route {
+  font-size: 1.25rem;
+  color: black;
+}
+@media only screen and (max-width: 450px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+  .logo {
+    height: 7rem;
+    width: 7rem;
   }
   .run-description {
-    margin-top: 0.5rem;
-    height: 45%;
-    line-height: 1.1;
-    h2 {
-      font-size: 1.25rem;
+    &.pending {
       text-align: center;
-      font-weight: 800;
     }
-    p {
-      margin-top: 0.75rem;
-    }
-    text-align: justify;
-    font-size: 1.25rem;
+    text-align: left;
+    font-size: 1.1rem;
     box-shadow: 0;
   }
-  .pending {
-    margin-top: 3rem;
-    text-align: center;
-    font-size: 1.25rem;
-  }
-  .trailhead-address {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
   .route {
-    font-size: 1.25rem;
-    color: black;
-  }
-  @media only screen and (max-width: 450px) {
-    h2 {
-      font-size: 1.5rem;
-    }
-    h3 {
-      font-size: 1.25rem;
-    }
-    .logo {
-      height: 7rem;
-      width: 7rem;
-    }
-    .run-description {
-      &.pending {
-        text-align: center;
-      }
-      text-align: left;
-      font-size: 1.1rem;
-      box-shadow: 0;
-    }
-    .route {
-      font-size: 1rem;
-    }
+    font-size: 1rem;
   }
 }
 </style>
