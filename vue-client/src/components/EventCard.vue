@@ -11,8 +11,24 @@
       </div>
     </div>
     <footer class="card-footer" v-if="isAdmin">
-      <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Delete</a>
+      <b-modal
+        :active.sync="isModalActive"
+        :width="640"
+        scroll="keep"
+        trap-focus
+        aria-role="dialog"
+        aria-modal
+        can-cancel
+      >
+        <EditEventForm :gmrEvent="gmrEvent"
+      /></b-modal>
+
+      <a href="#" class="card-footer-item" @click="isModalActive = true"
+        >Edit</a
+      >
+      <a href="#" class="card-footer-item" @click="deleteEvent(gmrEvent)"
+        >Delete</a
+      >
     </footer>
   </div>
 </template>
@@ -21,10 +37,15 @@
 import Vue from 'vue'
 import { formatDate } from '../utils'
 import RunDescription from './RunDescription'
+import EditEventForm from './EditEventForm'
+import { mapActions } from 'vuex'
 export default Vue.extend({
   name: 'EventCard',
-  components: { RunDescription },
+  components: { RunDescription, EditEventForm },
   props: { gmrEvent: { type: Object } },
+  data: () => ({
+    isModalActive: false
+  }),
   computed: {
     formattedDate() {
       return formatDate(this.gmrEvent.date)
@@ -38,6 +59,29 @@ export default Vue.extend({
         return true
       }
       return false
+    },
+    title() {
+      return this.gmrEvent.title
+    },
+    modalWidth() {
+      return '640px'
+    }
+  },
+  methods: {
+    doAThing() {
+      this.$store.editingEvent = this.gmrEvent
+      console.log(this.$store.editingEvent)
+      this.$router.push('/addevent')
+    },
+    ...mapActions('gmrEvents', {
+      removeEvent: 'remove'
+    }),
+    deleteEvent(gmrEvent) {
+      if (window.confirm('Are you sure you want to delete this event?')) {
+        console.log('removing event:', gmrEvent)
+        this.removeEvent(gmrEvent._id)
+        console.log(this.$store)
+      }
     }
   }
 })

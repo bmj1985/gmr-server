@@ -50,6 +50,7 @@ export default Vue.extend({
       }
     })
       .then(res => {
+        console.log('RES:', res)
         const futureEvents = res.data.filter(gmrEvent =>
           isFuture(gmrEvent.date)
         )

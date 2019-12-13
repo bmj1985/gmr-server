@@ -23,7 +23,10 @@ export default Vue.extend({
   name: 'AddEventWithPreview',
   components: { Container, AddEvent, RunDescription, WelcomeToGmr },
   created() {
-    this.$store.state.editingEvent = new models.api.GmrEvent()
+    debugger
+    if (!this.$store.state.editingEvent) {
+      this.$store.state.editingEvent = new models.api.GmrEvent()
+    }
   },
   computed: {
     editingEvent() {

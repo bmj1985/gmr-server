@@ -72,8 +72,12 @@ export default Vue.extend({
         coordinates: [39.758076, -105.224173]
       },
       {
-        name: 'Matthews/Winters',
+        name: 'Matthews / Winters Park Trailhead',
         address: '1103 County Highway 93 Golden, CO 80401'
+      },
+      {
+        name: 'Golden City Brewery',
+        address: '920 12th St, Golden, CO 80401'
       }
     ],
     rawEventDetails: '',
@@ -126,13 +130,14 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapActions('gmr-events', {
+    ...mapActions('gmrEvents', {
       createEvent: 'create'
     }),
     onSubmit(event) {
       this.createEvent(event).catch(err => console.log(err))
     },
     setEditingEventTitle() {
+      debugger
       if (!this.$store.state.editingEvent) {
         this.$store.state.editingEvent = new models.api.GmrEvent()
       }

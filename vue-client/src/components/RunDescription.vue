@@ -5,7 +5,7 @@
       v-if="gmrEvent.trailhead && gmrEvent.trailhead.address"
       class="trailhead-address"
     >
-      {{ gmrEvent.trailhead.address }}
+      {{ gmrEvent.trailhead.name }}: {{ gmrEvent.trailhead.address }}
     </h3>
     <RunDetailsHTML :details="details" v-if="details" />
     <div class="route" v-if="gmrEvent.runRouteLink">
@@ -94,6 +94,7 @@ a {
   font-size: 1.25rem;
 }
 .trailhead-address {
+  font-size: 1rem;
   text-align: center;
   margin-bottom: 1rem;
 }
