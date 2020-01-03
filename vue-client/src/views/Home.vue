@@ -13,51 +13,51 @@ import Vue from 'vue'
 import RunDescription from '../components/RunDescription'
 import WelcomeToGmr from '../components/WelcomeToGmr'
 import Container from '@/UIComponents/Container'
-import { mapActions } from 'vuex'
-import { nextTuesday } from '../utils'
-import { closestTo, isEqual, isFuture } from 'date-fns'
-import { models } from 'feathers-vuex'
+// import { mapActions } from 'vuex'
+// import { nextTuesday } from '../utils'
+// import { closestTo, isEqual, isFuture } from 'date-fns'
+// import { models } from 'feathers-vuex'
 
 export default Vue.extend({
   name: 'Home',
   components: { RunDescription, Container, WelcomeToGmr },
   data: () => ({ nextGmrEvent: {} }),
-  created() {
-    this.findEvents({
-      query: {
-        $sort: { createdAt: -1 },
-        $limit: 25
-      }
-    })
-      .then(res => {
-        const runDate = closestTo(
-          nextTuesday(),
-          res.data.map(data => data.date)
-        )
-        if (
-          res.data.filter(
-            gmrEvent =>
-              isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
-          ).length > 0
-        ) {
-          this.nextGmrEvent = res.data.filter(
-            gmrEvent =>
-              isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
-          )[0]
-        } else this.nextGmrEvent = new models.api.GmrEvent()
-      })
-      .catch(err => {
-        console.log(err)
-        if (err.code === 408 || err.code === 500) {
-          console.log('Something is wrong with our server.')
-        }
-      })
-  },
-  methods: {
-    ...mapActions('gmr-events', {
-      findEvents: 'find'
-    })
-  }
+  // created() {
+  //   this.findEvents({
+  //     query: {
+  //       $sort: { createdAt: -1 },
+  //       $limit: 25
+  //     }
+  //   })
+  //     .then(res => {
+  //       const runDate = closestTo(
+  //         nextTuesday(),
+  //         res.data.map(data => data.date)
+  //       )
+  //       if (
+  //         res.data.filter(
+  //           gmrEvent =>
+  //             isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
+  //         ).length > 0
+  //       ) {
+  //         this.nextGmrEvent = res.data.filter(
+  //           gmrEvent =>
+  //             isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
+  //         )[0]
+  //       } else this.nextGmrEvent = new models.api.GmrEvent()
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       if (err.code === 408 || err.code === 500) {
+  //         console.log('Something is wrong with our server.')
+  //       }
+  //     })
+  // },
+  // methods: {
+  //   ...mapActions('gmrEvents', {
+  //     findEvents: 'find'
+  //   })
+  // }
 })
 </script>
 

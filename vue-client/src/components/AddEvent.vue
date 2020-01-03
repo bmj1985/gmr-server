@@ -55,8 +55,9 @@
 import Vue from 'vue'
 import { models } from 'feathers-vuex'
 import Tiptap from './Tiptap'
-import { format } from 'date-fns'
-import { mapActions } from 'vuex'
+import { format, parse } from 'date-fns'
+import { mapActions, mapMutations } from 'vuex'
+
 export default Vue.extend({
   name: 'AddEvent',
   components: { Tiptap },
@@ -68,8 +69,7 @@ export default Vue.extend({
       },
       {
         name: 'Mountain Toad',
-        address: '900 Washington Ave, Golden, CO 80401',
-        coordinates: [39.758076, -105.224173]
+        address: '900 Washington Ave, Golden, CO 80401'
       },
       {
         name: 'Matthews / Winters Park Trailhead',
@@ -99,7 +99,7 @@ export default Vue.extend({
     },
     date: {
       get() {
-        return this.editingEvent && this.editingEvent.date
+        return parse(this.editingEvent && this.editingEvent.date)
       },
       set(newVal) {
         this.editingEvent.date = newVal
@@ -133,11 +133,16 @@ export default Vue.extend({
     ...mapActions('gmrEvents', {
       createEvent: 'create'
     }),
+    ...mapMutations('gmrEvents', { addItem: 'addItem' }),
     onSubmit(event) {
-      this.createEvent(event).catch(err => console.log(err))
+      this.createEvent(event)
+      .then(res => {
+        // this.addItem(res, res._id)
+        console.log("create event respsonse:", res)
+      })
+      .catch(err => console.log(err))
     },
     setEditingEventTitle() {
-      debugger
       if (!this.$store.state.editingEvent) {
         this.$store.state.editingEvent = new models.api.GmrEvent()
       }

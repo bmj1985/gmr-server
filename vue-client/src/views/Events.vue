@@ -8,7 +8,7 @@
         </b-tabs>
       </section>
     </div>
-    <div class="event-cards" v-if="!shouldShowCheckBackText">
+    <!-- <div class="event-cards" v-if="!shouldShowCheckBackText">
       <EventCard v-for="event in events" :key="event._id" :gmrEvent="event" />
       <router-link to="/addevent" v-if="isAdmin" class="add-button-container">
         <font-awesome-icon
@@ -20,59 +20,60 @@
     </div>
     <div class="check-back-later" v-if="shouldShowCheckBackText">
       {{ checkBackText }}
-    </div>
+    </div> -->
+    <FindEvents/>
   </Container>
 </template>
 
 <script>
 import Vue from 'vue'
 import Container from '@/UIComponents/Container'
-import { models } from 'feathers-vuex'
-import { mapActions } from 'vuex'
-import { isFuture, isPast } from 'date-fns'
+// import { models } from 'feathers-vuex'
+// import { mapActions } from 'vuex'
+// import { isFuture, isPast, compareAsc, compareDesc } from 'date-fns'
 import { nextTuesday, formatDate } from '../utils'
-import EventCard from '@/components/EventCard.vue'
+// import EventCard from '@/components/EventCard.vue'
+import FindEvents from '@/components/FindEvents.vue'
 
 export default Vue.extend({
   name: 'Events',
-  components: { Container, EventCard },
+  components: { Container, FindEvents },
   data: () => ({
     activeTab: 0,
     futureEvents: [],
     pastEvents: []
   }),
-  created() {
-    this.$store.state.editingEvent = new models.api.GmrEvent()
-    this.findEvents({
-      query: {
-        $sort: { createdAt: -1 },
-        $limit: 10
-      }
-    })
-      .then(res => {
-        console.log('RES:', res)
-        const futureEvents = res.data.filter(gmrEvent =>
-          isFuture(gmrEvent.date)
-        )
-        const pastEvents = res.data.filter(gmrEvent => isPast(gmrEvent.date))
-        this.futureEvents = futureEvents.reverse()
-        this.pastEvents = pastEvents
-      })
-      .catch(err => console.log(err))
-  },
-  methods: {
-    ...mapActions('gmr-events', {
-      findEvents: 'find'
-    })
-  },
+  // created() {
+  //   this.$store.state.editingEvent = new models.api.GmrEvent()
+  //   this.findEvents({
+  //     query: {
+  //       $sort: { createdAt: -1 },
+  //       $limit: 10
+  //     }
+  //   })
+  //     .then(res => {
+  //       const futureEvents = res.data.filter(gmrEvent =>
+  //         isFuture(gmrEvent.date)
+  //       )
+  //       const pastEvents = res.data.filter(gmrEvent => isPast(gmrEvent.date))
+  //       this.futureEvents = futureEvents.sort((a,b) => compareAsc(a.date, b.date))
+  //       this.pastEvents = pastEvents.sort((a,b) => compareDesc(a.date, b.date))
+  //     })
+  //     .catch(err => console.log(err))
+  // },
+  // methods: {
+  //   ...mapActions('gmrEvents', {
+  //     findEvents: 'find'
+  //   })
+  // },
   computed: {
-    editingEvent() {
-      return this.$store.state.editingEvent
-    },
-    events() {
-      if (this.activeTab === 0) {
+      events() {
+     if (this.activeTab === 0) {
         return this.futureEvents
       } else return this.pastEvents
+    },
+    editingEvent() {
+      return this.$store.state.editingEvent
     },
     checkBackText() {
       return `Our next run will be ${formatDate(

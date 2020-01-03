@@ -2,7 +2,7 @@
   <form>
     <fieldset class="event-fieldset">
       <b-field label="Title">
-        <b-input placeholder="Event title" v-model="gmrEvent.title"></b-input>
+        <b-input placeholder="Event title" v-model="editingEvent.title"></b-input>
       </b-field>
       <b-field label="Select day and time">
         <b-datetimepicker
@@ -19,30 +19,31 @@
         <div class="trailhead-content">
           <b-select
             placeholder="Select a trailhead"
-            v-model="gmrEvent.trailhead"
+            v-model="editingEvent.trailhead"
           >
             <option
               v-for="trailhead in trailheads"
               :value="trailhead"
               :key="trailhead.name"
+              :selected="trailhead"
             >
               {{ trailhead.name }}
             </option>
           </b-select>
-          <button class="button">Update Trailhead</button>
+          <button class="button">Add A Trailhead</button>
         </div>
       </b-field>
       <b-field label="Description">
-        <Tiptap />
+        <EditTiptap :content="editingEvent.details" />
       </b-field>
       <b-field label="Run Route Link">
         <b-input
           placeholder="Run link"
-          v-model="gmrEvent.runRouteLink"
+          v-model="editingEvent.runRouteLink"
         ></b-input>
       </b-field>
     </fieldset>
-    <button type="submit" @click.prevent="onSubmit(gmrEvent)">
+    <button type="submit" @click.prevent="onSubmit()">
       Edit Event
     </button>
   </form>
@@ -50,12 +51,12 @@
 
 <script>
 import Vue from 'vue'
-import Tiptap from './Tiptap'
+import EditTiptap from './EditTiptap'
 import { parse } from 'date-fns'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default Vue.extend({
   name: 'EditEventForm',
-  components: { Tiptap },
+  components: { EditTiptap },
   props: {
     gmrEvent: { type: Object }
   },
@@ -67,8 +68,7 @@ export default Vue.extend({
       },
       {
         name: 'Mountain Toad',
-        address: '900 Washington Ave, Golden, CO 80401',
-        coordinates: [39.758076, -105.224173]
+        address: '900 Washington Ave, Golden, CO 80401'
       },
       {
         name: 'Matthews / Winters Park Trailhead',
@@ -83,13 +83,19 @@ export default Vue.extend({
     formatAmPm: true,
     enableSeconds: false
   }),
+  created() {
+    this.$store.state.editingEvent = Object.assign({}, this.gmrEvent)
+  },
   computed: {
+    editingEvent() {
+      return this.$store.state.editingEvent
+    },
     date: {
       get() {
-        return parse(this.gmrEvent && this.gmrEvent.date)
+        return parse(this.editingEvent && this.editingEvent.date)
       },
       set(newVal) {
-        this.gmrEvent.date = newVal
+        this.editingEvent.date = newVal
       }
     },
     format() {
@@ -97,22 +103,14 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapActions('gmr-events', {
+    ...mapActions('gmrEvents', {
       updateEvent: 'update'
     }),
-    onSubmit(event) {
-      console.log(this && this.$store && this.$store.state)
-      this.updateEvent(event).catch(err => console.log(err))
-    },
-    setEditingEventTitle() {
-      this.$store.state.editingEvent.title = this.event.title
-    },
-    setEditingEventTime() {
-      this.editingEvent.time = this.time
-    },
-    addEvent() {
-      this.setEditingEventTime()
-      console.log(this.editingEvent)
+    onSubmit() {
+      this.updateEvent([this.editingEvent._id, this.editingEvent])
+      .catch(err => {
+        throw new Error(err.message)
+      })
     }
   }
 })

@@ -27,6 +27,7 @@ class GmrEvent extends BaseModel {
 }
 const servicePath = 'gmr-events'
 const servicePlugin = makeServicePlugin({
+  namespace: 'gmrEvents',
   Model: GmrEvent,
   service: feathersClient.service(servicePath),
   servicePath
