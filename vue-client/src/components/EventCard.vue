@@ -38,7 +38,7 @@ import Vue from 'vue'
 import { formatDate } from '../utils'
 import RunDescription from './RunDescription'
 import EditEventForm from './EditEventForm'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 export default Vue.extend({
   name: 'EventCard',
   components: { RunDescription, EditEventForm },
@@ -73,10 +73,9 @@ export default Vue.extend({
     }),
     deleteEvent(gmrEvent) {
       if (window.confirm('Are you sure you want to delete this event?')) {
-        this.removeEvent(gmrEvent._id)
-        .catch(err => {
+        this.removeEvent(gmrEvent._id).catch(err => {
           throw new Error(err.message)
-          })
+        })
       }
     }
   }

@@ -136,11 +136,11 @@ export default Vue.extend({
     ...mapMutations('gmrEvents', { addItem: 'addItem' }),
     onSubmit(event) {
       this.createEvent(event)
-      .then(res => {
-        // this.addItem(res, res._id)
-        console.log("create event respsonse:", res)
-      })
-      .catch(err => console.log(err))
+        .then(res => {
+          // this.addItem(res, res._id)
+          console.log('create event respsonse:', res)
+        })
+        .catch(err => console.log(err))
     },
     setEditingEventTitle() {
       if (!this.$store.state.editingEvent) {
