@@ -68,19 +68,14 @@ export default Vue.extend({
     }
   },
   methods: {
-    doAThing() {
-      this.$store.editingEvent = this.gmrEvent
-      console.log(this.$store.editingEvent)
-      this.$router.push('/addevent')
-    },
     ...mapActions('gmrEvents', {
       removeEvent: 'remove'
     }),
     deleteEvent(gmrEvent) {
       if (window.confirm('Are you sure you want to delete this event?')) {
-        console.log('removing event:', gmrEvent)
-        this.removeEvent(gmrEvent._id)
-        console.log(this.$store)
+        this.removeEvent(gmrEvent._id).catch(err => {
+          throw new Error(err.message)
+        })
       }
     }
   }

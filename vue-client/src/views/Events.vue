@@ -28,8 +28,7 @@
 import Vue from 'vue'
 import Container from '@/UIComponents/Container'
 import { models } from 'feathers-vuex'
-import { mapActions } from 'vuex'
-import { isFuture, isPast } from 'date-fns'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { nextTuesday, formatDate } from '../utils'
 import EventCard from '@/components/EventCard.vue'
 
@@ -37,42 +36,54 @@ export default Vue.extend({
   name: 'Events',
   components: { Container, EventCard },
   data: () => ({
-    activeTab: 0,
-    futureEvents: [],
-    pastEvents: []
+    activeTab: 0
   }),
-  created() {
-    this.$store.state.editingEvent = new models.api.GmrEvent()
-    this.findEvents({
-      query: {
-        $sort: { createdAt: -1 },
-        $limit: 10
-      }
-    })
-      .then(res => {
-        console.log('RES:', res)
-        const futureEvents = res.data.filter(gmrEvent =>
-          isFuture(gmrEvent.date)
-        )
-        const pastEvents = res.data.filter(gmrEvent => isPast(gmrEvent.date))
-        this.futureEvents = futureEvents.reverse()
-        this.pastEvents = pastEvents
-      })
-      .catch(err => console.log(err))
-  },
-  methods: {
-    ...mapActions('gmr-events', {
-      findEvents: 'find'
-    })
-  },
   computed: {
-    editingEvent() {
-      return this.$store.state.editingEvent
+    ...mapState('gmrEvents', { areGmrEventsLoading: 'isFindPending' }),
+    ...mapGetters('gmrEvents', { findGmrEventsInStore: 'find' }),
+    // Query for future appointments
+    queryUpcoming() {
+      return {
+        date: {
+          $gte: Date()
+        },
+        $sort: {
+          date: 1
+        }
+      }
+    },
+    // Query for past appointments
+    queryPast() {
+      return {
+        date: {
+          $lt: Date()
+        },
+        $sort: {
+          date: -1
+        }
+      }
+    },
+    // The list of upcoming appointments.
+    upcomingGmrEvents() {
+      return this.findGmrEventsInStore({
+        query: this.queryUpcoming,
+        orderby: { date: -1 }
+      }).data
+    },
+    // The list of past appointments
+    pastGmrEvents() {
+      return this.findGmrEventsInStore({
+        query: this.queryPast,
+        orderby: { date: -1 }
+      }).data
     },
     events() {
       if (this.activeTab === 0) {
-        return this.futureEvents
-      } else return this.pastEvents
+        return this.upcomingGmrEvents
+      } else return this.pastGmrEvents
+    },
+    editingEvent() {
+      return this.$store.state.editingEvent
     },
     checkBackText() {
       return `Our next run will be ${formatDate(
@@ -92,6 +103,16 @@ export default Vue.extend({
       }
       return false
     }
+  },
+  methods: {
+    ...mapActions('gmrEvents', { findGmrEvents: 'find' })
+  },
+  created() {
+    this.$store.state.editingEvent = new models.api.GmrEvent()
+    // Find all appointments. We'll use the getters to separate them.
+    this.findGmrEvents({
+      query: {}
+    })
   }
 })
 </script>
