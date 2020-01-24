@@ -1,5 +1,5 @@
 <template>
-<div class="editor">
+  <div class="editor">
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <button
@@ -98,8 +98,8 @@
         </button>
       </div>
     </editor-menu-bar>
-  <editor-content :editor="editor" class="editor"> </editor-content>
-</div>
+    <editor-content :editor="editor" class="editor"> </editor-content>
+  </div>
 </template>
 
 <script>
@@ -161,17 +161,16 @@ export default Vue.extend({
         content: this.content,
         onUpdate: ({ getHTML }) => {
           const htmlContent = getHTML()
-          this.$store.state.editingEvent.details = htmlContent
-          console.log("EDITING EVENT:", this.$store.state.editingEvent)
+          this.$store.commit('updateDetails', htmlContent)
         }
       })
     }
   },
-  watch: {
-    content() {
-      console.log('WATCH CONTENT:', this.content)
-    }
-  },
+  // watch: {
+  //   content() {
+  //     console.log('WATCH CONTENT:', this.content)
+  //   }
+  // },
   methods: {
     setContent: content => this.content
   },

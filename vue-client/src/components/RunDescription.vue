@@ -39,6 +39,7 @@ export default Vue.extend({
   },
   computed: {
     gmrEventDate() {
+      console.log('hello!', this.gmrEventDate)
       if (this.gmrEvent.date) {
         return formatDate(this.gmrEvent.date)
       } else return formatDate(nextTuesday())

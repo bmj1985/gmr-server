@@ -11,7 +11,7 @@
       </div>
     </div>
     <footer class="card-footer" v-if="isAdmin">
-      <b-modal
+      <!-- <b-modal
         :active.sync="isModalActive"
         :width="640"
         scroll="keep"
@@ -19,13 +19,11 @@
         aria-role="dialog"
         aria-modal
         can-cancel
-      >
-        <EditEventForm :gmrEvent="gmrEvent"
-      /></b-modal>
+      > -->
+      <!-- <EditEventForm :gmrEvent="gmrEvent" /> -->
+      <!-- </b-modal> -->
 
-      <a href="#" class="card-footer-item" @click="isModalActive = true"
-        >Edit</a
-      >
+      <a href="#" class="card-footer-item" @click="editEventModal()">Edit</a>
       <a href="#" class="card-footer-item" @click="deleteEvent(gmrEvent)"
         >Delete</a
       >
@@ -39,14 +37,21 @@ import { formatDate } from '../utils'
 import RunDescription from './RunDescription'
 import EditEventForm from './EditEventForm'
 import { mapActions } from 'vuex'
+
 export default Vue.extend({
   name: 'EventCard',
-  components: { RunDescription, EditEventForm },
+  components: { RunDescription },
   props: { gmrEvent: { type: Object } },
   data: () => ({
     isModalActive: false
   }),
   computed: {
+    windowWidth() {
+      return window.innerWidth
+    },
+    isModalFullscreen() {
+      return !(this.windowWidth > 450)
+    },
     formattedDate() {
       return formatDate(this.gmrEvent.date)
     },
@@ -71,12 +76,38 @@ export default Vue.extend({
     ...mapActions('gmrEvents', {
       removeEvent: 'remove'
     }),
-    deleteEvent(gmrEvent) {
-      if (window.confirm('Are you sure you want to delete this event?')) {
+    async deleteEvent(gmrEvent) {
+      let result = await this.confirmDeleteEvent()
+      if (result) {
         this.removeEvent(gmrEvent._id).catch(err => {
           throw new Error(err.message)
         })
       }
+    },
+    async confirmDeleteEvent() {
+      const confirmed = await new Promise((resolve, reject) => {
+        this.$buefy.dialog.confirm({
+          title: 'Deleting event',
+          message:
+            'Are you sure you want to <b>delete</b> this event? This action cannot be undone.',
+          confirmText: 'Delete Event',
+          type: 'is-danger',
+          hasIcon: true,
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false)
+        })
+      })
+      return confirmed
+    },
+    editEventModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: EditEventForm,
+        hasModalCard: false,
+        trapFocus: true,
+        fullScreen: this.isModalFullscreen,
+        props: { gmrEvent: this.gmrEvent }
+      })
     }
   }
 })

@@ -4,29 +4,21 @@
     <img class="logo is-96x96" alt="GMR logo" src="../assets/gmr_logo.png" />
     <p class="next-run">Our next run will be:</p>
     <h2 class="date">
-      {{ gmrEventDate }}
+      {{ date }}
     </h2>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { formatDate, nextTuesday } from '../utils'
 
 export default Vue.extend({
   name: 'WelcomeToGmr',
-  props: { gmrEvent: { type: Object } },
+  props: { gmrEvent: { type: Object }, date: { type: String } },
   data() {
     return {
       pendingRunDetails:
         'Details coming soon! Runs are usually posted between the Thursday and Monday prior.'
-    }
-  },
-  computed: {
-    gmrEventDate() {
-      if (this.gmrEvent.date) {
-        return formatDate(this.gmrEvent.date)
-      } else return formatDate(nextTuesday())
     }
   }
 })

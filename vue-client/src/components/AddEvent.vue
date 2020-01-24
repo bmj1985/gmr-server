@@ -4,7 +4,13 @@
     <form>
       <fieldset class="event-fieldset">
         <b-field label="Title">
-          <b-input placeholder="Event title" v-model="title"></b-input>
+          <b-input
+            placeholder="Event title"
+            v-model="title"
+            name="title"
+            type="text"
+            ref="title"
+          ></b-input>
         </b-field>
         <b-field label="Select day and time">
           <b-datetimepicker
@@ -17,11 +23,13 @@
           >
           </b-datetimepicker>
         </b-field>
-        <b-field label="Trailhead" class="trailhead-wrapper">
+        <b-field class="trailhead-wrapper">
           <div class="trailhead-content">
             <b-select
+              name="trailhead"
+              label="Trailhead"
               placeholder="Select a trailhead"
-              v-model="editingEvent.trailhead"
+              v-model="trailhead"
             >
               <option
                 v-for="trailhead in trailheads"
@@ -35,16 +43,17 @@
           </div>
         </b-field>
         <b-field label="Description">
-          <Tiptap />
+          <Tiptap :clear="shouldClearContent" />
         </b-field>
         <b-field label="Run Route Link">
-          <b-input
-            placeholder="Run link"
-            v-model="editingEvent.runRouteLink"
-          ></b-input>
+          <b-input placeholder="Run link" v-model="runRouteLink"></b-input>
         </b-field>
       </fieldset>
-      <button type="submit" @click.prevent="onSubmit(editingEvent)">
+      <button
+        class="button add-event-button is-primary"
+        type="submit"
+        @click.prevent="onSubmit(editingEvent)"
+      >
         Add Event
       </button>
     </form>
@@ -53,16 +62,18 @@
 
 <script>
 import Vue from 'vue'
-import { models } from 'feathers-vuex'
 import Tiptap from './Tiptap'
-import { format, parse } from 'date-fns'
-import { mapActions, mapMutations } from 'vuex'
+import { format, parse, addHours, subHours } from 'date-fns'
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex'
 
 export default Vue.extend({
   name: 'AddEvent',
-  components: { Tiptap },
+  components: {
+    Tiptap
+  },
   data: () => ({
     trailheads: [
+      {},
       {
         name: 'Green Mountain/Rooney',
         address: '1000 S. Rooney Road, Lakewood, CO 80228'
@@ -83,9 +94,12 @@ export default Vue.extend({
     rawEventDetails: '',
     showWeekNumber: false,
     formatAmPm: true,
-    enableSeconds: false
+    enableSeconds: false,
+    shouldClearContent: false
   }),
   computed: {
+    ...mapState('gmrEvents', { areGmrEventsLoading: 'isFindPending' }),
+    ...mapGetters('gmrEvents', { findGmrEventsInStore: 'find' }),
     editingEvent() {
       return this.$store.state.editingEvent
     },
@@ -94,15 +108,21 @@ export default Vue.extend({
         return this.editingEvent && this.editingEvent.title
       },
       set(newVal) {
-        this.editingEvent.title = newVal
+        this.$store.commit('updateTitle', newVal)
       }
+    },
+    isTitleValid() {
+      if (this.title && this.title.length > 3) {
+        return true
+      }
+      return false
     },
     date: {
       get() {
         return parse(this.editingEvent && this.editingEvent.date)
       },
       set(newVal) {
-        this.editingEvent.date = newVal
+        this.$store.commit('updateDate', newVal)
       }
     },
     details: {
@@ -110,16 +130,33 @@ export default Vue.extend({
         return this.editingEvent && this.editingEvent.details
       },
       set(newVal) {
-        this.editingEvent.details = newVal
+        this.$store.commit('updateDetails', newVal)
       }
     },
-    link: {
+    isDetailValid() {
+      return this.details && this.details.length > 20
+    },
+    runRouteLink: {
       get() {
         return this.editingEvent && this.editingEvent.runRouteLink
       },
       set(newVal) {
-        this.editingEvent.runRouteLink = newVal
+        this.$store.commit('updateRunRouteLink', newVal)
       }
+    },
+    isRunRouteLinkValid() {
+      return this.runRouteLink
+    },
+    trailhead: {
+      get() {
+        return this.editingEvent && this.editingEvent.trailhead
+      },
+      set(newVal) {
+        this.$store.commit('updateTrailhead', newVal)
+      }
+    },
+    isTrailheadValid() {
+      return this.trailhead && this.trailhead.name && this.trailhead.address
     },
     time() {
       const eventTime = format(this.editingEvent.date, 'h:mma')
@@ -127,6 +164,21 @@ export default Vue.extend({
     },
     format() {
       return this.formatAmPm ? '12' : '24'
+    },
+    querySameDay() {
+      const addTwo = addHours(this.date, 12)
+      const subtractTwo = subHours(this.date, 12)
+      return {
+        date: {
+          $lte: addTwo.toISOString(),
+          $gte: subtractTwo.toISOString()
+        }
+      }
+    },
+    sameDayGmrEvents() {
+      return this.findGmrEventsInStore({
+        query: this.querySameDay
+      }).data
     }
   },
   methods: {
@@ -134,26 +186,99 @@ export default Vue.extend({
       createEvent: 'create'
     }),
     ...mapMutations('gmrEvents', { addItem: 'addItem' }),
-    onSubmit(event) {
-      this.createEvent(event)
-        .then(res => {
-          // this.addItem(res, res._id)
-          console.log('create event respsonse:', res)
-        })
-        .catch(err => console.log(err))
+    buefyAlert(text) {
+      this.$buefy.dialog.alert(text)
     },
-    setEditingEventTitle() {
-      if (!this.$store.state.editingEvent) {
-        this.$store.state.editingEvent = new models.api.GmrEvent()
+    alertTitle() {
+      this.buefyAlert('Please enter a title.')
+    },
+    alertTrailhead() {
+      this.buefyAlert('Please enter a trailhead.')
+    },
+    async onSubmit(event) {
+      if (!this.isTitleValid) {
+        this.alertTitle()
+        return
       }
-      this.$store.state.editingEvent.title = this.event.title
+      if (!this.isTrailheadValid) {
+        this.alertTrailhead()
+        return
+      }
+      if (!this.isDetailValid) {
+        this.buefyAlert('Please enter run details.')
+        return
+      }
+      if (!this.isRunRouteLinkValid) {
+        let result = await this.confirmRunRouteLink()
+        if (!result) {
+          return
+        }
+      }
+      if (this.sameDayGmrEvents.length) {
+        let scheduleMultipleEvents = await this.confirmDate()
+        if (!scheduleMultipleEvents) {
+          this.$router.push('/events')
+          return
+        }
+      }
+      this.createEvent(event)
+        .then(async res => {
+          let result = await this.confirmAddAnotherEvent()
+          if (result) {
+            this.$store.commit('resetForm')
+            this.shouldClearContent = true
+          } else this.$router.push('/events')
+        })
+        .catch(err => {
+          console.log(err)
+          if (err.code === 409) {
+            this.$buefy.dialog.alert(
+              'Event is duplicate and has already been created.'
+            )
+          }
+        })
     },
-    setEditingEventTime() {
-      this.editingEvent.time = this.time
+    confirmRunRouteLink() {
+      const confirmed = new Promise((resolve, reject) => {
+        this.$buefy.dialog.confirm({
+          title: 'Missing Run Route Link',
+          message: 'Did  you want to add a run route link?',
+          cancelText: 'Yes',
+          confirmText: 'Continue without one.',
+          type: 'is-success',
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false)
+        })
+      })
+      return confirmed
     },
-    addEvent() {
-      this.setEditingEventTime()
-      console.log(this.editingEvent)
+    confirmDate() {
+      let eventCount = this.sameDayGmrEvents.length
+      const confirmed = new Promise((resolve, reject) => {
+        this.$buefy.dialog.confirm({
+          title: 'Date Conflict',
+          message: `You already have ${eventCount} event(s) scheduled for that date. Are you sure you want to continue?`,
+          cancelText: 'Don\'t schedule',
+          confirmText: 'Yes, proceed anyway.',
+          type: 'is-success',
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false)
+        })
+      })
+      return confirmed
+    },
+    async confirmAddAnotherEvent() {
+      const confirmed = await new Promise((resolve, reject) => {
+        this.$buefy.dialog.confirm({
+          title: 'Event was created!',
+          message: 'Do you want to add another event?',
+          confirmText: 'No, I\'m done.',
+          cancelText: 'Yes! More events!',
+          onConfirm: () => resolve(false),
+          onCancel: () => resolve(true)
+        })
+      })
+      return confirmed
     }
   }
 })
@@ -178,6 +303,11 @@ export default Vue.extend({
   flex-direction: column;
   width: 100%;
   justify-content: flex-start;
+}
+
+.add-event-button {
+  width: 85%;
+  margin: 1rem;
 }
 
 .event-fieldset {

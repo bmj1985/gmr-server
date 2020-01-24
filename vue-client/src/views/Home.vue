@@ -2,7 +2,7 @@
   <Container>
     <div class="photo-container"></div>
     <div class="text-container">
-      <WelcomeToGmr :gmrEvent="nextGmrEvent" />
+      <WelcomeToGmr :gmrEvent="nextGmrEvent" :date="formattedDate" />
       <RunDescription :gmrEvent="nextGmrEvent" />
     </div>
   </Container>
@@ -13,51 +13,44 @@ import Vue from 'vue'
 import RunDescription from '../components/RunDescription'
 import WelcomeToGmr from '../components/WelcomeToGmr'
 import Container from '@/UIComponents/Container'
-// import { mapActions } from 'vuex'
-// import { nextTuesday } from '../utils'
-// import { closestTo, isEqual, isFuture } from 'date-fns'
-// import { models } from 'feathers-vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
+import { formatDate, nextTuesday } from '../utils'
 
 export default Vue.extend({
   name: 'Home',
   components: { RunDescription, Container, WelcomeToGmr },
-  data: () => ({ nextGmrEvent: {} }),
-  // created() {
-  //   this.findEvents({
-  //     query: {
-  //       $sort: { createdAt: -1 },
-  //       $limit: 25
-  //     }
-  //   })
-  //     .then(res => {
-  //       const runDate = closestTo(
-  //         nextTuesday(),
-  //         res.data.map(data => data.date)
-  //       )
-  //       if (
-  //         res.data.filter(
-  //           gmrEvent =>
-  //             isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
-  //         ).length > 0
-  //       ) {
-  //         this.nextGmrEvent = res.data.filter(
-  //           gmrEvent =>
-  //             isEqual(gmrEvent.date, runDate) && isFuture(gmrEvent.date)
-  //         )[0]
-  //       } else this.nextGmrEvent = new models.api.GmrEvent()
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //       if (err.code === 408 || err.code === 500) {
-  //         console.log('Something is wrong with our server.')
-  //       }
-  //     })
-  // },
-  // methods: {
-  //   ...mapActions('gmrEvents', {
-  //     findEvents: 'find'
-  //   })
-  // }
+  computed: {
+    ...mapState('gmrEvents', { areGmrEventsLoading: 'isFindPending' }),
+    ...mapGetters('gmrEvents', { findGmrEventsInStore: 'find' }),
+    queryNext() {
+      return {
+        date: {
+          $gte: new Date().toISOString()
+        },
+        $sort: {
+          date: 1
+        },
+        $limit: 1
+      }
+    },
+    nextGmrEvent() {
+      return this.findGmrEventsInStore({ query: this.queryNext }).data[0]
+    },
+    formattedDate() {
+      if (this.nextGmrEvent && this.nextGmrEvent.date) {
+        return formatDate(this.nextGmrEvent.date)
+      } else return formatDate(nextTuesday())
+    }
+  },
+  methods: {
+    ...mapActions('gmrEvents', { findGmrEvents: 'find' })
+  },
+  created() {
+    // Find all appointments. We'll use the getters to separate them.
+    this.findGmrEvents({
+      query: {}
+    })
+  }
 })
 </script>
 

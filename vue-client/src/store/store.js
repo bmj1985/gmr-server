@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './store.auth'
+import { models } from 'feathers-vuex/dist'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,29 @@ export default new Vuex.Store({
   state: {
     editingEvent: null
   },
-  mutations: {},
+  mutations: {
+    updateTitle(state, title) {
+      state.editingEvent.title = title
+    },
+    updateDate(state, date) {
+      state.editingEvent.date = date
+    },
+    updateDetails(state, details) {
+      state.editingEvent.details = details
+    },
+    updateRouteId(state, routeId) {
+      state.editingEvent.route_id = routeId
+    },
+    updateRunRouteLink(state, runRouteLink) {
+      state.editingEvent.runRouteLink = runRouteLink
+    },
+    updateTrailhead(state, trailhead) {
+      state.editingEvent.trailhead = trailhead
+    },
+    resetForm(state) {
+      state.editingEvent = new models.api.GmrEvent()
+    }
+  },
   actions: {},
   plugins: [...servicePlugins, auth]
 })

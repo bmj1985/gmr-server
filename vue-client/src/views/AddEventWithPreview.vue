@@ -1,13 +1,13 @@
 <template>
   <Container>
     <AddEvent />
-    <div class="text-container">
-      <WelcomeToGmr :gmrEvent="editingEvent" class="welcome-to-gmr" />
-      <RunDescription
-        class="run-description"
+    <div class="text-container" v-if="windowWidth > 450">
+      <WelcomeToGmr
         :gmrEvent="editingEvent"
-        v-if="windowWidth > 450"
+        :date="formattedDate"
+        class="welcome-to-gmr"
       />
+      <RunDescription class="run-description" :gmrEvent="editingEvent" />
     </div>
   </Container>
 </template>
@@ -19,6 +19,7 @@ import AddEvent from '@/components/AddEvent'
 import WelcomeToGmr from '@/components/WelcomeToGmr'
 import RunDescription from '@/components/RunDescription'
 import { models } from 'feathers-vuex'
+import { formatDate } from '../utils'
 export default Vue.extend({
   name: 'AddEventWithPreview',
   components: { Container, AddEvent, RunDescription, WelcomeToGmr },
@@ -31,7 +32,11 @@ export default Vue.extend({
     editingEvent() {
       return this.$store.state.editingEvent
     },
+    formattedDate() {
+      return formatDate(this.editingEvent.date)
+    },
     windowWidth() {
+      console.log(window.innerWidth)
       return window.innerWidth
     }
   }

@@ -1,51 +1,70 @@
 <template>
   <form>
-    <fieldset class="event-fieldset">
-      <b-field label="Title">
-        <b-input placeholder="Event title" v-model="editingEvent.title"></b-input>
-      </b-field>
-      <b-field label="Select day and time">
-        <b-datetimepicker
-          rounded
-          placeholder="Click to select..."
-          icon="calendar-today"
-          :datepicker="{ showWeekNumber }"
-          :timepicker="{ enableSeconds, hourFormat: format }"
-          v-model="date"
-        >
-        </b-datetimepicker>
-      </b-field>
-      <b-field label="Trailhead" class="trailhead-wrapper">
-        <div class="trailhead-content">
-          <b-select
-            placeholder="Select a trailhead"
-            v-model="editingEvent.trailhead"
-          >
-            <option
-              v-for="trailhead in trailheads"
-              :value="trailhead"
-              :key="trailhead.name"
-              :selected="trailhead"
+    <div class="modal-card" style="width: auto">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Edit Event</p>
+      </header>
+      <section class="modal-card-body">
+        <fieldset class="event-fieldset">
+          <b-field label="Title">
+            <b-input
+              placeholder="Event title"
+              v-model="editingEvent.title"
+            ></b-input>
+          </b-field>
+          <b-field label="Select day and time">
+            <b-datetimepicker
+              rounded
+              placeholder="Click to select..."
+              icon="calendar-today"
+              :datepicker="{ showWeekNumber }"
+              :timepicker="{ enableSeconds, hourFormat: format }"
+              v-model="date"
             >
-              {{ trailhead.name }}
-            </option>
-          </b-select>
-          <button class="button">Add A Trailhead</button>
-        </div>
-      </b-field>
-      <b-field label="Description">
-        <EditTiptap :content="editingEvent.details" />
-      </b-field>
-      <b-field label="Run Route Link">
-        <b-input
-          placeholder="Run link"
-          v-model="editingEvent.runRouteLink"
-        ></b-input>
-      </b-field>
-    </fieldset>
-    <button type="submit" @click.prevent="onSubmit()">
-      Edit Event
-    </button>
+            </b-datetimepicker>
+          </b-field>
+          <b-field label="Trailhead" class="trailhead-wrapper">
+            <div class="trailhead-content">
+              <b-select
+                placeholder="Select a trailhead"
+                v-model="editingEvent.trailhead"
+              >
+                <option
+                  v-for="trailhead in trailheads"
+                  :value="trailhead"
+                  :key="trailhead.name"
+                  :selected="trailhead"
+                >
+                  {{ trailhead.name }}
+                </option>
+              </b-select>
+              <button class="button">Add A Trailhead</button>
+            </div>
+          </b-field>
+          <b-field label="Description">
+            <EditTiptap class="edit-tiptap" :content="editingEvent.details" />
+          </b-field>
+          <b-field label="Run Route Link">
+            <b-input
+              placeholder="Run link"
+              v-model="editingEvent.runRouteLink"
+            ></b-input>
+          </b-field>
+        </fieldset>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-danger" type="button" @click="$parent.close()">
+          Cancel
+        </button>
+        <button
+          class="button is-success"
+          type="submit"
+          @click.prevent="onSubmit()"
+        >
+          Edit Event
+        </button>
+      </footer>
+    </div>
   </form>
 </template>
 
@@ -53,13 +72,11 @@
 import Vue from 'vue'
 import EditTiptap from './EditTiptap'
 import { parse } from 'date-fns'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 export default Vue.extend({
   name: 'EditEventForm',
   components: { EditTiptap },
-  props: {
-    gmrEvent: { type: Object }
-  },
+  props: { gmrEvent: { type: Object } },
   data: () => ({
     trailheads: [
       {
@@ -84,6 +101,7 @@ export default Vue.extend({
     enableSeconds: false
   }),
   created() {
+    console.log('EDIT EVENT FORM THIS:', this.gmrEvent)
     this.$store.state.editingEvent = Object.assign({}, this.gmrEvent)
   },
   computed: {
@@ -108,9 +126,17 @@ export default Vue.extend({
     }),
     onSubmit() {
       this.updateEvent([this.editingEvent._id, this.editingEvent])
-      .catch(err => {
-        throw new Error(err.message)
-      })
+        .then(() => {
+          this.$parent.close()
+          this.alertEventEdited()
+          this.$store.commit('resetForm')
+        })
+        .catch(err => {
+          throw new Error(err.message)
+        })
+    },
+    alertEventEdited() {
+      this.$buefy.dialog.alert('Event successfully edited!')
     }
   }
 })
@@ -121,5 +147,8 @@ form {
 }
 * {
   background: white;
+}
+.edit-tiptap {
+  min-height: 250px;
 }
 </style>

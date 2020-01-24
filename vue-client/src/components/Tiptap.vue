@@ -124,6 +124,7 @@ import {
 } from 'tiptap-extensions'
 export default Vue.extend({
   name: 'Tiptap',
+  props: { clear: Boolean },
   components: {
     EditorContent,
     EditorMenuBar
@@ -148,13 +149,17 @@ export default Vue.extend({
           new Underline(),
           new History()
         ],
-        content: `<p>Details go here ...</p>
-        `,
+        content: '<p>Details go here....</p>',
         onUpdate: ({ getHTML }) => {
           const htmlContent = getHTML()
-          this.$store.state.editingEvent.details = htmlContent
+          this.$store.commit('updateDetails', htmlContent)
         }
       })
+    }
+  },
+  watch: {
+    clear() {
+      this.editor.setContent('<p>Details go here....</p>')
     }
   },
   beforeDestroy() {
@@ -165,7 +170,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .editor {
-  height: 350px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   border: 2px solid rgba(0, 0, 0, 0.2);

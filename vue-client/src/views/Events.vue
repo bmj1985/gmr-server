@@ -1,5 +1,6 @@
 <template>
   <Container class="events-wrapper">
+    <FindGmrEvents />
     <div class="events-header">
       <section>
         <b-tabs position="is-centered" class="block" v-model="activeTab">
@@ -31,10 +32,11 @@ import { models } from 'feathers-vuex'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { nextTuesday, formatDate } from '../utils'
 import EventCard from '@/components/EventCard.vue'
+import FindGmrEvents from '@/components/FindGmrEvents.vue'
 
 export default Vue.extend({
   name: 'Events',
-  components: { Container, EventCard },
+  components: { Container, EventCard, FindGmrEvents },
   data: () => ({
     activeTab: 0
   }),
@@ -44,9 +46,7 @@ export default Vue.extend({
     // Query for future appointments
     queryUpcoming() {
       return {
-        date: {
-          $gte: Date()
-        },
+        date: { $gte: new Date().toISOString() },
         $sort: {
           date: 1
         }
@@ -56,7 +56,7 @@ export default Vue.extend({
     queryPast() {
       return {
         date: {
-          $lt: Date()
+          $lt: new Date().toISOString()
         },
         $sort: {
           date: -1
@@ -66,15 +66,13 @@ export default Vue.extend({
     // The list of upcoming appointments.
     upcomingGmrEvents() {
       return this.findGmrEventsInStore({
-        query: this.queryUpcoming,
-        orderby: { date: -1 }
+        query: this.queryUpcoming
       }).data
     },
     // The list of past appointments
     pastGmrEvents() {
       return this.findGmrEventsInStore({
-        query: this.queryPast,
-        orderby: { date: -1 }
+        query: this.queryPast
       }).data
     },
     events() {
