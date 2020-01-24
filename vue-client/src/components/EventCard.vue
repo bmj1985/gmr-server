@@ -44,14 +44,7 @@ export default Vue.extend({
       return formatDate(this.gmrEvent.date)
     },
     isAdmin() {
-      const admin =
-        this.$store.state.auth &&
-        this.$store.state.auth.user &&
-        this.$store.state.auth.user.permissions.find(v => v === 'admin')
-      if (admin === 'admin') {
-        return true
-      }
-      return false
+      return this.$store.getters.isAdmin
     },
     title() {
       return this.gmrEvent.title

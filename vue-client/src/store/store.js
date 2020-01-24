@@ -23,6 +23,18 @@ export default new Vuex.Store({
   state: {
     editingEvent: null
   },
+  getters: {
+    isAdmin: state => {
+      const admin =
+        state.auth &&
+        state.auth.user &&
+        state.auth.user.permissions.find(v => v === 'admin')
+      if (admin === 'admin') {
+        return true
+      }
+      return false
+    }
+  },
   mutations: {
     updateTitle(state, title) {
       state.editingEvent.title = title
