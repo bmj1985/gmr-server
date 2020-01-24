@@ -1,5 +1,5 @@
 {
-  "host": "api.goldenmountainrunners.com",
+  "host": "gmrapi.herokuapp.com",
   "port": "PORT",
   "mongodb": "MONGODB_URI"
 }
