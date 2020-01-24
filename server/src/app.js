@@ -26,7 +26,7 @@ const app = express(feathers())
 
 const Sentry = require('@sentry/node')
 Sentry.init({
-    dsn: 'https://0dc71fef809b4aa69d630d359048b480@sentry.io/1932898',
+    dsn: process.env.SENTRY_DSN,
 })
 
 // Load app configuration
