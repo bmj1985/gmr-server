@@ -150,6 +150,9 @@ export default Vue.extend({
           new History()
         ],
         content: '<p>Details go here....</p>',
+        onFocus: () => {
+          this.editor.clearContent()
+        },
         onUpdate: ({ getHTML }) => {
           const htmlContent = getHTML()
           this.$store.commit('updateDetails', htmlContent)
@@ -168,7 +171,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .editor {
   height: 250px;
   display: flex;
@@ -183,8 +186,10 @@ export default Vue.extend({
   height: 100%;
   padding: 0.5rem;
 }
-.editor__content .ProseMirror {
-  border: solid 1px green;
-  color: green;
+.editor__content .ProseMirror-focused {
+  height: 100%;
+  outline: 1px solid lightblue;
+  color: black;
+  font-size: 1.1rem;
 }
 </style>
