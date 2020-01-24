@@ -4,8 +4,9 @@ import auth from '@feathersjs/authentication-client'
 import io from 'socket.io-client'
 import { iff, discard } from 'feathers-hooks-common'
 import feathersVuex from 'feathers-vuex'
+import API_URL from '@/API_URL.js'
 
-const socket = io('http://localhost:3030', { transports: ['websocket'] })
+const socket = io(API_URL, { transports: ['websocket'] })
 
 const feathersClient = feathers()
   .configure(socketio(socket))
