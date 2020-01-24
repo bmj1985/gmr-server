@@ -141,7 +141,8 @@ export default Vue.extend({
         return this.editingEvent && this.editingEvent.runRouteLink
       },
       set(newVal) {
-        this.$store.commit('updateRunRouteLink', newVal)
+        let sanitizedRunRouteLink = this.parseRunRouteLink(newVal)
+        this.$store.commit('updateRunRouteLink', sanitizedRunRouteLink)
       }
     },
     isRunRouteLinkValid() {
@@ -279,6 +280,13 @@ export default Vue.extend({
         })
       })
       return confirmed
+    },
+    parseRunRouteLink(string) {
+      console.log(string)
+      if (string.indexOf('http') === -1 && string.length > 5) {
+        return 'https://' + string
+      }
+      return string
     }
   }
 })
