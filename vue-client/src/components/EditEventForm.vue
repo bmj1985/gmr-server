@@ -101,7 +101,6 @@ export default Vue.extend({
     enableSeconds: false
   }),
   created() {
-    console.log('EDIT EVENT FORM THIS:', this.gmrEvent)
     this.$store.state.editingEvent = Object.assign({}, this.gmrEvent)
   },
   computed: {

@@ -23,7 +23,7 @@
           >
           </b-datetimepicker>
         </b-field>
-        <b-field class="trailhead-wrapper">
+        <b-field label="Trailhead" class="trailhead-wrapper">
           <div class="trailhead-content">
             <b-select
               name="trailhead"

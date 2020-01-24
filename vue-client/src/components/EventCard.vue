@@ -11,18 +11,6 @@
       </div>
     </div>
     <footer class="card-footer" v-if="isAdmin">
-      <!-- <b-modal
-        :active.sync="isModalActive"
-        :width="640"
-        scroll="keep"
-        trap-focus
-        aria-role="dialog"
-        aria-modal
-        can-cancel
-      > -->
-      <!-- <EditEventForm :gmrEvent="gmrEvent" /> -->
-      <!-- </b-modal> -->
-
       <a href="#" class="card-footer-item" @click="editEventModal()">Edit</a>
       <a href="#" class="card-footer-item" @click="deleteEvent(gmrEvent)"
         >Delete</a

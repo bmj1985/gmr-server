@@ -36,7 +36,6 @@ export default Vue.extend({
       return formatDate(this.editingEvent.date)
     },
     windowWidth() {
-      console.log(window.innerWidth)
       return window.innerWidth
     }
   }

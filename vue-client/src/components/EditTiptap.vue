@@ -135,10 +135,6 @@ export default Vue.extend({
     return {
       editor: new Editor({
         editable: true,
-        onInit: ({ state, view }) => {
-          console.log(state)
-          console.log(view)
-        },
         extensions: [
           new Blockquote(),
           new BulletList(),
@@ -166,11 +162,6 @@ export default Vue.extend({
       })
     }
   },
-  // watch: {
-  //   content() {
-  //     console.log('WATCH CONTENT:', this.content)
-  //   }
-  // },
   methods: {
     setContent: content => this.content
   },
