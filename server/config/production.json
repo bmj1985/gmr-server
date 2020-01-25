@@ -1,5 +1,5 @@
 {
-  "frontend": "./public/dist",
+  "frontend": "https://www.goldenmountainrunners.com",
   "host": "gmrapi.herokuapp.com",
   "port": "PORT",
   "mongodb": "MONGODB_URI",
