@@ -19,24 +19,24 @@
         </router-link>
       </b-navbar-dropdown>
     </template>
-    <!-- <template slot="end">
-      <div v-if="!isUser">
+    <template slot="end">
+      <!-- <div v-if="!isUser">
         <LoginSignUpNav />
-      </div>
-      <div v-else>
+      </div> -->
+      <div v-if="isUser">
         <Logout />
       </div>
-    </template> -->
+    </template>
   </b-navbar>
 </template>
 
 <script>
 import Vue from 'vue'
 // import LoginSignUpNav from './LoginSignUpNav'
-// import Logout from './Logout'
+import Logout from './Logout'
 export default Vue.extend({
   name: 'NavBar',
-  // components: { LoginSignUpNav, Logout },
+  components: { Logout },
   computed: {
     isUser() {
       return (
