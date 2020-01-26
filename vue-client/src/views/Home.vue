@@ -58,7 +58,7 @@ export default Vue.extend({
 .photo-container {
   flex: 1;
   height: 100%;
-  background-image: url('../assets/northtable.png');
+  background-image: url('../assets/northtable.jpg');
   background-repeat: no-repeat;
   background-size: contain;
   @media only screen and (max-width: 760px) {
