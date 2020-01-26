@@ -1,7 +1,11 @@
 <template>
   <div class="welcome">
     <h3>Welcome to</h3>
-    <img class="logo is-96x96" alt="GMR logo" src="../assets/gmr_logo.png" />
+    <img
+      class="logo is-96x96"
+      alt="GMR logo"
+      src="../assets/gmr_logo_svg.svg"
+    />
     <p class="next-run">Our next run will be:</p>
     <h2 class="date">
       {{ date }}

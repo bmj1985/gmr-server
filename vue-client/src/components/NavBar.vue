@@ -2,11 +2,13 @@
   <b-navbar class="is-primary">
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <img
-          src="../assets/gmr_logo.png"
-          alt="GMR Logo"
-          class="image is-28x28"
-        />
+        <div class="logo-container">
+          <img
+            src="../assets/gmr_logo_svg.svg"
+            alt="GMR Logo"
+            class="logo image is-128x128"
+          />
+        </div>
       </b-navbar-item>
     </template>
     <template slot="start">
@@ -58,6 +60,22 @@ export default Vue.extend({
 .login-button {
   width: 100%;
   min-width: 83px;
+}
+
+.logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .logo {
+    height: 3rem;
+    width: 3rem;
+    @media only screen and (max-width: 450px) {
+      height: 3rem;
+      width: 3rem;
+    }
+  }
 }
 
 .modal-card-foot {
