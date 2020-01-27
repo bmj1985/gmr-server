@@ -12,6 +12,7 @@
           <a
             href="https://www.instagram.com/goldenmountainrunners"
             target="_blank"
+            rel="noopener"
           >
             <font-awesome-icon :icon="['fab', 'instagram']" id="instagram" />
           </a>

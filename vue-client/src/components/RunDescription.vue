@@ -11,7 +11,7 @@
     <div class="route" v-if="gmrEvent.runRouteLink">
       <p>
         Link to route:
-        <a :href="gmrEvent.runRouteLink" target="_blank">{{
+        <a :href="gmrEvent.runRouteLink" target="_blank" rel="noopener">{{
           gmrEvent.runRouteLink
         }}</a>
       </p>
