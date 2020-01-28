@@ -21,7 +21,7 @@ function nextTuesday() {
     return tuesdayAtSixFifteen
 }
 
-function checkFacebookGraphApi() {
+function checkFacebookEventApi() {
     console.log('Pretending to check facebook api')
 }
 
@@ -39,7 +39,7 @@ axios
             console.log('Event is already posted')
             return
         } else {
-            checkFacebookGraphApi()
+            checkFacebookEventApi()
         }
     })
     .catch(error => {
