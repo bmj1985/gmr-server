@@ -1,28 +1,69 @@
-// users-model.js - A mongoose model
-//
-// See http://mongoosejs.com/docs/models.html
+// See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-module.exports = function(app) {
-  const mongooseClient = app.get('mongooseClient');
-  const users = new mongooseClient.Schema(
-    {
-      email: { type: String, unique: true, lowercase: true },
-      password: { type: String },
-      name: { type: String, required: true },
-      profilePicture: { type: String },
-      auth0Id: { type: String },
-      googleId: { type: String },
-      facebookId: { type: String },
-      twitterId: { type: String },
-      permissions: { type: [String], default: ['user'] },
-      emailVerified: { type: Boolean, default: false },
-      isApprovedByAdmin: { type: Boolean, default: false },
-      adminApprovalData: { adminName: String, date: Date }
-    },
-    {
-      timestamps: true
-    }
-  );
+const { Model } = require('objection')
 
-  return mongooseClient.model('users', users);
-};
+class users extends Model {
+    static get tableName() {
+        return 'users'
+    }
+
+    static get jsonSchema() {
+        return {
+            type: 'object',
+            required: ['password', 'name'],
+
+            properties: {
+                email: { type: ['string', 'null'] },
+                password: 'string',
+                name: 'string',
+                profilePicture: 'string',
+                auth0Id: 'string',
+                googleId: 'string',
+                facebookId: 'string',
+                twitterId: 'string',
+                permissions: {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        default: 'user',
+                    },
+                },
+                emailVerified: { type: 'boolean', default: false },
+                isApprovedByAdmin: { type: 'boolean', default: false },
+                adminApprovalData: { adminName: 'string', date: 'date-time' },
+            },
+        }
+    }
+
+    $beforeInsert() {
+        this.createdAt = this.updatedAt = new Date().toISOString()
+    }
+
+    $beforeUpdate() {
+        this.updatedAt = new Date().toISOString()
+    }
+}
+
+module.exports = function(app) {
+    const db = app.get('knex')
+
+    db.schema
+        .hasTable('users')
+        .then(exists => {
+            if (!exists) {
+                db.schema
+                    .createTable('users', table => {
+                        table.increments('id')
+                        table.string('email').unique()
+                        table.string('password')
+                        table.timestamp('createdAt')
+                        table.timestamp('updatedAt')
+                    })
+                    .then(() => console.log('Created users table')) // eslint-disable-line no-console
+                    .catch(e => console.error('Error creating users table', e)) // eslint-disable-line no-console
+            }
+        })
+        .catch(e => console.error('Error creating users table', e)) // eslint-disable-line no-console
+
+    return users
+}

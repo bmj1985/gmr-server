@@ -1,19 +1,56 @@
-// users-model.js - A mongoose model
-//
-// See http://mongoosejs.com/docs/models.html
+// See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-module.exports = function(app) {
-  const mongooseClient = app.get('mongooseClient');
-  const trailheads = new mongooseClient.Schema(
-    {
-      name: { type: String, required: true },
-      address: { type: String, required: true },
-      routes: [String]
-    },
-    {
-      timestamps: true
-    }
-  );
+const { Model } = require('objection')
 
-  return mongooseClient.model('trailheads', trailheads);
-};
+class trailheads extends Model {
+    static get tableName() {
+        return 'trailheads'
+    }
+
+    static get jsonSchema() {
+        return {
+            type: 'object',
+            required: ['name', 'address'],
+
+            properties: {
+                name: 'string',
+                address: 'string',
+                routes: { type: 'array', items: 'string' },
+            },
+        }
+    }
+
+    $beforeInsert() {
+        this.createdAt = this.updatedAt = new Date().toISOString()
+    }
+
+    $beforeUpdate() {
+        this.updatedAt = new Date().toISOString()
+    }
+}
+
+module.exports = function(app) {
+    const db = app.get('knex')
+
+    db.schema
+        .hasTable('trailheads')
+        .then(exists => {
+            if (!exists) {
+                db.schema
+                    .createTable('trailheads', table => {
+                        table.increments('id')
+                        table.string('name').unique()
+                        table.string('address').unique()
+                        table.timestamp('createdAt')
+                        table.timestamp('updatedAt')
+                    })
+                    .then(() => console.log('Created trailheads table')) // eslint-disable-line no-console
+                    .catch(e =>
+                        console.error('Error creating trailheads table', e)
+                    ) // eslint-disable-line no-console
+            }
+        })
+        .catch(e => console.error('Error creating trailheads table', e)) // eslint-disable-line no-console
+
+    return trailheads
+}

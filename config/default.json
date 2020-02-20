@@ -46,5 +46,8 @@
       }
     }
   },
-  "mongodb": "mongodb://localhost:27017/gmrapi"
+  "postgres": {
+    "client": "pg",
+    "connection": "postgres://postgres:@localhost:5432/postgres"
+  }
 }
