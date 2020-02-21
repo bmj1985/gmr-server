@@ -2,20 +2,18 @@
 // for more of what you can do here.
 const { Model } = require('objection')
 
-class trailheads extends Model {
+class Trailheads extends Model {
     static get tableName() {
-        return 'trailheads'
+        return 'Trailheads'
     }
 
     static get jsonSchema() {
         return {
             type: 'object',
             required: ['name', 'address'],
-
             properties: {
                 name: 'string',
                 address: 'string',
-                routes: { type: 'array', items: 'string' },
             },
         }
     }
@@ -33,24 +31,24 @@ module.exports = function(app) {
     const db = app.get('knex')
 
     db.schema
-        .hasTable('trailheads')
+        .hasTable('Trailheads')
         .then(exists => {
             if (!exists) {
                 db.schema
-                    .createTable('trailheads', table => {
+                    .createTable('Trailheads', table => {
                         table.increments('id')
                         table.string('name').unique()
                         table.string('address').unique()
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })
-                    .then(() => console.log('Created trailheads table')) // eslint-disable-line no-console
+                    .then(() => console.log('Created Trailheads table')) // eslint-disable-line no-console
                     .catch(e =>
-                        console.error('Error creating trailheads table', e)
+                        console.error('Error creating Trailheads table', e)
                     ) // eslint-disable-line no-console
             }
         })
-        .catch(e => console.error('Error creating trailheads table', e)) // eslint-disable-line no-console
+        .catch(e => console.error('Error creating Trailheads table', e)) // eslint-disable-line no-console
 
-    return trailheads
+    return Trailheads
 }

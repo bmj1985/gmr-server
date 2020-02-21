@@ -6,21 +6,22 @@ class users extends Model {
     static get tableName() {
         return 'users'
     }
+    // static get idColumn() {
+    //     return 'googleId'
+    // }
 
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['password', 'name'],
-
+            required: ['email', 'name'],
             properties: {
+                id: 'number',
                 email: { type: ['string', 'null'] },
                 password: 'string',
                 name: 'string',
                 profilePicture: 'string',
-                auth0Id: 'string',
                 googleId: 'string',
                 facebookId: 'string',
-                twitterId: 'string',
                 permissions: {
                     type: 'array',
                     items: {
@@ -30,7 +31,10 @@ class users extends Model {
                 },
                 emailVerified: { type: 'boolean', default: false },
                 isApprovedByAdmin: { type: 'boolean', default: false },
-                adminApprovalData: { adminName: 'string', date: 'date-time' },
+                adminApprovalData: {
+                    type: 'object',
+                    properties: { adminName: 'string', date: 'date-time' },
+                },
             },
         }
     }
@@ -50,12 +54,18 @@ module.exports = function(app) {
     db.schema
         .hasTable('users')
         .then(exists => {
+            console.log('exists:', exists)
             if (!exists) {
                 db.schema
                     .createTable('users', table => {
                         table.increments('id')
                         table.string('email').unique()
                         table.string('password')
+                        table.string('name')
+                        table.string('profilePicture')
+                        table.string('googleId')
+                        table.string('facebookId')
+                        table.string('')
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })

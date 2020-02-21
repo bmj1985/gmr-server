@@ -1,10 +1,10 @@
-// runningRoutes-model.js - A mongoose model
+// RunningRoutes-model.js - A mongoose model
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 // module.exports = function(app) {
 //   const mongooseClient = app.get('mongooseClient');
-//   const runningRoutes = new mongooseClient.Schema(
+//   const RunningRoutes = new mongooseClient.Schema(
 //     {
 //       name: String,
 //       route: {
@@ -28,16 +28,16 @@
 //     }
 //   );
 
-//   return mongooseClient.model('running-routes', runningRoutes);
+//   return mongooseClient.model('running-routes', RunningRoutes);
 // };
 
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 const { Model } = require('objection')
 
-class runningRoutes extends Model {
+class RunningRoutes extends Model {
     static get tableName() {
-        return 'runningRoutes'
+        return 'RunningRoutes'
     }
 
     static get jsonSchema() {
@@ -64,21 +64,21 @@ module.exports = function(app) {
     const db = app.get('knex')
 
     db.schema
-        .hasTable('runningRoutes')
+        .hasTable('RunningRoutes')
         .then(exists => {
             if (!exists) {
                 db.schema
-                    .createTable('runningRoutes', table => {
+                    .createTable('RunningRoutes', table => {
                         table.increments('id')
                         table.string('route').unique()
                     })
-                    .then(() => console.log('Created runningRoutes table')) // eslint-disable-line no-console
+                    .then(() => console.log('Created RunningRoutes table')) // eslint-disable-line no-console
                     .catch(e =>
-                        console.error('Error creating runningRoutes table', e)
+                        console.error('Error creating RunningRoutes table', e)
                     ) // eslint-disable-line no-console
             }
         })
-        .catch(e => console.error('Error creating runningRoutes table', e)) // eslint-disable-line no-console
+        .catch(e => console.error('Error creating RunningRoutes table', e)) // eslint-disable-line no-console
 
-    return runningRoutes
+    return RunningRoutes
 }
