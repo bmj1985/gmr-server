@@ -26,5 +26,5 @@ exports.seed = function(knex, Promise) {
                 },
             ])
         )
-        .then(() => knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 2;'))
+        .then(() => knex.raw('ALTER SEQUENCE Users_id_seq RESTART WITH 2;'))
 }

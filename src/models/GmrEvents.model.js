@@ -12,7 +12,7 @@ class GmrEvents extends Model {
             type: 'object',
             required: ['date', 'title'],
             properties: {
-                datetime: { type: ['datetime', 'null'] },
+                datetime: { type: ['date-time', 'null'] },
                 details: { type: ['string', 'null'] },
                 runRouteLink: { type: ['string', 'null'] },
                 title: { type: ['string', 'null'] },

@@ -2,7 +2,7 @@ exports.up = (knex, Promise) =>
     knex.schema.createTable('GmrEvents', table => {
         table.increments('id').primary()
         table.datetime('datetime')
-        table.string('details')
+        table.text('details')
         table.integer('trailheadId')
         table.string('trailheadName')
         table.integer('routeId')
