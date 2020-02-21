@@ -2,9 +2,9 @@
 // for more of what you can do here.
 const { Model } = require('objection')
 
-class GmrEvents extends Model {
+class gmrEvents extends Model {
     static get tableName() {
-        return 'GmrEvents'
+        return 'gmr_events'
     }
 
     static get jsonSchema() {
@@ -18,9 +18,8 @@ class GmrEvents extends Model {
                 title: { type: ['string', 'null'] },
                 routeId: { type: ['integer', 'null'] },
                 trailheadId: { type: ['integer', 'null'] },
-                trailheadName: 'string'
-                },
-            }
+                trailheadName: 'string',
+            },
         }
     }
 
@@ -37,24 +36,24 @@ module.exports = function(app) {
     const db = app.get('knex')
 
     db.schema
-        .hasTable('GmrEvents')
+        .hasTable('gmr_events')
         .then(exists => {
             if (!exists) {
                 db.schema
-                    .createTable('GmrEvents', table => {
+                    .createTable('gmr_events', table => {
                         table.increments('id')
                         table.string('email').unique()
                         table.string('password')
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })
-                    .then(() => console.log('Created GmrEvents table')) // eslint-disable-line no-console
+                    .then(() => console.log('Created gmr_events table')) // eslint-disable-line no-console
                     .catch(e =>
-                        console.error('Error creating GmrEvents table', e)
+                        console.error('Error creating gmr_events table', e)
                     ) // eslint-disable-line no-console
             }
         })
-        .catch(e => console.error('Error creating GmrEvents table', e)) // eslint-disable-line no-console
+        .catch(e => console.error('Error creating gmr_events table', e)) // eslint-disable-line no-console
 
-    return GmrEvents
+    return gmrEvents
 }

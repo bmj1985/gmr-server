@@ -1,7 +1,7 @@
 exports.up = (knex, Promise) =>
-    knex.schema.createTable('Users', table => {
+    knex.schema.createTable('users', table => {
         table.increments('id').primary()
-        table.string('email').unique()
+        table.string('email')
         table.string('password')
         table.string('name')
         table.string('profilePicture')
@@ -15,4 +15,4 @@ exports.up = (knex, Promise) =>
         table.timestamp('updatedAt')
     })
 
-exports.down = (knex, Promise) => knex.schema.dropTableIfExists('Users')
+exports.down = (knex, Promise) => knex.schema.dropTableIfExists('users')

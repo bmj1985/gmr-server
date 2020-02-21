@@ -1,10 +1,10 @@
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
-    return knex('Trailheads')
+    return knex('trailheads')
         .del()
         .then(() =>
             // Inserts seed entries
-            knex('Trailheads').insert([
+            knex('trailheads').insert([
                 {
                     id: 1,
                     name: 'Mountain Toad',
@@ -35,7 +35,7 @@ exports.seed = function(knex, Promise) {
                 },
             ])
         )
-        .then(() =>
-            knex.raw('ALTER SEQUENCE Trailheads_id_seq RESTART WITH 5;')
-        )
+    // .then(() =>
+    //     knex.raw('ALTER SEQUENCE Trailheads_id_seq RESTART WITH 5;')
+    // )
 }

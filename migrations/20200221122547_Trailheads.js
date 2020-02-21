@@ -1,5 +1,5 @@
 exports.up = (knex, Promise) =>
-    knex.schema.createTable('Trailheads', table => {
+    knex.schema.createTable('trailheads', table => {
         table.increments('id').primary()
         table.string('name')
         table.string('address')
@@ -7,4 +7,4 @@ exports.up = (knex, Promise) =>
         table.timestamp('updatedAt')
     })
 
-exports.down = (knex, Promise) => knex.schema.dropTableIfExists('Trailheads')
+exports.down = (knex, Promise) => knex.schema.dropTableIfExists('trailheads')

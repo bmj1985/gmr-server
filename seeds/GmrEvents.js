@@ -1,10 +1,10 @@
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
-    return knex('GmrEvents')
+    return knex('gmr_events')
         .del()
         .then(() =>
             // Inserts seed entries
-            knex('GmrEvents').insert([
+            knex('gmr_events').insert([
                 {
                     id: 4,
                     datetime: '2020-01-22T01:15:00.000Z',
@@ -111,5 +111,7 @@ exports.seed = function(knex, Promise) {
                 },
             ])
         )
-        .then(() => knex.raw('ALTER SEQUENCE GmrEvents_id_seq RESTART WITH 9;'))
+        .then(() =>
+            knex.raw('ALTER SEQUENCE gmr_events_id_seq RESTART WITH 9;')
+        )
 }

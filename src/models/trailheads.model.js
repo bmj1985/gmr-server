@@ -2,9 +2,9 @@
 // for more of what you can do here.
 const { Model } = require('objection')
 
-class Trailheads extends Model {
+class trailheads extends Model {
     static get tableName() {
-        return 'Trailheads'
+        return 'trailheads'
     }
 
     static get jsonSchema() {
@@ -31,24 +31,24 @@ module.exports = function(app) {
     const db = app.get('knex')
 
     db.schema
-        .hasTable('Trailheads')
+        .hasTable('trailheads')
         .then(exists => {
             if (!exists) {
                 db.schema
-                    .createTable('Trailheads', table => {
+                    .createTable('trailheads', table => {
                         table.increments('id')
                         table.string('name').unique()
                         table.string('address').unique()
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })
-                    .then(() => console.log('Created Trailheads table')) // eslint-disable-line no-console
+                    .then(() => console.log('Created trailheads table')) // eslint-disable-line no-console
                     .catch(e =>
-                        console.error('Error creating Trailheads table', e)
+                        console.error('Error creating trailheads table', e)
                     ) // eslint-disable-line no-console
             }
         })
-        .catch(e => console.error('Error creating Trailheads table', e)) // eslint-disable-line no-console
+        .catch(e => console.error('Error creating trailheads table', e)) // eslint-disable-line no-console
 
-    return Trailheads
+    return trailheads
 }

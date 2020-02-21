@@ -1,11 +1,11 @@
 require('dotenv').config()
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
-    return knex('Users')
+    return knex('users')
         .del()
         .then(() =>
             // Inserts seed entries
-            knex('Users').insert([
+            knex('users').insert([
                 {
                     email: process.env.ADMIN_EMAIL,
                     password: '',
@@ -26,5 +26,5 @@ exports.seed = function(knex, Promise) {
                 },
             ])
         )
-        .then(() => knex.raw('ALTER SEQUENCE Users_id_seq RESTART WITH 2;'))
+        .then(() => knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 2;'))
 }
