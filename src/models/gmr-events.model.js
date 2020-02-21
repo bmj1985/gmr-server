@@ -10,9 +10,9 @@ class gmrEvents extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['date', 'title'],
+            required: ['datetime', 'title'],
             properties: {
-                datetime: { type: ['date-time', 'null'] },
+                datetime: { type: ['date-time', 'null', 'string'] },
                 details: { type: ['string', 'null'] },
                 runRouteLink: { type: ['string', 'null'] },
                 title: { type: ['string', 'null'] },
@@ -41,9 +41,14 @@ module.exports = function(app) {
             if (!exists) {
                 db.schema
                     .createTable('gmr_events', table => {
-                        table.increments('id')
-                        table.string('email').unique()
-                        table.string('password')
+                        table.increments('id').primary()
+                        table.datetime('datetime')
+                        table.text('details')
+                        table.integer('trailheadId')
+                        table.string('trailheadName')
+                        table.integer('routeId')
+                        table.string('runRouteLink')
+                        table.string('title')
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })

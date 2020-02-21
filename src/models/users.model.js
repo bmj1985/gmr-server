@@ -58,14 +58,17 @@ module.exports = function(app) {
             if (!exists) {
                 db.schema
                     .createTable('users', table => {
-                        table.increments('id')
-                        table.string('email').unique()
+                        table.increments('id').primary()
+                        table.string('email')
                         table.string('password')
                         table.string('name')
                         table.string('profilePicture')
                         table.string('googleId')
                         table.string('facebookId')
-                        table.string('')
+                        table.specificType('permissions', 'text[]')
+                        table.boolean('emailVerified')
+                        table.boolean('isApprovedByAdmin')
+                        table.json('adminApprovalData')
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })

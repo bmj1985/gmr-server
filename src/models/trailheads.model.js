@@ -36,9 +36,9 @@ module.exports = function(app) {
             if (!exists) {
                 db.schema
                     .createTable('trailheads', table => {
-                        table.increments('id')
-                        table.string('name').unique()
-                        table.string('address').unique()
+                        table.increments('id').primary()
+                        table.string('name')
+                        table.string('address')
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })
