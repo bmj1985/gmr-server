@@ -11,7 +11,6 @@ const {
 class GoogleStrategy extends OAuthStrategy {
     async getEntityData(profile) {
         // this will set 'googleId'
-        console.log(profile)
         const baseData = await super.getEntityData(profile)
 
         // this will grab the picture and email address of the Google profile
