@@ -1,5 +1,18 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
 const checkPermissions = require('feathers-permissions')
+const { fastJoin } = require('feathers-hooks-common')
+
+const eventResolvers = {
+    joins: {
+        trailhead: (...args) => async (gmrEvent, context) => {
+            let trailheads = await context.app
+                .service('/trailheads')
+                .find({ query: { id: gmrEvent.trailheadId } })
+            console.log(trailheads.data[0])
+            gmrEvent.trailhead = trailheads.data[0]
+        },
+    },
+}
 
 module.exports = {
     before: {
@@ -33,7 +46,7 @@ module.exports = {
     },
 
     after: {
-        all: [],
+        all: [fastJoin(eventResolvers)],
         find: [],
         get: [],
         create: [],

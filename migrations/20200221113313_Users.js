@@ -7,7 +7,7 @@ exports.up = (knex, Promise) =>
         table.string('profilePicture')
         table.string('googleId')
         table.string('facebookId')
-        table.specificType('permissions', 'text[]').defaultTo("{''user''}")
+        table.specificType('permissions', 'text[]').defaultTo("{'user'}")
         table.boolean('emailVerified')
         table.boolean('isApprovedByAdmin')
         table.json('adminApprovalData')
