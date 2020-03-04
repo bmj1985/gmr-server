@@ -1,7 +1,10 @@
 {
   "host": "gmrapi.herokuapp.com",
   "port": "PORT",
-  "mongodb": "MONGODB_URI",
+  "postgres": {
+    "client": "pg",
+    "connection": "DATABASE_URL"
+  },
   "authentication": {
     "entity": "user",
     "service": "users",
