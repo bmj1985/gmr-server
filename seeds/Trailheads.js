@@ -35,7 +35,7 @@ exports.seed = function(knex, Promise) {
                 },
             ])
         )
-    // .then(() =>
-    //     knex.raw('ALTER SEQUENCE Trailheads_id_seq RESTART WITH 5;')
-    // )
+        .then(() =>
+            knex.raw('ALTER SEQUENCE Trailheads_id_seq RESTART WITH 5;')
+        )
 }

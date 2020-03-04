@@ -8,7 +8,6 @@ const eventResolvers = {
             let trailheads = await context.app
                 .service('/trailheads')
                 .find({ query: { id: gmrEvent.trailheadId } })
-            console.log(trailheads.data[0])
             gmrEvent.trailhead = trailheads.data[0]
         },
     },

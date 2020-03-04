@@ -4,7 +4,6 @@ exports.up = (knex, Promise) =>
         table.datetime('datetime')
         table.text('details')
         table.integer('trailheadId')
-        table.string('trailheadName')
         table.integer('routeId')
         table.string('runRouteLink')
         table.string('title')

@@ -18,7 +18,6 @@ class gmrEvents extends Model {
                 title: { type: ['string', 'null'] },
                 routeId: { type: ['integer', 'null'] },
                 trailheadId: { type: ['integer', 'null'] },
-                trailheadName: 'string',
             },
         }
     }
@@ -45,7 +44,6 @@ module.exports = function(app) {
                         table.datetime('datetime')
                         table.text('details')
                         table.integer('trailheadId')
-                        table.string('trailheadName')
                         table.integer('routeId')
                         table.string('runRouteLink')
                         table.string('title')

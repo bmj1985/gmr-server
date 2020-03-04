@@ -54,7 +54,6 @@ module.exports = function(app) {
     db.schema
         .hasTable('users')
         .then(exists => {
-            console.log('exists:', exists)
             if (!exists) {
                 db.schema
                     .createTable('users', table => {
@@ -65,7 +64,9 @@ module.exports = function(app) {
                         table.string('profilePicture')
                         table.string('googleId')
                         table.string('facebookId')
-                        table.specificType('permissions', 'text[]')
+                        table
+                            .specificType('permissions', 'text[]')
+                            .defaultTo(['user']) // eslint-disable-line
                         table.boolean('emailVerified')
                         table.boolean('isApprovedByAdmin')
                         table.json('adminApprovalData')
