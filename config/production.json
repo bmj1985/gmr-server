@@ -1,5 +1,5 @@
 {
-  "host": "gmrapi.herokuapp.com",
+  "host": "gmrapi-staging.herokuapp.com",
   "port": "PORT",
   "postgres": {
     "client": "pg",
