@@ -1,5 +1,5 @@
 {
-  "host": "gmrapi-staging.herokuapp.com",
+  "host": "gmrapi.herokuapp.com",
   "port": "PORT",
   "postgres": {
     "client": "pg",
@@ -24,7 +24,7 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "https://staging--goldenmountainrunners.netlify.com/",
+      "redirect": "https://www.goldenmountainrunners.com/",
       "auth0": {
         "key": "<auth0 oauth key>",
         "secret": "<auth0 oauth secret>",
