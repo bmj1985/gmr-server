@@ -129,9 +129,22 @@ exports.seed = function(knex, Promise) {
                     createdAt: '2020-03-03T18:50:42.067Z',
                     updatedAt: '2020-03-03T18:50:42.067Z',
                 },
+                {
+                    id: 11,
+                    datetime: '2020-03-11T00:15:00.000Z',
+                    details:
+                        '<p><em>*</em><strong><em>Note: If you are not familiar with this park give yourself a little extra time to find the start location. It\'s a little tricky.</em></strong><em>*</em></p><p>It\'s the first Tuesday run after daylight savings and the first time running with Jeffco\'s "no group permit policy" (see announcement on GMR FB Group Page). We have had a decent amount of new regulars join the ranks in the dark months of winter so it will be great to finally meet everyone in the light of day!</p><p>For this run we will be starting at the park located just south of the NREL campus, in Camp George West.</p><p>Group A will run up to the top of South Table on Cretaceous Trail, head west on Old Quarry Trail and then do a little down and up on the service road that leads to Quaker street before heading back east on Old Quarry, running the majority of the Basalt Cap loop, descending on Tertiary trail and heading back to the park.</p><p>Group B will run up to the top of South Table on Tertiary Trail, run the majority of the Basalt Cap Loop, head west on Old Quarry Trail and then do a little down and up on the service road that leads to Quaker street before heading back east on Old Quarry, descending on Cretaceous trail and heading back to the park.</p><p>Both runs are 5.3 miles in length, they cover the same trails, just in mostly different directions. The fun part will be when the groups inevitably pass each other on the out and back section...high fives all around!</p><p>After the run we can cruise back into downtown Golden for happy hour priced beers at&nbsp;Mountain Toad Brewing!</p><p>Route A:&nbsp;<a href="https://www.strava.com/routes/24237128" rel="noopener noreferrer nofollow">https://www.strava.com/routes/24237128</a></p><p>Route B:&nbsp;<a href="https://www.strava.com/routes/24237186" rel="noopener noreferrer nofollow">https://www.strava.com/routes/24237186</a></p>',
+                    trailheadId: 5,
+                    routeId: null,
+                    runRouteLink: null,
+                    title: 'South Table Run From Camp George West',
+                    createdAt: '2020-03-10T19:30:27.984Z',
+                    updatedAt: '2020-03-10T19:31:06.953Z',
+                    trailheadId: 5,
+                },
             ])
         )
         .then(() =>
-            knex.raw('ALTER SEQUENCE gmr_events_id_seq RESTART WITH 11;')
+            knex.raw('ALTER SEQUENCE gmr_events_id_seq RESTART WITH 12;')
         )
 }
