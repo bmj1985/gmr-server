@@ -33,9 +33,16 @@ exports.seed = function(knex, Promise) {
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
                 },
+                {
+                    id: 5,
+                    name: 'Camp George West',
+                    address: '1220 Kilmer St, Golden, CO 80401, United States',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                },
             ])
         )
         .then(() =>
-            knex.raw('ALTER SEQUENCE Trailheads_id_seq RESTART WITH 5;')
+            knex.raw('ALTER SEQUENCE Trailheads_id_seq RESTART WITH 6;')
         )
 }
