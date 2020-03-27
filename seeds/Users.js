@@ -36,7 +36,7 @@ exports.seed = function(knex, Promise) {
                     emailVerified: true,
                     isApprovedByAdmin: true,
                     adminApprovalData: {
-                        adminName: process.env.ADMIN_NAME,
+                        adminName: process.env.ADMIN_NAME_2,
                         date: new Date().toISOString(),
                     },
                     createdAt: new Date().toISOString(),
