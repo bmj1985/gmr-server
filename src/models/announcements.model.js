@@ -10,10 +10,16 @@ class announcements extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['text'],
+            required: ['content'],
 
             properties: {
-                text: { type: 'string' },
+                content: { type: 'string' },
+                permissions: {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                    },
+                },
             },
         }
     }
@@ -37,7 +43,8 @@ module.exports = function(app) {
                 db.schema
                     .createTable('announcements', table => {
                         table.increments('id')
-                        table.string('text')
+                        table.string('content')
+                        table.specificType('permissions', 'VARCHAR[]')
                         table.timestamp('createdAt')
                         table.timestamp('updatedAt')
                     })
