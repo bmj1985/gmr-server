@@ -1,23 +1,23 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-const { Model } = require('objection')
+const { Model } = require("objection")
 
 class announcements extends Model {
   static get tableName() {
-    return 'announcements'
+    return "announcements"
   }
 
   static get jsonSchema() {
     return {
-      type: 'object',
-      required: ['content'],
+      type: "object",
+      required: ["content"],
 
       properties: {
-        content: { type: 'string' },
+        content: { type: "string" },
         permissions: {
-          type: 'array',
+          type: "array",
           items: {
-            type: 'string',
+            type: "string",
           },
         },
       },
@@ -34,25 +34,25 @@ class announcements extends Model {
 }
 
 module.exports = function(app) {
-  const db = app.get('knex')
+  const db = app.get("knex")
 
   db.schema
-    .hasTable('announcements')
+    .hasTable("announcements")
     .then(exists => {
       if (!exists) {
         db.schema
-          .createTable('announcements', table => {
-            table.increments('id')
-            table.string('content')
-            table.specificType('permissions', 'VARCHAR[]')
-            table.timestamp('createdAt')
-            table.timestamp('updatedAt')
+          .createTable("announcements", table => {
+            table.increments("id")
+            table.string("content")
+            table.specificType("permissions", "VARCHAR[]")
+            table.timestamp("createdAt")
+            table.timestamp("updatedAt")
           })
-          .then(() => console.log('Created announcements table')) // eslint-disable-line no-console
-          .catch(e => console.error('Error creating announcements table', e)) // eslint-disable-line no-console
+          .then(() => console.log("Created announcements table")) // eslint-disable-line no-console
+          .catch(e => console.error("Error creating announcements table", e)) // eslint-disable-line no-console
       }
     })
-    .catch(e => console.error('Error creating announcements table', e)) // eslint-disable-line no-console
+    .catch(e => console.error("Error creating announcements table", e)) // eslint-disable-line no-console
 
   return announcements
 }

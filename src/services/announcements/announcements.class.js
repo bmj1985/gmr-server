@@ -1,4 +1,4 @@
-const { Service } = require('feathers-objection')
+const { Service } = require("feathers-objection")
 
 exports.Announcements = class Announcements extends Service {
   constructor(options) {

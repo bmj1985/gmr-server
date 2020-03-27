@@ -1,20 +1,20 @@
-require('dotenv').config()
+require("dotenv").config()
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('users')
+  return knex("users")
     .del()
     .then(() =>
       // Inserts seed entries
-      knex('users').insert([
+      knex("users").insert([
         {
           id: 1,
           email: process.env.ADMIN_EMAIL,
-          password: '',
+          password: "",
           name: process.env.ADMIN_NAME,
           profilePicture: process.env.ADMIN_PROFILE_PICTURE,
           googleId: process.env.ADMIN_GOOGLEID,
           facebookId: process.env.ADMIN_FACEBOOKID,
-          permissions: ['user', 'admin', 'super-admin'],
+          permissions: ["user", "admin", "super-admin"],
           emailVerified: true,
           isApprovedByAdmin: true,
           adminApprovalData: {
@@ -27,12 +27,12 @@ exports.seed = function(knex, Promise) {
         {
           id: 2,
           email: process.env.ADMIN_EMAIL_2,
-          password: '',
+          password: "",
           name: process.env.ADMIN_NAME_2,
           profilePicture: process.env.ADMIN_PROFILE_PICTURE_2,
           googleId: process.env.ADMIN_GOOGLEID_2,
           facebookId: process.env.ADMIN_FACEBOOKID_2,
-          permissions: ['user', 'admin', 'super-admin'],
+          permissions: ["user", "admin", "super-admin"],
           emailVerified: true,
           isApprovedByAdmin: true,
           adminApprovalData: {
@@ -44,5 +44,5 @@ exports.seed = function(knex, Promise) {
         },
       ])
     )
-    .then(() => knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 3;'))
+    .then(() => knex.raw("ALTER SEQUENCE users_id_seq RESTART WITH 3;"))
 }
