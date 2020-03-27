@@ -11,7 +11,7 @@
   "environments": {
     "review": {
       "scripts": {
-        "postdeploy": "knex seed:run && knex migrate:latest"
+        "postdeploy": "knex migrate:latest && knex seed:run"
       }
     }
   }
