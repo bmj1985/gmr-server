@@ -10,9 +10,6 @@
   "addons": ["heroku-postgresql:hobby-dev"],
   "environments": {
     "review": {
-      "scripts": {
-        "postdeploy": "knex migrate:latest && knex seed:run"
-      }
     }
   }
 }
