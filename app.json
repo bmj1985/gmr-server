@@ -11,8 +11,7 @@
   "environments": {
     "review": {
       "scripts": {
-        "test": "bundle exec rake test",
-        "postdeploy": "knex seed:run && knex migrate:latest",
+        "postdeploy": "knex seed:run && knex migrate:latest"
       }
     }
   }
